@@ -1,0 +1,76 @@
+# Shared contract primitives
+openapi: 3.1.0
+info:
+  title: ControlPanelERP Common Schemas
+  version: 0.0.1
+
+components:
+  schemas:
+    ResultState:
+      type: string
+      enum:
+        - accepted
+        - rejected
+        - needs_approval
+        - executed
+        - failed
+        - rolled_back
+        - verified
+
+    ErrorClass:
+      type: string
+      enum:
+        - validation_error
+        - policy_violation
+        - dependency_failure
+        - odoo_rejection
+        - timeout
+        - data_conflict
+
+    ExecutionMode:
+      type: string
+      enum: [dry_run, commit]
+
+    Observability:
+      type: object
+      required: [correlation_id, actor_id]
+      properties:
+        correlation_id:
+          type: string
+          format: uuid
+        actor_id:
+          type: string
+        skill_id:
+          type: string
+
+    ErrorBody:
+      type: object
+      required: [error_class, message]
+      properties:
+        error_class:
+          $ref: '#/components/schemas/ErrorClass'
+        message:
+          type: string
+        details:
+          type: object
+          additionalProperties: true
+
+    AuditEnvelope:
+      type: object
+      required: [correlation_id, actor_id, intent_code, state, at]
+      properties:
+        correlation_id:
+          type: string
+          format: uuid
+        actor_id:
+          type: string
+        intent_code:
+          type: string
+        state:
+          $ref: '#/components/schemas/ResultState'
+        at:
+          type: string
+          format: date-time
+        evidence:
+          type: object
+          additionalProperties: true

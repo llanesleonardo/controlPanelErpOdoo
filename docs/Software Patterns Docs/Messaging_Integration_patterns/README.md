@@ -1,0 +1,26 @@
+# Enterprise Integration Patterns Index
+
+This folder contains one markdown file per Enterprise Integration Pattern. Each file includes 3 concrete examples, architect questions, diagrams, implementation shape, when to use, when not to use, smells, and mistakes.
+
+- [Publish-Subscribe](./01-publish-subscribe.md)
+- [Queue](./02-queue.md)
+- [Producer-Consumer](./03-producer-consumer.md)
+- [Request-Reply](./04-request-reply.md)
+- [Message Broker](./05-message-broker.md)
+- [Message Bus](./06-message-bus.md)
+- [Dead Letter Queue](./07-dead-letter-queue.md)
+- [Competing Consumers](./08-competing-consumers.md)
+- [Event Streaming](./09-event-streaming.md)
+- [Event Notification](./10-event-notification.md)
+- [Event-Carried State Transfer](./11-event-carried-state-transfer.md)
+- [Content-Based Router](./12-content-based-router.md)
+- [Message Filter](./13-message-filter.md)
+- [Aggregator](./14-aggregator.md)
+- [Splitter](./15-splitter.md)
+- [Resequencer](./16-resequencer.md)
+- [Message Translator](./17-message-translator.md)
+- [Canonical Data Model](./18-canonical-data-model.md)
+- [Correlation Identifier](./19-correlation-identifier.md)
+- [Message Store](./20-message-store.md)
+- [Claim Check](./21-claim-check.md)
+- [Pipes and Filters](./22-pipes-and-filters.md)

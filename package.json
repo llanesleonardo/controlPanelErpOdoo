@@ -1,0 +1,19 @@
+{
+  "name": "control-panel-erp",
+  "version": "0.0.1",
+  "private": true,
+  "description": "OpenClaw–Odoo 18 control panel — scaffold and reference docs",
+  "scripts": {
+    "docs:sync-patterns": "npx software-patterns-docs-sync --dir .",
+    "lint": "markdownlint \"docs/Components/**/*.md\" \"docs/Deployment/**/*.md\" \"docs/Development/**/*.md\" \"docs/README.md\" \"README.md\" \"apps/**/*.md\" \"packages/**/*.md\" \"docker/**/*.md\" \".github/**/*.md\""
+  },
+  "dependencies": {
+    "@llanesleonardo/software-patterns-docs": "0.1.1"
+  },
+  "devDependencies": {
+    "markdownlint-cli": "^0.45.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

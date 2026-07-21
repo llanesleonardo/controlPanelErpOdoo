@@ -1,0 +1,46 @@
+openapi: 3.1.0
+info:
+  title: Accounting domain sample contracts
+  version: 0.0.1
+paths: {}
+components:
+  schemas:
+    InvoicePostIntent:
+      type: object
+      required: [intent_code, invoice_id, execution_mode]
+      properties:
+        intent_code:
+          const: accounting.invoice.post
+        invoice_id:
+          type: integer
+        execution_mode:
+          $ref: './schemas/common.yaml#/components/schemas/ExecutionMode'
+        observability:
+          $ref: './schemas/common.yaml#/components/schemas/Observability'
+      x-validation-rules:
+        - invoice exists and is in draft/posted-eligible state
+        - lines balanced / valid per Odoo rules
+      x-approval-policy: accounting role or manager
+      x-idempotency: Idempotency-Key; posting is idempotent if already posted
+      x-timeout-seconds: 60
+      x-retry: none on commit
+      x-expected-output:
+        - invoice_id
+        - state
+        - move_name
+      x-verification: confirm invoice state posted in Odoo
+      x-rollback: reverse entry / credit note per accounting policy (not delete)
+
+    InvoicePostResult:
+      type: object
+      required: [state, invoice_id]
+      properties:
+        state:
+          $ref: './schemas/common.yaml#/components/schemas/ResultState'
+        invoice_id:
+          type: integer
+        move_name:
+          type: string
+        warnings:
+          type: array
+          items: { type: string }

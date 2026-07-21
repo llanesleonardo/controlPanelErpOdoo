@@ -1,0 +1,25 @@
+# Architecture Patterns Index
+
+This folder contains one markdown file per architecture pattern.
+
+- [Client-Server Architecture](./01-client-server.md)
+- [Microservices Architecture](./02-microservices.md)
+- [SOA - Service-Oriented Architecture](./03-soa.md)
+- [Event-Driven Architecture](./04-event-driven-architecture.md)
+- [Hexagonal Architecture - Ports and Adapters](./05-hexagonal-architecture.md)
+- [Clean Architecture](./06-clean-architecture.md)
+- [Onion Architecture](./07-onion-architecture.md)
+- [Pipe and Filter Architecture](./08-pipe-and-filter.md)
+- [Broker Architecture](./09-broker-architecture.md)
+- [Peer-to-Peer Architecture](./10-peer-to-peer.md)
+- [CQRS - Command Query Responsibility Segregation](./11-cqrs.md)
+- [Event Sourcing](./12-event-sourcing.md)
+- [Serverless Architecture](./13-serverless-architecture.md)
+- [Space-Based Architecture](./14-space-based-architecture.md)
+- [Reactive Architecture](./15-reactive-architecture.md)
+- [Actor Model](./16-actor-model.md)
+- [Blackboard Architecture](./17-blackboard-architecture.md)
+- [MVC - Model View Controller](./18-mvc.md)
+- [MVVM - Model View ViewModel](./19-mvvm.md)
+- [MVP - Model View Presenter](./20-mvp.md)
+- [Backend-for-Frontend - BFF](./21-backend-for-frontend-bff.md)

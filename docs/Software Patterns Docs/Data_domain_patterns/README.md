@@ -1,0 +1,27 @@
+# Database and Domain-Driven Patterns Index
+
+This folder contains one markdown file per database/domain-driven pattern. Each file includes 3 concrete examples, architect questions, diagrams, implementation shape, when to use, when not to use, smells, and mistakes.
+
+- [Repository](./01-repository.md)
+- [Unit of Work](./02-unit-of-work.md)
+- [Aggregate](./03-aggregate.md)
+- [Entity](./04-entity.md)
+- [Value Object](./05-value-object.md)
+- [Domain Service](./06-domain-service.md)
+- [Specification](./07-specification.md)
+- [Identity Map](./08-identity-map.md)
+- [Lazy Loading](./09-lazy-loading.md)
+- [Data Mapper](./10-data-mapper.md)
+- [Active Record](./11-active-record.md)
+- [Transaction Script](./12-transaction-script.md)
+- [Table Module](./13-table-module.md)
+- [Domain Model](./14-domain-model.md)
+- [Event Sourcing](./15-event-sourcing.md)
+- [Materialized View](./16-materialized-view.md)
+- [Read Replica](./17-read-replica.md)
+- [Cache-Aside](./18-cache-aside.md)
+- [CQRS Read Model](./19-cqrs-read-model.md)
+- [Database Sharding](./20-database-sharding.md)
+- [Multi-Tenant Partitioning](./21-multi-tenant-partitioning.md)
+- [Soft Delete](./22-soft-delete.md)
+- [Temporal Tables](./23-temporal-tables.md)

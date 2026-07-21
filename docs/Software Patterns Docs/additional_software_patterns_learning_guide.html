@@ -1,0 +1,660 @@
+<!DOCTYPE html><html><head>
+      <title>additional_software_patterns_learning_guide</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:///c:\Users\lllanes\.cursor\extensions\shd101wyy.markdown-preview-enhanced-0.8.26-universal\crossnote\dependencies\katex\katex.min.css">
+      
+      
+      
+      
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-details{margin:0;padding:0;border:none}.markdown-preview .md-toc summary.md-toc-link-wrapper{cursor:pointer;list-style-position:outside}.markdown-preview .md-toc summary.md-toc-link-wrapper::marker{font-size:.85em}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='0']{margin-left:12px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='1']{margin-left:28px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='2']{margin-left:44px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='3']{margin-left:60px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='4']{margin-left:76px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='5']{margin-left:80px}.markdown-preview a.tag,.markdown-preview a.tag:active,.markdown-preview a.tag:link,.markdown-preview a.tag:visited,.markdown-preview span.tag:not(.token){display:inline-block;background-color:var(--vscode-badge-background,rgba(127,127,127,.18));color:var(--vscode-badge-foreground,currentColor);border-radius:2em;font-size:.85em;font-weight:500;padding:.05em .55em;line-height:1.5;white-space:nowrap;text-decoration:none;text-shadow:none;box-shadow:none;transition:background-color .12s ease,opacity .12s ease}.markdown-preview a.tag{cursor:pointer}.markdown-preview a.tag:focus,.markdown-preview a.tag:hover{background-color:var(--vscode-badge-background,rgba(127,127,127,.32));color:var(--vscode-badge-foreground,currentColor);opacity:.85;text-decoration:none;outline:0}.markdown-preview .wikilink-embed-content{border-left:3px solid var(--vscode-textBlockQuote-border,rgba(128,128,128,.3));background:var(--vscode-textBlockQuote-background,rgba(128,128,128,.05));margin:.5em 0;padding:.5em .75em;border-radius:0 3px 3px 0}.markdown-preview .wikilink-embed-content.wikilink-embed-error{border-left-color:var(--vscode-errorForeground,#cf222e);color:var(--vscode-errorForeground,#cf222e);font-style:italic;opacity:.8}.markdown-preview .wikilink-embed-content h1:first-child,.markdown-preview .wikilink-embed-content h2:first-child,.markdown-preview .wikilink-embed-content h3:first-child,.markdown-preview .wikilink-embed-content h4:first-child,.markdown-preview .wikilink-embed-content h5:first-child,.markdown-preview .wikilink-embed-content h6:first-child{margin-top:.25em}.markdown-preview .wikilink-embed-content .wikilink-embed-content{margin:.25em 0;padding:.25em .5em}.markdown-preview .block-id{display:none}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-details{margin:0;padding:0;border:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='0']{padding-left:0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='1']{padding-left:16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='2']{padding-left:32px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='3']{padding-left:48px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='4']{padding-left:64px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='5']{padding-left:80px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script>
+    </head>
+    <body for="html-export">
+      <div class="crossnote markdown-preview  ">
+      
+<h1 id="additional-software-patterns-learning-guide">Additional Software Patterns Learning Guide </h1>
+<h1 id="8-repository-pattern">8. Repository Pattern </h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Category</td>
+<td>Data Access Pattern</td>
+</tr>
+<tr>
+<td>Problem Solved</td>
+<td>Business logic tightly coupled to database code</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>Abstracts data storage behind clean interfaces</td>
+</tr>
+<tr>
+<td>Best Use Cases</td>
+<td>Enterprise systems, domain-driven systems</td>
+</tr>
+<tr>
+<td>Bad Use Cases</td>
+<td>Tiny scripts/simple CRUD</td>
+</tr>
+<tr>
+<td>Tradeoffs</td>
+<td>Extra abstraction layer</td>
+</tr>
+<tr>
+<td>Related Patterns</td>
+<td>Unit of Work, DAO</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="the-real-problem">The REAL Problem </h2>
+<p>Bad implementation:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">create_user</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    sql <span class="token operator">=</span> <span class="token string">"INSERT INTO users..."</span>
+</code></pre><p>Now SQL spreads everywhere:</p>
+<ul>
+<li>business logic mixed with persistence</li>
+<li>database changes become painful</li>
+<li>testing becomes difficult</li>
+</ul>
+<hr>
+<h2 id="repository-solution">Repository Solution </h2>
+<p>Instead:</p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>Business Logic
+   ↓
+UserRepository
+   ↓
+Database
+</code></pre><p>Now:</p>
+<ul>
+<li>storage logic isolated</li>
+<li>databases replaceable</li>
+<li>testing easier</li>
+</ul>
+<hr>
+<h1 id="9-state-pattern">9. State Pattern </h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Category</td>
+<td>Behavioral Pattern</td>
+</tr>
+<tr>
+<td>Problem Solved</td>
+<td>Giant conditional state logic</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>Encapsulates behavior based on internal state</td>
+</tr>
+<tr>
+<td>Best Use Cases</td>
+<td>Workflows, machines, DAQ tests</td>
+</tr>
+<tr>
+<td>Bad Use Cases</td>
+<td>Simple static logic</td>
+</tr>
+<tr>
+<td>Tradeoffs</td>
+<td>More classes and abstraction</td>
+</tr>
+<tr>
+<td>Related Patterns</td>
+<td>Strategy, Workflow</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="the-real-problem-1">The REAL Problem </h2>
+<p>Bad implementation:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-if">if</span> state <span class="token operator">==</span> <span class="token string">"Charging"</span><span class="token punctuation">:</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token keyword keyword-elif">elif</span> state <span class="token operator">==</span> <span class="token string">"Discharging"</span><span class="token punctuation">:</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token keyword keyword-elif">elif</span> state <span class="token operator">==</span> <span class="token string">"Resting"</span><span class="token punctuation">:</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+</code></pre><p>Over time:</p>
+<ul>
+<li>state transitions explode</li>
+<li>bugs appear</li>
+<li>workflows become impossible to reason about</li>
+</ul>
+<hr>
+<h2 id="state-solution">State Solution </h2>
+<p>Instead:</p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>BatteryTest
+   ├── ChargingState
+   ├── DischargingState
+   └── RestingState
+</code></pre><p>Each state:</p>
+<ul>
+<li>owns its own behavior</li>
+<li>controls valid transitions</li>
+<li>isolates complexity</li>
+</ul>
+<p>Very important in:</p>
+<ul>
+<li>DAQ systems</li>
+<li>robotics</li>
+<li>manufacturing</li>
+<li>workflow engines</li>
+</ul>
+<hr>
+<h1 id="10-event-driven-architecture">10. Event-Driven Architecture </h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Category</td>
+<td>Architectural Pattern</td>
+</tr>
+<tr>
+<td>Problem Solved</td>
+<td>Tight synchronous dependencies</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>Systems communicate through events</td>
+</tr>
+<tr>
+<td>Best Use Cases</td>
+<td>Telemetry, SaaS workflows, IoT</td>
+</tr>
+<tr>
+<td>Bad Use Cases</td>
+<td>Strict synchronous transactions</td>
+</tr>
+<tr>
+<td>Tradeoffs</td>
+<td>Harder debugging and tracing</td>
+</tr>
+<tr>
+<td>Related Patterns</td>
+<td>Pub/Sub, Event Bus</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="the-real-problem-2">The REAL Problem </h2>
+<p>Without events:</p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>Service A directly calls Service B
+Service B directly calls Service C
+Service C directly calls Service D
+</code></pre><p>One slow service affects everything.</p>
+<p>This creates:</p>
+<ul>
+<li>latency propagation</li>
+<li>tight coupling</li>
+<li>cascading failures</li>
+</ul>
+<hr>
+<h2 id="event-driven-solution">Event-Driven Solution </h2>
+<p>Instead:</p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>Service A publishes event
+   ↓
+Interested services react independently
+</code></pre><p>Benefits:</p>
+<ul>
+<li>asynchronous workflows</li>
+<li>independent scaling</li>
+<li>loose coupling</li>
+</ul>
+<p>Very common in:</p>
+<ul>
+<li>SaaS platforms</li>
+<li>industrial telemetry</li>
+<li>cloud systems</li>
+</ul>
+<hr>
+<h1 id="11-bulkhead-pattern">11. Bulkhead Pattern </h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Category</td>
+<td>Resilience Pattern</td>
+</tr>
+<tr>
+<td>Problem Solved</td>
+<td>One subsystem consuming all resources</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>Isolates resources between components</td>
+</tr>
+<tr>
+<td>Best Use Cases</td>
+<td>Cloud systems, thread pools</td>
+</tr>
+<tr>
+<td>Bad Use Cases</td>
+<td>Tiny applications</td>
+</tr>
+<tr>
+<td>Tradeoffs</td>
+<td>More operational management</td>
+</tr>
+<tr>
+<td>Related Patterns</td>
+<td>Circuit Breaker</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="the-real-problem-3">The REAL Problem </h2>
+<p>Suppose:</p>
+<ul>
+<li>telemetry processing spikes CPU</li>
+<li>notification system starves</li>
+<li>login requests fail</li>
+</ul>
+<p>One workload destroys unrelated functionality.</p>
+<hr>
+<h2 id="bulkhead-solution">Bulkhead Solution </h2>
+<p>Separate:</p>
+<ul>
+<li>thread pools</li>
+<li>queues</li>
+<li>resource limits</li>
+</ul>
+<p>Example:</p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>Telemetry Workers → isolated
+Notification Workers → isolated
+API Workers → isolated
+</code></pre><p>Now failures stay contained.</p>
+<hr>
+<h1 id="12-cqrs-command-query-responsibility-segregation">12. CQRS (Command Query Responsibility Segregation) </h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Category</td>
+<td>Architectural/Data Pattern</td>
+</tr>
+<tr>
+<td>Problem Solved</td>
+<td>Read and write workloads conflict</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>Separates read models from write models</td>
+</tr>
+<tr>
+<td>Best Use Cases</td>
+<td>Large reporting-heavy systems</td>
+</tr>
+<tr>
+<td>Bad Use Cases</td>
+<td>Simple CRUD apps</td>
+</tr>
+<tr>
+<td>Tradeoffs</td>
+<td>Higher consistency complexity</td>
+</tr>
+<tr>
+<td>Related Patterns</td>
+<td>Event Sourcing</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="the-real-problem-4">The REAL Problem </h2>
+<p>Suppose:</p>
+<ul>
+<li>millions of dashboard queries</li>
+<li>transactional writes slow down</li>
+<li>reports overload database</li>
+</ul>
+<p>One database must satisfy:</p>
+<ul>
+<li>writes</li>
+<li>analytics</li>
+<li>dashboards</li>
+<li>exports</li>
+</ul>
+<p>Performance collapses.</p>
+<hr>
+<h2 id="cqrs-solution">CQRS Solution </h2>
+<p>Separate:</p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>Write Model → optimized for transactions
+Read Model → optimized for queries
+</code></pre><p>Benefits:</p>
+<ul>
+<li>independent scaling</li>
+<li>faster reporting</li>
+<li>specialized data structures</li>
+</ul>
+<p>But:</p>
+<ul>
+<li>synchronization complexity increases</li>
+</ul>
+<hr>
+<h1 id="13-hexagonal-architecture">13. Hexagonal Architecture </h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Category</td>
+<td>Architectural Pattern</td>
+</tr>
+<tr>
+<td>Problem Solved</td>
+<td>Business logic tightly coupled to infrastructure</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>Core logic isolated behind ports/adapters</td>
+</tr>
+<tr>
+<td>Best Use Cases</td>
+<td>Long-lived enterprise systems</td>
+</tr>
+<tr>
+<td>Bad Use Cases</td>
+<td>Tiny throwaway projects</td>
+</tr>
+<tr>
+<td>Tradeoffs</td>
+<td>More abstraction</td>
+</tr>
+<tr>
+<td>Related Patterns</td>
+<td>Clean Architecture, Adapter</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="the-real-problem-5">The REAL Problem </h2>
+<p>Bad architecture:</p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>Business Logic
+   ↓ directly tied to
+Database
+MQTT
+HTTP
+Vendor SDKs
+</code></pre><p>Changing infrastructure becomes painful.</p>
+<hr>
+<h2 id="hexagonal-solution">Hexagonal Solution </h2>
+<p>Instead:</p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>Core Domain
+   ↓ Ports
+Adapters
+   ├── Database Adapter
+   ├── MQTT Adapter
+   ├── REST Adapter
+</code></pre><p>Benefits:</p>
+<ul>
+<li>infrastructure replaceable</li>
+<li>easier testing</li>
+<li>cleaner domain boundaries</li>
+</ul>
+<p>Excellent for:</p>
+<ul>
+<li>industrial systems</li>
+<li>DAQ platforms</li>
+<li>enterprise SaaS</li>
+</ul>
+<hr>
+<h1 id="14-producer-consumer-pattern">14. Producer-Consumer Pattern </h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Category</td>
+<td>Concurrency Pattern</td>
+</tr>
+<tr>
+<td>Problem Solved</td>
+<td>Work arrives faster than processing</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>Producers generate work, consumers process independently</td>
+</tr>
+<tr>
+<td>Best Use Cases</td>
+<td>Streaming, telemetry, queues</td>
+</tr>
+<tr>
+<td>Bad Use Cases</td>
+<td>Small synchronous workflows</td>
+</tr>
+<tr>
+<td>Tradeoffs</td>
+<td>Queue management complexity</td>
+</tr>
+<tr>
+<td>Related Patterns</td>
+<td>Queue, Pipeline</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="the-real-problem-6">The REAL Problem </h2>
+<p>Telemetry arrives:</p>
+<ul>
+<li>faster than processing speed</li>
+<li>bursts unpredictably</li>
+</ul>
+<p>Without buffering:</p>
+<ul>
+<li>data loss occurs</li>
+<li>CPU spikes</li>
+<li>instability increases</li>
+</ul>
+<hr>
+<h2 id="producer-consumer-solution">Producer-Consumer Solution </h2>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>Producers → Queue → Consumers
+</code></pre><p>Benefits:</p>
+<ul>
+<li>absorbs spikes</li>
+<li>parallel processing</li>
+<li>scalable workers</li>
+</ul>
+<p>Used heavily in:</p>
+<ul>
+<li>telemetry systems</li>
+<li>video encoding</li>
+<li>cloud event processing</li>
+</ul>
+<hr>
+<h1 id="15-cache-aside-pattern">15. Cache-Aside Pattern </h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Category</td>
+<td>Performance Pattern</td>
+</tr>
+<tr>
+<td>Problem Solved</td>
+<td>Database bottlenecks</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>Cache checked before querying database</td>
+</tr>
+<tr>
+<td>Best Use Cases</td>
+<td>Frequently read data</td>
+</tr>
+<tr>
+<td>Bad Use Cases</td>
+<td>Highly volatile data</td>
+</tr>
+<tr>
+<td>Tradeoffs</td>
+<td>Cache invalidation complexity</td>
+</tr>
+<tr>
+<td>Related Patterns</td>
+<td>CDN, Read Replica</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="the-real-problem-7">The REAL Problem </h2>
+<p>Suppose:<br>
+every dashboard request queries database directly.</p>
+<p>At scale:</p>
+<ul>
+<li>database overloads</li>
+<li>latency rises</li>
+<li>throughput collapses</li>
+</ul>
+<hr>
+<h2 id="cache-aside-solution">Cache-Aside Solution </h2>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>Application
+   ↓
+Cache?
+   ├── YES → return cached data
+   └── NO → query DB and populate cache
+</code></pre><p>Benefits:</p>
+<ul>
+<li>huge performance gains</li>
+<li>lower DB load</li>
+<li>faster response times</li>
+</ul>
+<hr>
+<h1 id="16-saga-pattern">16. Saga Pattern </h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Category</td>
+<td>Distributed Transaction Pattern</td>
+</tr>
+<tr>
+<td>Problem Solved</td>
+<td>Distributed transaction coordination</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>Breaks large transactions into smaller compensating steps</td>
+</tr>
+<tr>
+<td>Best Use Cases</td>
+<td>Microservices workflows</td>
+</tr>
+<tr>
+<td>Bad Use Cases</td>
+<td>Monoliths/simple systems</td>
+</tr>
+<tr>
+<td>Tradeoffs</td>
+<td>Complex orchestration</td>
+</tr>
+<tr>
+<td>Related Patterns</td>
+<td>Event-Driven, CQRS</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="the-real-problem-8">The REAL Problem </h2>
+<p>Suppose an order process includes:</p>
+<ul>
+<li>payment</li>
+<li>inventory</li>
+<li>shipping</li>
+<li>notifications</li>
+</ul>
+<p>If shipping fails after payment succeeds:<br>
+what happens?</p>
+<p>Distributed transactions are extremely difficult.</p>
+<hr>
+<h2 id="saga-solution">Saga Solution </h2>
+<p>Instead:<br>
+each step has:</p>
+<ul>
+<li>action</li>
+<li>compensating rollback action</li>
+</ul>
+<p>Example:</p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>Reserve inventory
+Charge payment
+Create shipment
+
+Shipment fails?
+→ Refund payment
+→ Release inventory
+</code></pre><p>Very common in:</p>
+<ul>
+<li>e-commerce</li>
+<li>financial systems</li>
+<li>microservices</li>
+</ul>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>

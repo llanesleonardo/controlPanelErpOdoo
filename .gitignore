@@ -1,0 +1,45 @@
+# Dependencies
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.Python
+
+# Env / secrets
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Build / cache
+dist/
+build/
+.next/
+.turbo/
+.cache/
+*.tsbuildinfo
+coverage/
+.pytest_cache/
+.mypy_cache/
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Logs / local storage
+logs/
+*.log
+storage/local/
+data/
+
+# Docker
+docker-data/
+
+# npm
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*

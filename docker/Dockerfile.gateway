@@ -1,0 +1,4 @@
+# Placeholder — NestJS app not scaffolded yet.
+FROM node:20-alpine
+WORKDIR /app
+CMD ["sh", "-c", "echo 'apps/gateway not implemented yet' && sleep infinity"]
