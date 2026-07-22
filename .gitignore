@@ -50,3 +50,5 @@ pnpm-debug.log*
 .cursor/
 
 apps/gateway/storage/
+
+apps/gateway/logs/
