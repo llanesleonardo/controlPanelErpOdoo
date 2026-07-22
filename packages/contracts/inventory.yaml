@@ -1,0 +1,65 @@
+openapi: 3.1.0
+info:
+  title: Inventory domain sample contracts
+  version: 0.0.1
+paths: {}
+components:
+  schemas:
+    StockAdjustIntent:
+      type: object
+      required:
+        - intent_code
+        - warehouse_id
+        - product_id
+        - quantity_delta
+        - reason_code
+        - execution_mode
+      properties:
+        intent_code:
+          const: inventory.stock.adjust
+        entity_type:
+          const: stock_quant
+        operation_type:
+          const: update
+        warehouse_id:
+          type: integer
+        product_id:
+          type: integer
+        quantity_delta:
+          type: number
+        reason_code:
+          type: string
+        execution_mode:
+          $ref: './schemas/common.yaml#/components/schemas/ExecutionMode'
+        observability:
+          $ref: './schemas/common.yaml#/components/schemas/Observability'
+      x-validation-rules:
+        - product exists
+        - warehouse active
+        - quantity_delta within policy
+      x-approval-policy: manager required above quantity threshold
+      x-idempotency: Idempotency-Key
+      x-timeout-seconds: 90
+      x-retry: none on commit
+      x-expected-output:
+        - transaction_id
+        - affected_records
+        - status
+        - warnings
+      x-verification: compare resulting stock quant and audit entry
+      x-rollback: compensating stock adjustment (not blind delete)
+
+    StockAdjustResult:
+      type: object
+      required: [state, transaction_id]
+      properties:
+        state:
+          $ref: './schemas/common.yaml#/components/schemas/ResultState'
+        transaction_id:
+          type: string
+        affected_records:
+          type: array
+          items: { type: object }
+        warnings:
+          type: array
+          items: { type: string }

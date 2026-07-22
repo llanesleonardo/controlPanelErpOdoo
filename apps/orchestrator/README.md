@@ -1,16 +1,26 @@
-# apps/orchestrator — FastAPI OpenClaw orchestration
+# apps/orchestrator — FastAPI skill execution
 
-**Status:** stub only. Not implemented in the scaffold pass.
+**Status:** Epic-04 — dry-run skills with hexagonal ports; Odoo only in adapters.
 
-## Planned role
+## Run
 
-Intent → taxonomy → contract validation → skill selection → dry-run → approval → execute → verify → audit. Skills call only registered Odoo domain adapters (no free-form Odoo writes).
+```bash
+cd apps/orchestrator
+python -m venv .venv
+# Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+set STORAGE_ROOT=../../storage/local
+set ERP_MODE=simulate
+uvicorn app.main:app --reload --port 8000
+```
+
+Or from repo root: `npm run dev:orchestrator` (after venv exists).
+
+## Endpoints
+
+- `GET /health`
+- `POST /skills/dry-run` — domain body `{ intent_code, input }`; headers `X-Correlation-Id`, `X-Actor-Id`
 
 ## Docs
 
-- [OrchestratorDocs](../../docs/Components/OrchestratorDocs/README.md)
-- [Request lifecycle](../../docs/Development/request-lifecycle.md)
-
-## Later
-
-Create FastAPI project when implementing orchestration Epic-01 tasks.
+- [Epic-04](../../docs/Development/Epic-04/README.md)

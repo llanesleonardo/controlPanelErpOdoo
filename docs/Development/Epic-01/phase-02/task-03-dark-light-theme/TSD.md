@@ -1,14 +1,17 @@
 ﻿# Dark and light theme — Technical Specification Document (TSD)
 
+**Status:** docs-complete (Epic-01 scaffold)  
 **Related:** [SRD](./SRD.md) · [diagram](./diagram.md) · [conops](./conops.md)
 
 ## Implements
-Targets [SRD](./SRD.md) requirements for this task.
 
-## Planned components
-- Next.js theme provider
-- CSS variables
+## Planned approach (later epic)
+
+- Next.js theme provider (CSS variables / class on `html`)
+- `User.theme_preference`: `light` | `dark` | `system` (optional system)
+- Toggle component in shell header
+- `PATCH /profile` includes theme field
 
 ## Notes
-- Template-quality TSD for scaffold/reference. Expand during implementation.
-- Prefer contract-first changes; update docs/Components/ContractsDocs when APIs change.
+
+No UI code in Epic-01. Avoid purple-default AI aesthetic when implementing; follow product design rules at build time.

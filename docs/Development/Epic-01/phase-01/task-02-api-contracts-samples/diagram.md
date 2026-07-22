@@ -1,14 +1,21 @@
 ﻿# API contracts samples — Diagrams
 
+**Status:** docs-complete (Epic-01 scaffold)  
 **Related:** [SRD](./SRD.md) · [TSD](./TSD.md) · [conops](./conops.md)
 
 ## Implements
 
 ```mermaid
 flowchart TD
-  A[Operator_or_System] --> B[Feature]
-  B --> C[ControlPlane]
-  C --> D[Downstream]
+  IntentAPI[Intent_API]
+  TaskAPI[Task_API]
+  SkillAPI[Skill_API]
+  AuditAPI[Audit_Incident_API]
+  YAML[ContractsDocs_YAML]
+  IntentAPI --> YAML
+  TaskAPI --> YAML
+  SkillAPI --> YAML
+  AuditAPI --> YAML
 ```
 
-Refine during implementation (gateway, orchestrator, Odoo adapter, or storage).
+Four contract types share common schemas; domain YAML files specialize operations.

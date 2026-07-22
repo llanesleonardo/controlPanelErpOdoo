@@ -10,16 +10,28 @@
 
 Odoo is **external** (not started by this Compose file).
 
-## Services (stub)
+## Services
 
-| Service | Image / build | Role |
-|---------|---------------|------|
-| `postgres` | postgres:16 | Control-plane DB only |
-| `gateway` | Dockerfile.gateway | NestJS (stub) |
-| `orchestrator` | Dockerfile.orchestrator | FastAPI (stub) |
-| `web` | Dockerfile.web | Next.js (stub) |
+| Service | Image / build | Role | Default |
+|---------|---------------|------|---------|
+| `postgres` | postgres:16 | Control-plane DB only (host port **5433** by default) | **starts with `compose up`** |
+| `gateway` | Dockerfile.gateway | NestJS ops API + ERP connector BFF | profile `apps` |
+| `orchestrator` | Dockerfile.orchestrator | FastAPI dry-run skills | profile `apps` |
+| `web` | Dockerfile.web | Next.js control panel | profile `apps` |
 
-Runtime stubs live in [`docker/`](../../../docker/).
+### Commands
+
+```bash
+# Postgres only (Epic-02)
+docker compose -f docker/docker-compose.yml up -d
+
+# Include stub app containers
+docker compose -f docker/docker-compose.yml --profile apps up -d
+
+docker compose -f docker/docker-compose.yml down
+```
+
+Runtime files live in [`docker/`](../../../docker/).
 
 ## Docs in this folder
 

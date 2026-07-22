@@ -1,33 +1,40 @@
 ﻿# Docker Compose strategy — Software Requirements Document (SRD)
 
-**Related:** [TSD](./TSD.md) · [diagram](./diagram.md) · [conops](./conops.md)
+**Status:** docs-complete (Epic-01 scaffold)  
+**Related:** [TSD](./TSD.md) · [diagram](./diagram.md) · [conops](./conops.md) · [Deployment/Docker](../../../../Deployment/Docker/README.md)
 
 ## Purpose
-Document Compose-as-deploy for local and Linux; provide stub compose/Dockerfiles.
+
+Document Docker Compose as the unit of deploy for local and Linux; keep stub compose/Dockerfiles aligned with that strategy.
 
 ## Scope
-- Service list: web, gateway, orchestrator, postgres
-- .env pattern
-- External Odoo
-- Volume sketch for storage/backups
+
+- Services: `web`, `gateway`, `orchestrator`, `postgres` (control-plane DB)
+- `.env` / `.env.example` secret pattern
+- Odoo external (not in Compose)
+- Storage / backup volume sketch
+- Same Compose model on Linux after Docker install
 
 ## Out of Scope
-- Production hardening
-- Running full apps (stubs only)
+
+- Production hardening (non-root, healthchecks, resource limits) — later
+- Running full application containers (stubs sleep/placeholder only)
+- Shipping a live control panel stack in Epic-01
 
 ## Requirements
 
 ### SRD-E01-phase-01-T04-01
-**Core capability** — The system shall deliver the feature described in Purpose within the stated Scope.
 
-| Trace | Link |
-|-------|------|
-| TSD | [TSD](./TSD.md#implements) |
-| Diagram | [diagram](./diagram.md#implements) |
-| ConOps | [conops](./conops.md#implements) |
+**Compose documented** — Deployment/Docker docs shall describe local + Linux Compose strategy and service list.
 
 ### SRD-E01-phase-01-T04-02
-**Observability** — Actions related to this feature shall carry `correlation_id` and `actor_id` where applicable.
+
+**Secrets pattern** — Env vars shall be documented via `.env.example`; real secrets never committed.
 
 ### SRD-E01-phase-01-T04-03
-**Scaffold constraint** — Implementation proceeds only after this pack is accepted; this docs pass does not ship production code for the feature.
+
+**Stub artifacts** — `docker/docker-compose.yml` and placeholder Dockerfiles shall exist and match the documented service list.
+
+### SRD-E01-phase-01-T04-04
+
+**External Odoo** — Compose shall not start Odoo; connector URL comes from env.

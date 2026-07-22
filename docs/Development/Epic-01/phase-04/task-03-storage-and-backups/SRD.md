@@ -1,32 +1,39 @@
 ﻿# Storage and backups — Software Requirements Document (SRD)
 
-**Related:** [TSD](./TSD.md) · [diagram](./diagram.md) · [conops](./conops.md)
+**Status:** docs-complete (Epic-01 scaffold)  
+**Related:** [TSD](./TSD.md) · [diagram](./diagram.md) · [conops](./conops.md) · [storage-and-backups](../../../../Deployment/Docker/storage-and-backups.md)
 
 ## Purpose
-Local filesystem storage with path config for Linux; backup approach for control-plane data.
+
+Define local filesystem storage via `STORAGE_ROOT` and a backup approach for control-plane Postgres and files.
 
 ## Scope
-- STORAGE_ROOT local volume
-- Document Linux host path pattern
-- Backup sketch for Postgres + files
+
+- `STORAGE_ROOT` local path (Compose volume / Linux host path later)
+- Use for exports, attachments, runbook files — not Odoo filestore
+- Backup sketch: `pg_dump` + copy of storage directory
+- Retention and restore testing called out as ops practice
 
 ## Out of Scope
-- Offsite object storage (later)
-- Odoo backup ownership
+
+- Offsite object storage (S3 etc.) in Epic-01
+- Owning Odoo backups
+- Implementing backup cron in Epic-01
 
 ## Requirements
 
 ### SRD-E01-phase-04-T03-01
-**Core capability** — The system shall deliver the feature described in Purpose within the stated Scope.
 
-| Trace | Link |
-|-------|------|
-| TSD | [TSD](./TSD.md#implements) |
-| Diagram | [diagram](./diagram.md#implements) |
-| ConOps | [conops](./conops.md#implements) |
+**Configurable root** — Storage location shall be controlled by `STORAGE_ROOT`.
 
 ### SRD-E01-phase-04-T03-02
-**Observability** — Actions related to this feature shall carry `correlation_id` and `actor_id` where applicable.
+
+**Backup targets** — Docs shall describe backing up control-plane DB and `STORAGE_ROOT`.
 
 ### SRD-E01-phase-04-T03-03
-**Scaffold constraint** — Implementation proceeds only after this pack is accepted; this docs pass does not ship production code for the feature.
+
+**Secret hygiene** — Backup bundles shall not casually include `.env` without access control.
+
+### SRD-E01-phase-04-T03-04
+
+**Docs-only** — Epic-01 documents storage/backups; jobs deferred.

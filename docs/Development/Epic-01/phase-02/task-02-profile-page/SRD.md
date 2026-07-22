@@ -1,32 +1,39 @@
 ﻿# Profile page — Software Requirements Document (SRD)
 
-**Related:** [TSD](./TSD.md) · [diagram](./diagram.md) · [conops](./conops.md)
+**Status:** docs-complete (Epic-01 scaffold)  
+**Related:** [TSD](./TSD.md) · [diagram](./diagram.md) · [conops](./conops.md) · [ControlPanelDocs](../../../../Components/ControlPanelDocs/README.md)
 
 ## Purpose
-Allow authenticated users to view/update their profile.
+
+Define the authenticated Profile page for viewing and updating the current user’s own data.
 
 ## Scope
+
 - Display name, email, role summary
 - Password change (local auth)
-- Theme preference link
+- Link/entry point for theme preference
+- Profile API under gateway
 
 ## Out of Scope
+
 - Avatar uploads (optional later)
-- Multi-workspace
+- Multi-workspace / multi-tenant profiles
+- Implementation of Next.js page in Epic-01
 
 ## Requirements
 
 ### SRD-E01-phase-02-T02-01
-**Core capability** — The system shall deliver the feature described in Purpose within the stated Scope.
 
-| Trace | Link |
-|-------|------|
-| TSD | [TSD](./TSD.md#implements) |
-| Diagram | [diagram](./diagram.md#implements) |
-| ConOps | [conops](./conops.md#implements) |
+**View self** — Authenticated user shall view their profile fields and assigned roles.
 
 ### SRD-E01-phase-02-T02-02
-**Observability** — Actions related to this feature shall carry `correlation_id` and `actor_id` where applicable.
+
+**Update self** — User shall update allowed fields (e.g. display name); email change may require admin policy (document at implement time).
 
 ### SRD-E01-phase-02-T02-03
-**Scaffold constraint** — Implementation proceeds only after this pack is accepted; this docs pass does not ship production code for the feature.
+
+**Password change** — User shall change password with current-password confirmation.
+
+### SRD-E01-phase-02-T02-04
+
+**Docs-only** — Epic-01 documents the feature; UI/API code is deferred.

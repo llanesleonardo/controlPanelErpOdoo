@@ -1,31 +1,38 @@
 ﻿# Task queue — Software Requirements Document (SRD)
 
-**Related:** [TSD](./TSD.md) · [diagram](./diagram.md) · [conops](./conops.md)
+**Status:** docs-complete (Epic-01 scaffold)  
+**Related:** [TSD](./TSD.md) · [diagram](./diagram.md) · [conops](./conops.md) · [ControlPanelDocs](../../../../Components/ControlPanelDocs/README.md)
 
 ## Purpose
-Show jobs in pending, running, completed, failed, needs_approval.
+
+Define the Task queue for monitoring control-plane jobs across lifecycle states.
 
 ## Scope
-- List/filter by state
-- Open task detail with evidence
-- Approve/reject when needs_approval
+
+- List/filter by state: `pending`, `running`, `completed`, `failed`, `needs_approval`
+- Task detail with inputs, outputs, evidence, errors
+- Approve / reject when `needs_approval`
+- Result states aligned with taxonomy
 
 ## Out of Scope
+
 - Advanced analytics dashboards
+- Implementing queue UI/API in Epic-01
 
 ## Requirements
 
 ### SRD-E01-phase-03-T02-01
-**Core capability** — The system shall deliver the feature described in Purpose within the stated Scope.
 
-| Trace | Link |
-|-------|------|
-| TSD | [TSD](./TSD.md#implements) |
-| Diagram | [diagram](./diagram.md#implements) |
-| ConOps | [conops](./conops.md#implements) |
+**Queue list** — Operators shall list tasks filtered by state and time range.
 
 ### SRD-E01-phase-03-T02-02
-**Observability** — Actions related to this feature shall carry `correlation_id` and `actor_id` where applicable.
+
+**Detail** — Operators shall open a task and see correlation_id, intent_code, skill, payloads, status, evidence.
 
 ### SRD-E01-phase-03-T02-03
-**Scaffold constraint** — Implementation proceeds only after this pack is accepted; this docs pass does not ship production code for the feature.
+
+**Approval actions** — Authorized roles shall approve or reject `needs_approval` tasks.
+
+### SRD-E01-phase-03-T02-04
+
+**Docs-only** — Epic-01 documents the queue; persistence/UI deferred.

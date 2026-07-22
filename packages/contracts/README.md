@@ -1,16 +1,36 @@
-# packages/contracts — shared action contracts
+# @control-panel-erp/contracts
 
-**Status:** stub only. Reference YAML lives under docs for now.
+Taxonomy constants and sample action-contract YAML for ControlPanelERP.
 
-## Planned role
+**Authoring source:** [docs/Components/ContractsDocs](../../docs/Components/ContractsDocs/) and [TaxonomyDocs](../../docs/Components/TaxonomyDocs/). After editing docs YAML, run:
 
-Machine-enforced schemas for Intent / Task / Skill / Audit-Incident APIs, shared by NestJS gateway and FastAPI orchestrator.
+```bash
+npm run contracts:sync -w @control-panel-erp/contracts
+# or from this package:
+npm run sync-schemas
+```
 
-## Current references
+## Usage
 
-- [ContractsDocs](../../docs/Components/ContractsDocs/README.md)
-- Sample YAML: [sales](../../docs/Components/ContractsDocs/sales.yaml), [inventory](../../docs/Components/ContractsDocs/inventory.yaml), [accounting](../../docs/Components/ContractsDocs/accounting.yaml)
+```js
+import {
+  DOMAINS,
+  KNOWN_INTENT_CODES,
+  isKnownIntentCode,
+  loadContract,
+} from '@control-panel-erp/contracts';
 
-## Later
+isKnownIntentCode('sales.order.create'); // true
+const inventory = loadContract('inventory.stock.adjust');
+```
 
-Publish typed packages (OpenAPI / JSON Schema / generated clients) from these contracts.
+## Scripts
+
+| Script | Purpose |
+|--------|---------|
+| `npm test -w @control-panel-erp/contracts` | Smoke test |
+| `npm run sync-schemas -w @control-panel-erp/contracts` | Re-copy YAML from docs |
+
+## Epic
+
+Implemented under [Epic-02 Phase 01](../../docs/Development/Epic-02/phase-01/).

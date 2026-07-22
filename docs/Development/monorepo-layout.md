@@ -3,11 +3,11 @@
 ```
 ControlPanelERP/
   apps/
-    web/              # Next.js control panel
-    gateway/          # NestJS API gateway
-    orchestrator/     # FastAPI OpenClaw orchestration
+    web/              # Next.js control panel (stub)
+    gateway/          # NestJS API gateway (stub)
+    orchestrator/     # FastAPI OpenClaw orchestration (stub)
   packages/
-    contracts/        # shared contracts (stub; YAML refs in docs for now)
+    contracts/        # @control-panel-erp/contracts (taxonomy + YAML)
   docker/
     docker-compose.yml
     Dockerfile.*
@@ -18,4 +18,14 @@ ControlPanelERP/
     Software Patterns Docs/
 ```
 
-Scaffold pass creates folders and README stubs only. Application frameworks are added when implementing Epic tasks.
+## Workspaces
+
+Root `package.json` uses npm workspaces (`packages/*`).
+
+```bash
+npm install
+npm test -w @control-panel-erp/contracts
+npm run contracts:sync
+```
+
+Application frameworks under `apps/*` are added in later epics.

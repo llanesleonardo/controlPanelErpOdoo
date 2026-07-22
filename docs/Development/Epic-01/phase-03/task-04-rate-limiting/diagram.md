@@ -1,14 +1,16 @@
 ﻿# Rate limiting — Diagrams
 
+**Status:** docs-complete (Epic-01 scaffold)  
 **Related:** [SRD](./SRD.md) · [TSD](./TSD.md) · [conops](./conops.md)
 
 ## Implements
 
 ```mermaid
-flowchart TD
-  A[Operator_or_System] --> B[Feature]
-  B --> C[ControlPlane]
-  C --> D[Downstream]
+flowchart LR
+  Client[Client]
+  RL[Rate_limit_middleware]
+  Gw[Gateway_handlers]
+  Client --> RL
+  RL -->|under_limit| Gw
+  RL -->|over_limit| R429[HTTP_429]
 ```
-
-Refine during implementation (gateway, orchestrator, Odoo adapter, or storage).

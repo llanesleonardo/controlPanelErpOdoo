@@ -1,13 +1,17 @@
 ﻿# API contracts samples — Concept of Operations (ConOps)
 
+**Status:** docs-complete (Epic-01 scaffold)  
 **Related:** [SRD](./SRD.md) · [TSD](./TSD.md) · [diagram](./diagram.md)
 
 ## Implements
 
-## Operator flow
-1. Contract author adds/updates YAML.
-2. Reviewer checks required fields and rollback notes.
-3. Implementation consumes schemas in gateway/orchestrator later.
+## Author flow
+
+1. Confirm taxonomy code exists in TaxonomyDocs.
+2. Add or update YAML under ContractsDocs with required inputs and policy annotations.
+3. Peer-review approval threshold and rollback notes with ERP owner.
+4. Only after docs acceptance may a later epic implement the operation.
 
 ## Failure handling
-On error: record structured failure (error class), surface message to operator, create incident when a write path fails.
+
+Ambiguous or incomplete contracts block implementation. Fix the YAML before coding.

@@ -1,16 +1,23 @@
 # apps/web — Next.js control panel
 
-**Status:** stub only. Not implemented in the scaffold pass.
+**Status:** implemented (Epic-03 ops surfaces)
 
-## Planned role
+## Routes
 
-Human command center: request console, task queue, CRUD workspace, logs, incidents, knowledge base, admin, profile, Integration (Odoo), dark/light theme.
+- `/` — home
+- `/console` — request console (classify + create task)
+- `/tasks`, `/tasks/[id]` — task queue
+- `/logs` — log explorer
+
+## Local run
+
+```bash
+npm install
+npm run dev:web
+```
+
+Requires gateway at `NEXT_PUBLIC_GATEWAY_URL` (default `http://localhost:3001`).
 
 ## Docs
 
-- [ControlPanelDocs](../../docs/Components/ControlPanelDocs/README.md)
-- [Development architecture](../../docs/Development/architecture-overview.md)
-
-## Later
-
-Scaffold with Next.js App Router when implementing Epic-01 shell tasks (auth, profile, theme).
+- [Epic-03](../../docs/Development/Epic-03/README.md)

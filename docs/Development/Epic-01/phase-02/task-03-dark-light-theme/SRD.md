@@ -1,32 +1,37 @@
 ﻿# Dark and light theme — Software Requirements Document (SRD)
 
-**Related:** [TSD](./TSD.md) · [diagram](./diagram.md) · [conops](./conops.md)
+**Status:** docs-complete (Epic-01 scaffold)  
+**Related:** [TSD](./TSD.md) · [diagram](./diagram.md) · [conops](./conops.md) · [ControlPanelDocs](../../../../Components/ControlPanelDocs/README.md)
 
 ## Purpose
-Support dark and light themes with persisted preference.
+
+Define dark and light theme support with a persisted user preference across the control panel shell.
 
 ## Scope
-- Theme toggle in UI
-- Persist preference (profile or local storage + server)
-- Apply across control panel chrome
+
+- Theme toggle in UI chrome
+- Persist preference (profile field and/or local storage + server sync)
+- Apply across control panel pages
 
 ## Out of Scope
-- Per-panel custom themes
-- Branding pack system
+
+- Per-panel custom themes / white-label branding packs
+- Implementing CSS/theme provider code in Epic-01
 
 ## Requirements
 
 ### SRD-E01-phase-02-T03-01
-**Core capability** — The system shall deliver the feature described in Purpose within the stated Scope.
 
-| Trace | Link |
-|-------|------|
-| TSD | [TSD](./TSD.md#implements) |
-| Diagram | [diagram](./diagram.md#implements) |
-| ConOps | [conops](./conops.md#implements) |
+**Modes** — The product shall support at least `light` and `dark` themes.
 
 ### SRD-E01-phase-02-T03-02
-**Observability** — Actions related to this feature shall carry `correlation_id` and `actor_id` where applicable.
+
+**Toggle** — Authenticated UI shall expose a theme toggle.
 
 ### SRD-E01-phase-02-T03-03
-**Scaffold constraint** — Implementation proceeds only after this pack is accepted; this docs pass does not ship production code for the feature.
+
+**Persistence** — Preference shall survive refresh; preferred source of truth is user profile field with local fallback.
+
+### SRD-E01-phase-02-T03-04
+
+**Docs-only** — Epic-01 documents behavior; Next.js theme implementation is deferred.

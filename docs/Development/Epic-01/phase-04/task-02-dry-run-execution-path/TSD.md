@@ -1,15 +1,21 @@
 ﻿# Dry-run execution path — Technical Specification Document (TSD)
 
+**Status:** docs-complete (Epic-01 scaffold)  
 **Related:** [SRD](./SRD.md) · [diagram](./diagram.md) · [conops](./conops.md)
 
 ## Implements
-Targets [SRD](./SRD.md) requirements for this task.
 
-## Planned components
-- Orchestrator dry-run handlers
-- Adapter simulate hooks
-- Console mode toggle
+## Contract linkage
+
+Samples in ContractsDocs already carry `execution_mode` and verification/rollback annotations (e.g. inventory adjust, invoice post).
+
+## Planned runtime (later)
+
+- Orchestrator Skill API accepts mode
+- Adapters implement `simulate(intent)` vs `commit(intent)`
+- Task record stores mode and dry-run evidence JSON
+- Console defaults high-risk ops to dry_run
 
 ## Notes
-- Template-quality TSD for scaffold/reference. Expand during implementation.
-- Prefer contract-first changes; update docs/Components/ContractsDocs when APIs change.
+
+No FastAPI skill code in Epic-01.

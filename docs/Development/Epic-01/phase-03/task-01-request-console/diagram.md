@@ -1,14 +1,17 @@
 ﻿# Request console — Diagrams
 
+**Status:** docs-complete (Epic-01 scaffold)  
 **Related:** [SRD](./SRD.md) · [TSD](./TSD.md) · [conops](./conops.md)
 
 ## Implements
 
 ```mermaid
 flowchart TD
-  A[Operator_or_System] --> B[Feature]
-  B --> C[ControlPlane]
-  C --> D[Downstream]
+  Console[Request_console]
+  Classify[Classify_intent]
+  Task[Create_task]
+  Queue[Task_queue]
+  Console --> Classify
+  Classify --> Task
+  Task --> Queue
 ```
-
-Refine during implementation (gateway, orchestrator, Odoo adapter, or storage).

@@ -1,0 +1,25 @@
+{
+  "name": "@control-panel-erp/contracts",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Taxonomy constants and OpenClaw/Odoo action contract YAML for ControlPanelERP",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "scripts": {
+    "test": "node ./test/smoke.mjs",
+    "sync-schemas": "node ./scripts/sync-schemas.mjs"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  },
+  "files": [
+    "src",
+    "schemas",
+    "sales.yaml",
+    "inventory.yaml",
+    "accounting.yaml"
+  ]
+}

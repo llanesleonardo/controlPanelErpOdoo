@@ -1,14 +1,20 @@
 ﻿# Task queue — Diagrams
 
+**Status:** docs-complete (Epic-01 scaffold)  
 **Related:** [SRD](./SRD.md) · [TSD](./TSD.md) · [conops](./conops.md)
 
 ## Implements
 
 ```mermaid
-flowchart TD
-  A[Operator_or_System] --> B[Feature]
-  B --> C[ControlPlane]
-  C --> D[Downstream]
+stateDiagram-v2
+  [*] --> pending
+  pending --> needs_approval
+  pending --> running
+  needs_approval --> running
+  needs_approval --> rejected
+  running --> completed
+  running --> failed
+  completed --> [*]
+  failed --> [*]
+  rejected --> [*]
 ```
-
-Refine during implementation (gateway, orchestrator, Odoo adapter, or storage).

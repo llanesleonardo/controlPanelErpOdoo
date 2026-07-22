@@ -1,15 +1,24 @@
 ﻿# Task queue — Technical Specification Document (TSD)
 
+**Status:** docs-complete (Epic-01 scaffold)  
 **Related:** [SRD](./SRD.md) · [diagram](./diagram.md) · [conops](./conops.md)
 
 ## Implements
-Targets [SRD](./SRD.md) requirements for this task.
 
-## Planned components
-- Control-plane task tables
-- Gateway Task API
-- Web queue views
+## Planned entity `Task`
 
-## Notes
-- Template-quality TSD for scaffold/reference. Expand during implementation.
-- Prefer contract-first changes; update docs/Components/ContractsDocs when APIs change.
+- id, correlation_id, actor_id, intent_code, skill_id
+- state, execution_mode
+- input_json, output_json, error_json
+- created_at, updated_at, approved_by, approved_at
+
+## Planned API
+
+- `GET /tasks?state=`
+- `GET /tasks/:id`
+- `POST /tasks/:id/approve`
+- `POST /tasks/:id/reject`
+
+## Planned UI
+
+- `/tasks` list + `/tasks/[id]` detail

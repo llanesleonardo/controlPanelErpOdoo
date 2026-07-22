@@ -1,13 +1,17 @@
 ﻿# Storage and backups — Concept of Operations (ConOps)
 
+**Status:** docs-complete (Epic-01 scaffold)  
 **Related:** [SRD](./SRD.md) · [TSD](./TSD.md) · [diagram](./diagram.md)
 
 ## Implements
 
-## Operator flow
-1. App writes artifacts under STORAGE_ROOT.
-2. Ops schedules backups.
-3. On Linux, STORAGE_ROOT points at host path.
+## Operator flow (future)
+
+1. Apps write artifacts under `STORAGE_ROOT`.
+2. Ops schedules backups of Postgres + storage.
+3. On Linux, point `STORAGE_ROOT` at a host path and mount it in Compose.
+4. Periodically test restore.
 
 ## Failure handling
-On error: record structured failure (error class), surface message to operator, create incident when a write path fails.
+
+Disk full / permission errors surface as `dependency_failure` on write paths; alert ops.

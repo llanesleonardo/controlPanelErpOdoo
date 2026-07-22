@@ -1,32 +1,39 @@
 ﻿# Odoo Integration page — Software Requirements Document (SRD)
 
-**Related:** [TSD](./TSD.md) · [diagram](./diagram.md) · [conops](./conops.md)
+**Status:** docs-complete (Epic-01 scaffold)  
+**Related:** [TSD](./TSD.md) · [diagram](./diagram.md) · [conops](./conops.md) · [OdooIntegrationDocs](../../../../Components/OdooIntegrationDocs/README.md)
 
 ## Purpose
-Admin UI to configure and health-check the Odoo 18 connector.
+
+Define the admin Integration (Odoo) page for configuring and health-checking the Odoo 18 connector.
 
 ## Scope
-- Store Odoo URL/DB/credentials in control-plane (encrypted at rest later)
+
+- Store Odoo URL, DB name, username / API key metadata in control-plane DB (secrets encrypted at rest later)
 - Test connection action
-- Show connector status
+- Show connector status (ok / degraded / down)
+- Env-based defaults documented (`.env.example` `ODOO_*`)
 
 ## Out of Scope
+
 - Embedding Odoo UI
 - Multi-company advanced mapping UI
+- Implementing the page or live connector in Epic-01
 
 ## Requirements
 
 ### SRD-E01-phase-04-T01-01
-**Core capability** — The system shall deliver the feature described in Purpose within the stated Scope.
 
-| Trace | Link |
-|-------|------|
-| TSD | [TSD](./TSD.md#implements) |
-| Diagram | [diagram](./diagram.md#implements) |
-| ConOps | [conops](./conops.md#implements) |
+**Settings** — Admins shall configure Odoo connection settings in the control panel (later).
 
 ### SRD-E01-phase-04-T01-02
-**Observability** — Actions related to this feature shall carry `correlation_id` and `actor_id` where applicable.
+
+**Test connection** — Admins shall run a health/test action that reports success or error class.
 
 ### SRD-E01-phase-04-T01-03
-**Scaffold constraint** — Implementation proceeds only after this pack is accepted; this docs pass does not ship production code for the feature.
+
+**Separation** — Odoo remains external SoR; credentials never written into Odoo DB from this panel’s purpose beyond normal API auth.
+
+### SRD-E01-phase-04-T01-04
+
+**Docs-only** — Epic-01 documents the Integration page; code deferred.

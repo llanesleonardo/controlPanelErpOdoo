@@ -1,32 +1,39 @@
 ﻿# Monorepo and docs shape — Software Requirements Document (SRD)
 
-**Related:** [TSD](./TSD.md) · [diagram](./diagram.md) · [conops](./conops.md)
+**Status:** docs-complete (Epic-01 scaffold)  
+**Related:** [TSD](./TSD.md) · [diagram](./diagram.md) · [conops](./conops.md) · [monorepo-layout](../../../monorepo-layout.md)
 
 ## Purpose
-Lock repo layout: apps, packages, docker, and four docs roots (peopleForms-aligned).
+
+Lock the repository layout: apps, packages, docker, and four peopleForms-aligned docs roots.
 
 ## Scope
-- Folder skeleton and stub READMEs
-- Development Epic > Phase > Task convention
-- Patterns sync wiring
+
+- Folder skeleton and stub READMEs for `apps/web`, `apps/gateway`, `apps/orchestrator`, `packages/contracts`
+- Docs roots: Components, Deployment, Development, Software Patterns Docs
+- Development hierarchy: Epic → Phase → Task with SRD/TSD/diagram/conops
+- Patterns sync via `@llanesleonardo/software-patterns-docs`
+- Lint CI for authored markdown
 
 ## Out of Scope
-- Application framework generation
-- CI pipelines
+
+- Generating NestJS / Next.js / FastAPI application projects (later epic)
+- Changing the four-root docs convention
 
 ## Requirements
 
 ### SRD-E01-phase-01-T03-01
-**Core capability** — The system shall deliver the feature described in Purpose within the stated Scope.
 
-| Trace | Link |
-|-------|------|
-| TSD | [TSD](./TSD.md#implements) |
-| Diagram | [diagram](./diagram.md#implements) |
-| ConOps | [conops](./conops.md#implements) |
+**Layout published** — Root README and Development monorepo-layout shall describe the locked folder structure.
 
 ### SRD-E01-phase-01-T03-02
-**Observability** — Actions related to this feature shall carry `correlation_id` and `actor_id` where applicable.
+
+**Docs hierarchy** — Development work shall be organized as Epic / phase / task packs with the four required files.
 
 ### SRD-E01-phase-01-T03-03
-**Scaffold constraint** — Implementation proceeds only after this pack is accepted; this docs pass does not ship production code for the feature.
+
+**Patterns sync** — Software Patterns Docs shall be synced from the npm package, not hand-authored as a duplicate library.
+
+### SRD-E01-phase-01-T03-04
+
+**Stub apps only** — `apps/*` remain README stubs in Epic-01.

@@ -1,4 +1,30 @@
-# Placeholder — NestJS app not scaffolded yet.
+# NestJS gateway
+FROM node:20-alpine AS deps
+WORKDIR /app
+COPY package.json package-lock.json* ./
+COPY packages/contracts/package.json ./packages/contracts/
+COPY apps/gateway/package.json ./apps/gateway/
+RUN npm install --workspace=@control-panel-erp/gateway --workspace=@control-panel-erp/contracts --include-workspace-root=false
+
+FROM node:20-alpine AS build
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/apps/gateway/node_modules ./apps/gateway/node_modules
+COPY package.json ./
+COPY packages/contracts ./packages/contracts
+COPY apps/gateway ./apps/gateway
+WORKDIR /app/apps/gateway
+RUN npx prisma generate && npx nest build
+
 FROM node:20-alpine
 WORKDIR /app
-CMD ["sh", "-c", "echo 'apps/gateway not implemented yet' && sleep infinity"]
+ENV NODE_ENV=production
+COPY --from=build /app/packages/contracts ./packages/contracts
+COPY --from=build /app/apps/gateway/dist ./dist
+COPY --from=build /app/apps/gateway/package.json ./
+COPY --from=build /app/apps/gateway/prisma ./prisma
+COPY --from=build /app/apps/gateway/node_modules ./node_modules
+COPY --from=build /app/node_modules ./root_node_modules
+ENV NODE_PATH=/app/node_modules:/app/root_node_modules
+EXPOSE 3001
+CMD ["sh", "-c", "npx prisma db push && node dist/main.js"]

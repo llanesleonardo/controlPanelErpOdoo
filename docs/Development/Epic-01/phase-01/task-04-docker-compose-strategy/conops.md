@@ -1,13 +1,17 @@
 ﻿# Docker Compose strategy — Concept of Operations (ConOps)
 
+**Status:** docs-complete (Epic-01 scaffold)  
 **Related:** [SRD](./SRD.md) · [TSD](./TSD.md) · [diagram](./diagram.md)
 
 ## Implements
 
-## Operator flow
-1. Dev copies .env.example.
-2. Uses Compose when apps exist.
-3. Linux host installs Docker and reuses Compose.
+## Operator flow (scaffold)
+
+1. Copy `.env.example` to `.env` / `.env.local` (never commit secrets).
+2. Review `docker/docker-compose.yml` service list against Deployment docs.
+3. On Linux later: install Docker Engine + Compose; reuse the same project with production env and host volumes.
+4. Expect stubs not to serve a full app until a later epic implements containers.
 
 ## Failure handling
-On error: record structured failure (error class), surface message to operator, create incident when a write path fails.
+
+Misconfigured secrets or attempting to treat stub containers as production is an ops error — fix env and wait for implementation epic.

@@ -1,23 +1,30 @@
 ﻿# Taxonomy vocabulary — Software Requirements Document (SRD)
 
-**Related:** [TSD](./TSD.md) · [diagram](./diagram.md) · [conops](./conops.md)
+**Status:** docs-complete (Epic-01 scaffold)  
+**Related:** [TSD](./TSD.md) · [diagram](./diagram.md) · [conops](./conops.md) · [TaxonomyDocs](../../../../Components/TaxonomyDocs/README.md)
 
 ## Purpose
-Publish a controlled vocabulary so intents map to known `domain.entity.verb` codes.
+
+Publish a controlled vocabulary so human and OpenClaw intents map only to known `{domain}.{entity}.{verb}` codes.
 
 ## Scope
+
 - Domains, entities, verbs, result states, error classes
-- Skill family mapping sketch
-- Risk/approval sketch for MVP ops
+- Skill family ↔ task family mapping sketch
+- Risk / approval level sketch for MVP operations
+- Canonical home: `docs/Components/TaxonomyDocs/`
 
 ## Out of Scope
+
 - Full Odoo field-level mapping
-- Runtime classifier ML model
+- Runtime NL classifier / ML model
+- Application code that enforces taxonomy at runtime (later epic)
 
 ## Requirements
 
 ### SRD-E01-phase-01-T01-01
-**Core capability** — The system shall deliver the feature described in Purpose within the stated Scope.
+
+**Published vocabulary** — The project shall maintain a documented taxonomy covering domains, entities, verbs, result states, and error classes, linked from this task pack.
 
 | Trace | Link |
 |-------|------|
@@ -26,7 +33,13 @@ Publish a controlled vocabulary so intents map to known `domain.entity.verb` cod
 | ConOps | [conops](./conops.md#implements) |
 
 ### SRD-E01-phase-01-T01-02
-**Observability** — Actions related to this feature shall carry `correlation_id` and `actor_id` where applicable.
+
+**Intent code shape** — Every executable operation shall be nameable as `{domain}.{entity}.{verb}` (e.g. `sales.order.create`).
 
 ### SRD-E01-phase-01-T01-03
-**Scaffold constraint** — Implementation proceeds only after this pack is accepted; this docs pass does not ship production code for the feature.
+
+**Approval levels** — Vocabulary docs shall define approval levels: `none`, `operator`, `manager`, `admin`.
+
+### SRD-E01-phase-01-T01-04
+
+**Docs-only delivery** — Epic-01 delivers documentation and scaffold references only; runtime enforcement is deferred.

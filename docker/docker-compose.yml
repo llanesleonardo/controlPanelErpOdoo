@@ -1,5 +1,6 @@
-# Scaffold stub — services listed for later implementation.
-# Apps are placeholders; do not expect a full running stack yet.
+# Scaffold Compose — Postgres runs by default; app services optional (profile: apps).
+# Odoo is external — not started by this Compose file.
+# Local npm: npm run dev:gateway / npm run dev:web (see apps/*/README).
 
 services:
   postgres:
@@ -9,45 +10,86 @@ services:
       POSTGRES_USER: ${CONTROLPLANE_DB_USER:-controlpanel}
       POSTGRES_PASSWORD: ${CONTROLPLANE_DB_PASSWORD:-change-me}
     ports:
-      - "${CONTROLPLANE_DB_PORT:-5432}:5432"
+      - "${CONTROLPLANE_DB_PORT:-5433}:5432"
     volumes:
       - controlplane_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   gateway:
+    profiles: ["apps"]
     build:
       context: ..
       dockerfile: docker/Dockerfile.gateway
-    env_file:
-      - ../.env
+    environment:
+      DATABASE_URL: postgresql://${CONTROLPLANE_DB_USER:-controlpanel}:${CONTROLPLANE_DB_PASSWORD:-change-me}@postgres:5432/${CONTROLPLANE_DB_NAME:-controlpanel}?schema=public
+      GATEWAY_PORT: ${GATEWAY_PORT:-3001}
+      RATE_LIMIT_WINDOW_MS: ${RATE_LIMIT_WINDOW_MS:-60000}
+      RATE_LIMIT_MAX: ${RATE_LIMIT_MAX:-100}
+      LOG_DIR: /app/logs
+      SERVICE_NAME: gateway
+      WEB_ORIGIN: http://localhost:3000,http://127.0.0.1:3000
+      STORAGE_ROOT: /app/storage
+      ORCHESTRATOR_URL: http://orchestrator:8000
+      ERP_MODE: ${ERP_MODE:-simulate}
+      ODOO_MODE: ${ODOO_MODE:-simulate}
+      ODOO_URL: ${ODOO_URL:-}
+      ODOO_DB: ${ODOO_DB:-}
+      ODOO_USERNAME: ${ODOO_USERNAME:-}
+      ODOO_PASSWORD: ${ODOO_PASSWORD:-}
+      ODOO_API_KEY: ${ODOO_API_KEY:-}
+    volumes:
+      - gateway_logs:/app/logs
+      - controlplane_storage:/app/storage
     ports:
       - "${GATEWAY_PORT:-3001}:3001"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
 
   orchestrator:
+    profiles: ["apps"]
     build:
       context: ..
       dockerfile: docker/Dockerfile.orchestrator
-    env_file:
-      - ../.env
+    environment:
+      ORCHESTRATOR_PORT: ${ORCHESTRATOR_PORT:-8000}
+      STORAGE_ROOT: /app/storage
+      ERP_MODE: ${ERP_MODE:-simulate}
+      ODOO_MODE: ${ODOO_MODE:-simulate}
+      ODOO_URL: ${ODOO_URL:-}
+      ODOO_DB: ${ODOO_DB:-}
+      ODOO_USERNAME: ${ODOO_USERNAME:-}
+      ODOO_PASSWORD: ${ODOO_PASSWORD:-}
+      ODOO_API_KEY: ${ODOO_API_KEY:-}
+    volumes:
+      - controlplane_storage:/app/storage
     ports:
       - "${ORCHESTRATOR_PORT:-8000}:8000"
     depends_on:
-      - postgres
-      - gateway
+      postgres:
+        condition: service_healthy
+      gateway:
+        condition: service_started
 
   web:
+    profiles: ["apps"]
     build:
       context: ..
       dockerfile: docker/Dockerfile.web
-    env_file:
-      - ../.env
+      args:
+        NEXT_PUBLIC_GATEWAY_URL: ${NEXT_PUBLIC_GATEWAY_URL:-http://localhost:3001}
+    environment:
+      NEXT_PUBLIC_GATEWAY_URL: ${NEXT_PUBLIC_GATEWAY_URL:-http://localhost:3001}
     ports:
       - "${WEB_PORT:-3000}:3000"
     depends_on:
       - gateway
 
-  # Odoo is external — not started by this Compose file.
-
 volumes:
   controlplane_pg:
+  gateway_logs:
+  controlplane_storage:

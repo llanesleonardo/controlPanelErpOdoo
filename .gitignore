@@ -35,6 +35,7 @@ logs/
 *.log
 storage/local/
 data/
+apps/orchestrator/.venv/
 
 # Docker
 docker-data/
@@ -43,3 +44,7 @@ docker-data/
 npm-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+
+.cursor/
+
+apps/gateway/storage/

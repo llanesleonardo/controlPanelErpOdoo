@@ -1,14 +1,26 @@
 ﻿# Profile page — Technical Specification Document (TSD)
 
+**Status:** docs-complete (Epic-01 scaffold)  
 **Related:** [SRD](./SRD.md) · [diagram](./diagram.md) · [conops](./conops.md)
 
 ## Implements
-Targets [SRD](./SRD.md) requirements for this task.
 
-## Planned components
-- `apps/web` profile route
-- Gateway profile API
+## Planned UI
+
+- Route: `/profile` (Next.js App Router)
+- Form: display_name, read-only email (or gated), roles list, password change section
+- Nav entry in shell chrome
+
+## Planned API
+
+- `GET /auth/me` or `GET /profile`
+- `PATCH /profile`
+- `POST /profile/password`
+
+## Data
+
+Uses `User` entity from auth task; no separate profile table required for MVP.
 
 ## Notes
-- Template-quality TSD for scaffold/reference. Expand during implementation.
-- Prefer contract-first changes; update docs/Components/ContractsDocs when APIs change.
+
+Depends on auth task in a later implementation epic.

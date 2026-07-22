@@ -26,13 +26,49 @@ Start here: [docs/Development/README.md](docs/Development/README.md)
 ## Monorepo layout
 
 ```
-apps/web            Next.js control panel (stub)
-apps/gateway        NestJS API gateway (stub)
+apps/web            Next.js control panel (Epic-03 ops UI)
+apps/gateway        NestJS API gateway (Epic-03 ops API)
 apps/orchestrator   FastAPI OpenClaw orchestration (stub)
-packages/contracts  Shared API contracts (stub)
-docker/             Compose stubs
+packages/contracts  @control-panel-erp/contracts (taxonomy + YAML)
+docker/             Compose (Postgres by default; apps via --profile apps)
 docs/               Four-root documentation tree
 ```
+
+## Foundation (Epic-02)
+
+```bash
+npm install
+npm run test:contracts
+docker compose -f docker/docker-compose.yml up -d   # Postgres on host port 5433
+```
+
+## Ops surfaces (Epic-03)
+
+```bash
+cp .env.example .env   # set DATABASE_URL to localhost:5433
+npm run prisma:generate
+npm run prisma:push
+npm run dev:gateway    # :3001
+npm run dev:web        # :3000 — /console, /tasks, /logs
+```
+
+## Integrations (Epic-04)
+
+Docs: [docs/Development/Epic-04](docs/Development/Epic-04/).
+
+```bash
+# Terminal A — orchestrator (simulate ERP by default)
+cd apps/orchestrator && .venv\Scripts\activate   # after: python -m venv .venv && pip install -r requirements.txt
+set STORAGE_ROOT=..\..\storage\local
+set ERP_MODE=simulate
+uvicorn app.main:app --reload --port 8000
+
+# Terminal B/C — gateway + web (see Epic-03)
+npm run dev:gateway
+npm run dev:web
+```
+
+Routes: `/integrations/odoo`, dry-run tasks via `/console`. **No live ERP commits** in Epic-04.
 
 ## Patterns sync
 

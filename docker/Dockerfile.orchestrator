@@ -1,4 +1,10 @@
-# Placeholder — FastAPI app not scaffolded yet.
+# FastAPI orchestrator — dry-run skills only (Epic-04)
 FROM python:3.12-slim
 WORKDIR /app
-CMD ["sh", "-c", "echo 'apps/orchestrator not implemented yet' && sleep infinity"]
+COPY apps/orchestrator/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY apps/orchestrator/app ./app
+ENV STORAGE_ROOT=/app/storage
+ENV ERP_MODE=simulate
+EXPOSE 8000
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

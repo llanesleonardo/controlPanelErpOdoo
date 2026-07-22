@@ -1,15 +1,26 @@
 ﻿# Odoo Integration page — Technical Specification Document (TSD)
 
+**Status:** docs-complete (Epic-01 scaffold)  
 **Related:** [SRD](./SRD.md) · [diagram](./diagram.md) · [conops](./conops.md)
 
 ## Implements
-Targets [SRD](./SRD.md) requirements for this task.
 
-## Planned components
-- Integration page in web
-- Gateway connector settings API
-- Orchestrator health ping to Odoo
+## Planned UI
+
+- Route: `/integrations/odoo`
+- Fields: url, db, username, api_key/password (write-only display), last_checked_at, status
+- Actions: Save, Test connection
+
+## Planned API
+
+- `GET/PUT /integrations/odoo`
+- `POST /integrations/odoo/test`
+
+## Planned storage
+
+- `OdooConnectorConfig` in control-plane Postgres (encrypted secret fields later)
+- Env fallback for local: `ODOO_URL`, `ODOO_DB`, `ODOO_USERNAME`, `ODOO_PASSWORD`, `ODOO_API_KEY`
 
 ## Notes
-- Template-quality TSD for scaffold/reference. Expand during implementation.
-- Prefer contract-first changes; update docs/Components/ContractsDocs when APIs change.
+
+Orchestrator adapters read config at runtime in a later epic.

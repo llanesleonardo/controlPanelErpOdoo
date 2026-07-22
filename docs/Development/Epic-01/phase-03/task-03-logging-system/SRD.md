@@ -1,33 +1,39 @@
 ﻿# Logging system — Software Requirements Document (SRD)
 
-**Related:** [TSD](./TSD.md) · [diagram](./diagram.md) · [conops](./conops.md)
+**Status:** docs-complete (Epic-01 scaffold)  
+**Related:** [TSD](./TSD.md) · [diagram](./diagram.md) · [conops](./conops.md) · [GatewayDocs](../../../../Components/GatewayDocs/README.md)
 
 ## Purpose
-Structured logging with correlation IDs across gateway and orchestrator.
+
+Define structured logging with correlation and actor IDs across gateway and orchestrator, plus a log explorer read path.
 
 ## Scope
-- Structured logs (JSON or equivalent)
-- correlation_id / actor_id fields
-- Log explorer panel (read path)
-- Configurable LOG_DIR / level
+
+- Structured logs (JSON lines or equivalent)
+- Required fields: timestamp, level, service, message, `correlation_id`, `actor_id` when known
+- Configurable `LOG_LEVEL`, `LOG_DIR`
+- Log explorer panel (search by correlation_id)
 
 ## Out of Scope
+
 - Full SIEM integration
 - Infinite retention
+- Implementing loggers in Epic-01
 
 ## Requirements
 
 ### SRD-E01-phase-03-T03-01
-**Core capability** — The system shall deliver the feature described in Purpose within the stated Scope.
 
-| Trace | Link |
-|-------|------|
-| TSD | [TSD](./TSD.md#implements) |
-| Diagram | [diagram](./diagram.md#implements) |
-| ConOps | [conops](./conops.md#implements) |
+**Structured logs** — Gateway and orchestrator shall emit structured logs (later implementation).
 
 ### SRD-E01-phase-03-T03-02
-**Observability** — Actions related to this feature shall carry `correlation_id` and `actor_id` where applicable.
+
+**Propagation** — `correlation_id` shall propagate on outbound calls between services.
 
 ### SRD-E01-phase-03-T03-03
-**Scaffold constraint** — Implementation proceeds only after this pack is accepted; this docs pass does not ship production code for the feature.
+
+**Explorer** — Operators shall search logs by correlation_id in the control panel.
+
+### SRD-E01-phase-03-T03-04
+
+**Docs-only** — Epic-01 documents logging; code deferred.
