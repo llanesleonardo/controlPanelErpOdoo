@@ -31,11 +31,13 @@ coverage/
 Thumbs.db
 
 # Logs / local storage
-logs/
+/logs/
 *.log
 storage/local/
 data/
 apps/orchestrator/.venv/
+apps/gateway/storage/
+
 
 # Docker
 docker-data/
