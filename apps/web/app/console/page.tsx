@@ -1,7 +1,7 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { FormEvent, Suspense, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { gatewayFetch } from '@/lib/api';
 
 const DOMAINS = [
@@ -26,11 +26,20 @@ type ClassifyPreview = {
   correlation_id?: string;
 };
 
-export default function ConsolePage() {
+function ConsoleForm() {
   const router = useRouter();
-  const [domain, setDomain] = useState('inventory');
-  const [text, setText] = useState('adjust stock');
-  const [intentCode, setIntentCode] = useState('');
+  const searchParams = useSearchParams();
+  const initialIntent = searchParams.get('intent_code') || '';
+  const initialDomain =
+    searchParams.get('domain') ||
+    initialIntent.split('.')[0] ||
+    'inventory';
+
+  const [domain, setDomain] = useState(initialDomain);
+  const [text, setText] = useState(
+    initialIntent ? initialIntent.replaceAll('.', ' ') : 'adjust stock',
+  );
+  const [intentCode, setIntentCode] = useState(initialIntent);
   const [mode, setMode] = useState<'dry_run' | 'commit'>('dry_run');
   const [preview, setPreview] = useState<ClassifyPreview | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -173,5 +182,13 @@ export default function ConsolePage() {
         </div>
       )}
     </>
+  );
+}
+
+export default function ConsolePage() {
+  return (
+    <Suspense fallback={<p className="lede">Loading console…</p>}>
+      <ConsoleForm />
+    </Suspense>
   );
 }

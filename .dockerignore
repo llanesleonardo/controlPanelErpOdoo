@@ -1,0 +1,22 @@
+# Keep Docker build contexts small (Compose context is repo root).
+node_modules
+**/node_modules
+.next
+**/.next
+dist
+**/dist
+.venv
+**/.venv
+.git
+.cursor
+# Runtime log/output dirs only — do not ignore source modules named logs/storage
+/logs
+apps/gateway/logs
+*.log
+/storage
+storage/local
+apps/gateway/storage
+docs/Software Patterns Docs
+.env
+.env.local
+.env.*.local

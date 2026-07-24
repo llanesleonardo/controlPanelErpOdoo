@@ -8,5 +8,6 @@ import { IntentsModule } from '../intents/intents.module';
   imports: [IntentsModule],
   controllers: [TasksController],
   providers: [TasksService, OrchestratorClient],
+  exports: [OrchestratorClient],
 })
 export class TasksModule {}

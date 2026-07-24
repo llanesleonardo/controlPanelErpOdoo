@@ -15,12 +15,15 @@ export interface DryRunResponse {
   predicted_effects?: unknown[];
   warnings?: string[];
   mode?: string;
-  adapter?: { provider?: string; mode?: string };
+  adapter?: { provider?: string; mode?: string; model?: string; method?: string };
   evidence_path?: string;
   correlation_id?: string;
   message?: string;
   error_class?: string;
   detail?: unknown;
+  columns?: { key: string; label: string }[];
+  rows?: Record<string, unknown>[];
+  total_hint?: number;
 }
 
 @Injectable()
@@ -32,9 +35,21 @@ export class OrchestratorClient {
   constructor(private readonly logger: StructuredLogger) {}
 
   async dryRun(req: DryRunRequest): Promise<DryRunResponse> {
-    const url = `${this.baseUrl}/skills/dry-run`;
+    return this.postSkill('/skills/dry-run', req, 'dry-run');
+  }
+
+  async execute(req: DryRunRequest): Promise<DryRunResponse> {
+    return this.postSkill('/skills/execute', req, 'execute');
+  }
+
+  private async postSkill(
+    path: string,
+    req: DryRunRequest,
+    label: string,
+  ): Promise<DryRunResponse> {
+    const url = `${this.baseUrl}${path}`;
     this.logger.log(
-      `orchestrator dry-run ${req.intent_code}`,
+      `orchestrator ${label} ${req.intent_code}`,
       'OrchestratorClient',
     );
 
@@ -51,7 +66,7 @@ export class OrchestratorClient {
         correlation_id: req.correlation_id,
         actor_id: req.actor_id,
       }),
-      signal: AbortSignal.timeout(20_000),
+      signal: AbortSignal.timeout(45_000),
     });
 
     const body = (await res.json().catch(() => ({}))) as DryRunResponse & {
@@ -71,6 +86,10 @@ export class OrchestratorClient {
             ? String((detail as DryRunResponse).error_class)
             : 'dependency_failure',
         detail,
+        warnings:
+          typeof detail === 'object' && detail && 'warnings' in detail
+            ? (detail as DryRunResponse).warnings
+            : undefined,
       };
     }
 

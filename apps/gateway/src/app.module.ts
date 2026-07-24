@@ -12,6 +12,7 @@ import { LogsModule } from './logs/logs.module';
 import { IntentsModule } from './intents/intents.module';
 import { TasksModule } from './tasks/tasks.module';
 import { IntegrationsModule } from './integrations/integrations.module';
+import { SkillsModule } from './skills/skills.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { IntegrationsModule } from './integrations/integrations.module';
     IntentsModule,
     TasksModule,
     IntegrationsModule,
+    SkillsModule,
   ],
   controllers: [HealthController],
   providers: [

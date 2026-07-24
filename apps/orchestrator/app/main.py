@@ -51,3 +51,29 @@ def dry_run(
     if not result.get("ok"):
         raise HTTPException(status_code=400, detail=result)
     return result
+
+
+class ExecuteRequest(BaseModel):
+    intent_code: str
+    input: dict[str, Any] = Field(default_factory=dict)
+    correlation_id: str | None = None
+    actor_id: str | None = None
+
+
+@app.post("/skills/execute")
+def execute_skill(
+    body: ExecuteRequest,
+    x_correlation_id: str | None = Header(default=None, alias="X-Correlation-Id"),
+    x_actor_id: str | None = Header(default=None, alias="X-Actor-Id"),
+) -> dict[str, Any]:
+    correlation_id = body.correlation_id or x_correlation_id or "unknown"
+    actor_id = body.actor_id or x_actor_id or "dev-operator"
+    result = facade.execute(
+        intent_code=body.intent_code.strip(),
+        input_payload=body.input or {},
+        correlation_id=correlation_id,
+        actor_id=actor_id,
+    )
+    if not result.get("ok"):
+        raise HTTPException(status_code=400, detail=result)
+    return result

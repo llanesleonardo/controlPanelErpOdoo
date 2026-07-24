@@ -1,10 +1,10 @@
-# Epic-04 — Integrations (Odoo boundary)
+# Epic-04 — Integrations (Odoo connector #1)
 
 ## Status
 
 done (Epic-04 phase-01 integrations)
 
-Implements [Epic-01 Phase 04](../Epic-01/phase-04/) integrations: Odoo connector settings + health, dry-run execution path through the orchestrator, and control-plane storage/backups.
+Implements [Epic-01 Phase 04](../Epic-01/phase-04/) integrations: **first-party Odoo connector** settings + health, dry-run execution path through the orchestrator, and control-plane storage/backups. Product framing for multi-connector catalog is locked in [Epic-06](../Epic-06/) / [connectors.md](../connectors.md); this epic delivered connector `odoo` only.
 
 **Upstream docs:** Epic-01 Phase 04 (docs-complete)  
 **Depends on:** Epic-02 (contracts + Postgres), Epic-03 (gateway, tasks, console, correlation/logs)

@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import Link from 'next/link';
+import { AppShell } from './components/app-shell';
 import './globals.css';
 
 export const metadata = {
@@ -9,20 +9,16 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="dark" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('cp-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body>
-        <header className="shell-header">
-          <Link href="/" className="brand">
-            Control Panel ERP
-          </Link>
-          <nav>
-            <Link href="/console">Console</Link>
-            <Link href="/tasks">Tasks</Link>
-            <Link href="/logs">Logs</Link>
-            <Link href="/integrations/odoo">Integrations</Link>
-          </nav>
-        </header>
-        <main className="shell-main">{children}</main>
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );
