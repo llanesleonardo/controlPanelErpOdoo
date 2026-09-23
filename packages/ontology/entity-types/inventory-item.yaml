@@ -1,0 +1,32 @@
+# ERP: Inventory
+entity_type: InventoryItem
+label: Inventory Item
+description: Stockable product, component, or finished tool in inventory.
+properties:
+  - name: id
+    type: integer
+  - name: sku
+    type: string
+  - name: name
+    type: string
+  - name: qty_on_hand
+    type: number
+  - name: uom
+    type: string
+  - name: item_kind
+    type: string
+    description: raw | component | finished | consumable
+links:
+  - name: manufacturing_orders
+    target: ManufacturingOrder
+    cardinality: one_to_many
+  - name: purchase_lines
+    target: PurchaseOrder
+    cardinality: many_to_many
+actions:
+  - id: read
+    label: Read inventory items
+    skill: inventory.item.read
+  - id: adjust
+    label: Adjust stock
+    skill: inventory.stock.adjust

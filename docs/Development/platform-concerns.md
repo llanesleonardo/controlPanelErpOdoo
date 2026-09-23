@@ -1,10 +1,10 @@
 # Platform concerns (auth, tenancy, logging, retry, Docker, edge)
 
-Cross-cutting requirements for the control plane. Connector catalog stays in [connectors.md](./connectors.md). Patterns cited from Software Patterns Docs — full mapping in [pattern-map.md](./pattern-map.md).
+Cross-cutting requirements for the control plane. Connector catalog stays in [connectors.md](./connectors.md). Ontology Language + UI in [ontology.md](./ontology.md). Patterns cited from Software Patterns Docs — full mapping in [pattern-map.md](./pattern-map.md).
 
 ## Edge: NestJS is the API gateway — do not add another by default
 
-**Decision:** `apps/gateway` (NestJS) **is** the control-plane API Gateway / BFF. Clients (Next.js web, future OpenClaw) call NestJS only. NestJS authenticates, authorizes, rate-limits, validates contracts, writes audits, and calls the orchestrator.
+**Decision:** `apps/gateway` (NestJS) **is** the control-plane API Gateway / BFF. Clients (Next.js web, future OpenClaw) call NestJS only. NestJS authenticates, authorizes, rate-limits, validates contracts, serves ontology catalog/objects, writes audits, and calls the orchestrator.
 
 | Option | When |
 |--------|------|
@@ -15,21 +15,36 @@ Cross-cutting requirements for the control plane. Connector catalog stays in [co
 ```mermaid
 flowchart LR
   Web[Nextjs_web]
+  OntoUI["/ontology"]
   Agent[OpenClaw_optional]
   Edge[Optional_TLS_WAF_only]
   Nest[NestJS_gateway]
+  OntoPkg[packages/ontology]
   Orch[FastAPI_orchestrator]
   PG[(Postgres_CP)]
 
+  Web --> OntoUI
+  OntoUI --> Edge
   Web --> Edge
   Agent --> Edge
   Edge --> Nest
   Web -.->|local_dev| Nest
   Agent -.->|local_dev| Nest
-  Nest --> Orch
+  Nest --> OntoPkg
+  Nest -->|objects_live_Estimate| Orch
+  Nest -->|skills_execute| Orch
   Nest --> PG
   Orch --> PG
 ```
+
+Gateway ontology routes (BFF):
+
+| Path | Role |
+|------|------|
+| `GET /ontology` | Entity-type catalog |
+| `GET /ontology/entity-types/:id` | Type detail |
+| `GET /ontology/objects` | Explorer — live allowlisted skill or demo stubs |
+| `POST /skills/execute` | Certified skill execution (unchanged) |
 
 Orchestrator stays **internal** (Compose network / private URL). Browser and agents never call orchestrator or connector APIs directly.
 
@@ -46,6 +61,7 @@ Orchestrator stays **internal** (Compose network / private URL). Browser and age
 | SoD | Approvals for production writes by threshold ([reliability-rules](./reliability-rules.md)) |
 | Agents | Service principals / API keys scoped per tenant; same gateway authn/z |
 | Connector secrets | Per-tenant connector credentials; write-only in UI; never in shared packages |
+| Ontology | Catalog is product Language (not tenant-authored); live objects inherit skill authz |
 
 Patterns: JWT / session auth (Security patterns), RBAC, audit on every skill execution.
 
@@ -63,6 +79,7 @@ Patterns: JWT / session auth (Security patterns), RBAC, audit on every skill exe
 | Isolation | Row-level tenant filter in gateway/orchestrator queries; no shared connector secrets across tenants |
 | Connectors | Tenant **enables** first-party connectors we ship; config is per tenant |
 | Capabilities | Allowlist ∩ connector capabilities ∩ tenant entitlements |
+| Ontology | Shared product Language; per-tenant enablement of skills/connectors only |
 | Data | One control-plane DB with tenant columns first; schema-per-tenant only if compliance demands it later |
 
 ```mermaid
@@ -94,7 +111,7 @@ flowchart TB
 |---------|--------|
 | Structure | JSON logs with `correlation_id`, `tenant_id`, `actor_id`, `intent_code`, `connector_id` |
 | Correlation | [Correlation Identifier](../Software%20Patterns%20Docs/Messaging_Integration_patterns/19-correlation-identifier.md) gateway → orchestrator → connector |
-| Product UI | `/logs` and request console (Epic-03) |
+| Product UI | `/logs` and request console (Epic-03); Explorer/skills share correlation |
 | Evidence | Skill evidence under `STORAGE_ROOT` + DB task/issue rows ([Observability](../Software%20Patterns%20Docs/DevOps_Delivery_patterns/06-observability.md)) |
 | Retention | Control-plane policy; no PII in log bodies beyond what audit requires |
 
@@ -112,6 +129,7 @@ Apply on **outbound** calls (orchestrator → connector → vendor API), not on 
 | Limits | Cap attempts; never retry non-idempotent commits without idempotency key |
 | Circuit | [Circuit Breaker](../Software%20Patterns%20Docs/Distributed_system_patterns/02-circuit-breaker.md) per connector instance when vendor is down |
 | Dry-run / simulate | No vendor retry storms in simulate; deterministic fixtures |
+| Explorer | Live Estimate path uses same orchestrator execute + retry policy; demo stubs do not call SoR |
 | User-facing | Gateway returns structured error; incident record on repeated failure ([learning-loop](./learning-loop.md)) |
 
 Idempotency for writes: skill execution id / idempotency key stored in control-plane before commit.
@@ -124,13 +142,15 @@ Idempotency for writes: skill execution id / idempotency key stored in control-p
 
 | Service | Image / role |
 |---------|----------------|
-| `web` | Next.js control panel |
-| `gateway` | NestJS API gateway (public entry inside the stack) |
+| `web` | Next.js control panel (includes `/ontology` tabs) |
+| `gateway` | NestJS API gateway — **must bake `packages/ontology` + contracts** |
 | `orchestrator` | FastAPI + connector adapters |
-| `postgres` | Control-plane DB |
+| `postgres` | Control-plane DB (default Compose service) |
 | External | Odoo and other SoRs — **not** in Compose by default |
 
-See [docker-compose-strategy](../Deployment/Docker/docker-compose-strategy.md).
+Default: `docker compose up -d` → Postgres only. Apps: `docker compose --profile apps up --build -d`.
+
+See [docker-compose-strategy](../Deployment/Docker/docker-compose-strategy.md) and [monorepo-layout](./monorepo-layout.md).
 
 Hardening checklist: non-root users, healthchecks, resource limits, secrets via files/secret manager, private network for orchestrator, only gateway (+ web) published.
 
@@ -147,6 +167,7 @@ Hardening checklist: non-root users, healthchecks, resource limits, secrets via 
 | 3 | `tenant_id` on CP models + connector config | Product packaging |
 | 4 | Logging fields tenant/actor/connector | Extend Epic-03 |
 | 5 | Retry/backoff + circuit on connectors | Orchestrator adapters |
-| 6 | Docker hardening + publish only edge ports | Linux/prod |
+| 6 | Docker hardening + publish only edge ports | Linux/prod; ontology package in gateway image |
+| 7 | Ontology Engine / instance graph | [Gap 01](../GAPS/01-full-graph-engine.md) — after Language + Explorer slices |
 
 Epic-06 estimate-issues can continue with dev-actor, but **auth + tenant** should be scheduled before selling multi-customer access.

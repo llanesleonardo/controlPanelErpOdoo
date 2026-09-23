@@ -12,6 +12,7 @@
     "docs:sync-patterns": "npx software-patterns-docs-sync --dir .",
     "lint": "markdownlint \"docs/Components/**/*.md\" \"docs/Deployment/**/*.md\" \"docs/Development/**/*.md\" \"docs/README.md\" \"README.md\" \"apps/**/*.md\" \"packages/**/*.md\" \"docker/**/*.md\" \".github/**/*.md\"",
     "test:contracts": "npm test -w @control-panel-erp/contracts",
+    "test:ontology": "npm test -w @control-panel-erp/ontology",
     "contracts:sync": "npm run sync-schemas -w @control-panel-erp/contracts",
     "dev:gateway": "npm run start:dev -w @control-panel-erp/gateway",
     "dev:web": "npm run dev -w @control-panel-erp/web",

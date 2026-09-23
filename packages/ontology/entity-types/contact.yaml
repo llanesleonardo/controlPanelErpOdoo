@@ -1,0 +1,30 @@
+# Tool manufacturing company — Contacts (ERP: Contacts)
+entity_type: Contact
+label: Contact
+description: Customer, vendor, or partner contact for a tool manufacturing business.
+properties:
+  - name: id
+    type: integer
+    description: Contact identifier
+  - name: name
+    type: string
+    description: Display name
+  - name: email
+    type: string
+    description: Primary email
+  - name: is_company
+    type: boolean
+    description: Company vs person
+  - name: contact_type
+    type: string
+    description: customer | vendor | both | other
+links: []
+actions:
+  - id: read
+    label: Read contacts
+    skill: contacts.contact.read
+    description: Search/read contacts
+  - id: create_estimate
+    label: Create estimate
+    skill: sales.estimate.create
+    description: Customer-side create estimate (Contact can create Estimate; Estimate cannot create Contact)

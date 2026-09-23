@@ -1,0 +1,33 @@
+# ERP: Quotes
+entity_type: Quote
+label: Quote
+description: Formal price quotation to a customer for tooling / carbide work.
+properties:
+  - name: id
+    type: integer
+  - name: name
+    type: string
+  - name: partner_id
+    type: integer
+  - name: state
+    type: string
+  - name: amount_total
+    type: number
+  - name: validity_date
+    type: string
+links:
+  - name: customer
+    target: Contact
+    cardinality: many_to_one
+  - name: estimate
+    target: Estimate
+    cardinality: many_to_one
+    description: Source estimate when quote was built from costing
+  - name: sales_order
+    target: SalesOrder
+    cardinality: one_to_many
+    description: Orders created from this quote
+actions:
+  - id: read
+    label: Read quotes
+    skill: sales.quote.read

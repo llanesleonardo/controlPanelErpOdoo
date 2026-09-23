@@ -1,0 +1,34 @@
+# ERP: Sales
+entity_type: SalesOrder
+label: Sales Order
+description: Confirmed sales order for manufactured tools / services.
+properties:
+  - name: id
+    type: integer
+  - name: name
+    type: string
+  - name: partner_id
+    type: integer
+  - name: state
+    type: string
+  - name: amount_total
+    type: number
+  - name: commitment_date
+    type: string
+links:
+  - name: customer
+    target: Contact
+    cardinality: many_to_one
+  - name: quote
+    target: Quote
+    cardinality: many_to_one
+  - name: manufacturing_orders
+    target: ManufacturingOrder
+    cardinality: one_to_many
+actions:
+  - id: read
+    label: Read sales orders
+    skill: sales.order.read
+  - id: create
+    label: Create sales order
+    skill: sales.order.create

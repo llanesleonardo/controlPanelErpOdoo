@@ -1,0 +1,11 @@
+# ACL-side only — not exposed on public ontology catalog API
+connector_id: odoo
+entity_type: Estimate
+vendor_model: customer.estimate
+property_map:
+  id: id
+  name: name
+  partner_id: partner_id
+  state: state
+  amount_total: amount_total
+notes: Field names are Odoo/JSON-RPC side; adapters consume this map behind the ACL.

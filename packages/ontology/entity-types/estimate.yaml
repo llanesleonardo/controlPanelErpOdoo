@@ -1,0 +1,38 @@
+# ERP: Estimates
+entity_type: Estimate
+label: Estimate
+description: Costing / estimate before or alongside a formal quote (tool shop job estimate).
+properties:
+  - name: id
+    type: integer
+    description: Estimate identifier
+  - name: name
+    type: string
+    description: Estimate reference
+  - name: partner_id
+    type: integer
+    description: Linked contact id
+  - name: state
+    type: string
+    description: Lifecycle state
+  - name: amount_total
+    type: number
+    description: Total amount
+links:
+  - name: customer
+    target: Contact
+    cardinality: many_to_one
+    description: Contact (customer) this estimate belongs to
+  - name: quote
+    target: Quote
+    cardinality: many_to_one
+    description: Optional related commercial quote
+actions:
+  - id: read
+    label: Read estimates
+    skill: sales.estimate.read
+    description: Search/read estimate rows via allowlisted skill
+  - id: find_issues
+    label: Find estimate issues
+    skill: sales.estimate.find_issues
+    description: Diagnose estimate data issues (Epic-06)

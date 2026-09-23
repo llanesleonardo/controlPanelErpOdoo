@@ -1,0 +1,29 @@
+# ERP: SCT Documentation
+entity_type: SctDocument
+label: SCT Document
+description: Technical / SCT documentation (SOP, print, traveler, cert pack).
+properties:
+  - name: id
+    type: integer
+  - name: name
+    type: string
+  - name: doc_type
+    type: string
+  - name: revision
+    type: string
+  - name: state
+    type: string
+links:
+  - name: manufacturing_order
+    target: ManufacturingOrder
+    cardinality: many_to_one
+  - name: product
+    target: InventoryItem
+    cardinality: many_to_one
+  - name: quality_check
+    target: QualityCheck
+    cardinality: many_to_one
+actions:
+  - id: read
+    label: Read SCT documents
+    skill: docs.sct_document.read

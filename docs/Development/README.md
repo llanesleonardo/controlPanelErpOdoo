@@ -4,13 +4,14 @@ Control plane for **governed intents/skills** across first-party connectors (Odo
 
 | Doc | Purpose |
 |-----|---------|
-| **[Architecture overview](./architecture-overview.md)** | Layers, multi-connector control plane, DB split |
+| **[Architecture overview](./architecture-overview.md)** | Layers, multi-connector control plane, ontology UI surfaces, DB split |
 | **[Connectors](./connectors.md)** | Product-owned connector SPI + ship-one-by-one catalog |
 | **[Platform concerns](./platform-concerns.md)** | Auth, multi-tenant, logging, retry, Docker, NestJS-as-gateway |
 | **[Pattern map](./pattern-map.md)** | Best-fit patterns from Software Patterns Docs |
 | **[Governed execution](./governed-execution.md)** | Why NL routes; only certified skills execute |
+| **[Ontology](./ontology.md)** | Business map + `/ontology` Schema / Explorer / Vertex / Process |
 | [Monorepo layout](./monorepo-layout.md) | `apps/`, `packages/`, `docker/` |
-| [Request lifecycle](./request-lifecycle.md) | Deterministic flow including connector resolve |
+| [Request lifecycle](./request-lifecycle.md) | Deterministic flow including ontology + connector resolve |
 | [Reliability rules](./reliability-rules.md) | No free-form SoR/NL writes; ACL + allowlist |
 | [Learning loop](./learning-loop.md) | Incidents → runbooks |
 | [Governance](./governance-ownership.md) | Ownership and skill gates |
@@ -20,6 +21,7 @@ Control plane for **governed intents/skills** across first-party connectors (Odo
 | **[Epic-04](./Epic-04/)** | Integrations — **done** (Odoo connector #1, dry-run path, storage/backups) |
 | **[Epic-05](./Epic-05/)** | ERP Map & first live read — **done** (module grid, intent rail/catalog, `sales.estimate.read`) |
 | **[Epic-06](./Epic-06/)** | Connector model + estimate issues — **docs drafted; implementation not started** |
+| **[Epic-07](./Epic-07/)** | Ontology Language v1 — **done** (YAML, catalog API, Schema/Explorer/Vertex/Process UI) |
 
 ## Hierarchy
 
@@ -31,4 +33,5 @@ Epic-NN / phase-NN / task-NN-<slug> / {SRD,TSD,diagram,conops}.md
 
 - [Components](../Components/)
 - [Deployment](../Deployment/)
+- [GAPS](../GAPS/) — deferred-by-design gaps (Engine; visual exploration 04–08)
 - [Software Patterns Docs](../Software%20Patterns%20Docs/) (synced from npm)

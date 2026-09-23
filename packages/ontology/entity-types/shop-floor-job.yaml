@@ -1,0 +1,26 @@
+# ERP: Shop Floor
+entity_type: ShopFloorJob
+label: Shop Floor Job
+description: Shop-floor work step / operation tracked on the plant floor.
+properties:
+  - name: id
+    type: integer
+  - name: name
+    type: string
+  - name: workcenter
+    type: string
+  - name: state
+    type: string
+  - name: qty_done
+    type: number
+links:
+  - name: manufacturing_order
+    target: ManufacturingOrder
+    cardinality: many_to_one
+  - name: operator
+    target: Employee
+    cardinality: many_to_one
+actions:
+  - id: read
+    label: Read shop floor jobs
+    skill: manufacturing.shop_floor.read

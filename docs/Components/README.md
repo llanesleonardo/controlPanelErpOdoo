@@ -8,6 +8,7 @@ Product-surface documentation (state, contracts, UX). One `*Docs` folder per are
 | [GatewayDocs](./GatewayDocs/) | NestJS API gateway |
 | [OrchestratorDocs](./OrchestratorDocs/) | FastAPI orchestration |
 | [ConnectorsDocs](./ConnectorsDocs/) | First-party connector catalog (product-owned SPI) |
+| [OntologyDocs](./OntologyDocs/) | Ontology Language — entity types, actions, browser |
 | [OdooIntegrationDocs](./OdooIntegrationDocs/) | Connector `odoo` — first SoR adapter |
 | [TaxonomyDocs](./TaxonomyDocs/) | Controlled vocabulary |
 | [ContractsDocs](./ContractsDocs/) | Intent / Task / Skill / Audit schemas |

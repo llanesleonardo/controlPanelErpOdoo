@@ -1,0 +1,28 @@
+# ERP: Quality
+entity_type: QualityCheck
+label: Quality Check
+description: Inspection / QC checkpoint for manufactured tools.
+properties:
+  - name: id
+    type: integer
+  - name: name
+    type: string
+  - name: result
+    type: string
+    description: pass | fail | pending
+  - name: checked_at
+    type: string
+links:
+  - name: manufacturing_order
+    target: ManufacturingOrder
+    cardinality: many_to_one
+  - name: product
+    target: InventoryItem
+    cardinality: many_to_one
+  - name: inspector
+    target: Employee
+    cardinality: many_to_one
+actions:
+  - id: read
+    label: Read quality checks
+    skill: quality.check.read

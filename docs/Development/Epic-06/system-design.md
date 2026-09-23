@@ -4,15 +4,15 @@ Shows how clients, control-plane services, the **first-party connector catalog**
 
 **Edge:** NestJS `apps/gateway` **is** the API Gateway — auth, tenancy, rate limits, contract validation. Do not add a second application gateway in front; optional TLS/WAF only. See [platform-concerns.md](../platform-concerns.md).
 
-**Patterns:** curated map in [pattern-map.md](../pattern-map.md). **NL vs skills:** [governed-execution.md](../governed-execution.md) — LLM may route; only certified skills execute.
+**Patterns:** curated map in [pattern-map.md](../pattern-map.md). **NL vs skills:** [governed-execution.md](../governed-execution.md). **Ontology Language:** [ontology.md](../ontology.md) / [Epic-07](../Epic-07/README.md).
 
 ## Pattern-annotated component map
 
 ```mermaid
 flowchart TB
   subgraph clients [Clients]
-    Web["Next.js Control Panel apps/web\nClient-Server\nComponent-Based Architecture\nObserver + light State Container\nERP Map + Intent Rail\ncalls NestJS only"]
-    OC["OpenClaw_optional\nTool Calling → skills only\nNL may classify — never execute SoR"]
+    Web["Next.js Control Panel apps/web\nClient-Server\nComponent-Based Architecture\nERP Map + Ontology browser\ncalls NestJS only"]
+    OC["OpenClaw_optional\nTool Calling → ontology actions / skills\nNL may classify — never execute SoR"]
   end
 
   subgraph edge [Optional_infra]
@@ -20,13 +20,15 @@ flowchart TB
   end
 
   subgraph controlPlane ["Control plane Docker — Stateless Services + IaC"]
-    GW["NestJS Gateway\nAPI Gateway + BFF for Next.js\nPEP + RBAC + JWT\nRate Limiting\nFail Fast contracts\nCentralized Logging"]
-    ORCH["FastAPI Orchestrator\nHexagonal core\nFacade skill entry\nSemantic Routing\nRetry Backoff\nCircuit Breaker\nTimeout + Idempotency"]
-    PG[("Postgres CP\nMulti-Tenant Partitioning\nRepository\nDatabase per Service vs SoR")]
+    GW["NestJS Gateway\nAPI Gateway + BFF for Next.js\nOntology catalog GET\nPEP + RBAC + JWT\nRate Limiting\nFail Fast contracts"]
+    Onto["Ontology Language\nDomain Model\nObjects Links Actions"]
+    ORCH["FastAPI Orchestrator\nHexagonal core\nFacade skill entry\nSemantic Routing\nRetry Backoff\nCircuit Breaker"]
+    PG[("Postgres CP\nMulti-Tenant Partitioning\nRepository")]
   end
 
   subgraph shared [Shared_packages_not_runtime]
-    Contracts["packages_contracts\nDomain Model / taxonomy"]
+    Contracts["packages_contracts\ntaxonomy skills"]
+    OntologyPkg["packages_ontology\nentity types + bindings"]
     OdooSchema["packages_odoo_schema\nconnector-local catalog"]
   end
 
@@ -46,7 +48,7 @@ flowchart TB
   end
 
   HITL["Human-in-the-Loop\napprovals"]
-  Corr["Correlation Identifier\nDistributed Tracing"]
+  Corr["Correlation Identifier"]
   Sync[odoo_schema_sync_CLI]
 
   Web --> TLS
@@ -54,6 +56,8 @@ flowchart TB
   TLS --> GW
   Web -.->|local| GW
   OC -.->|local| GW
+  GW --> Onto
+  Onto -.-> OntologyPkg
   GW -->|Request-Reply skills_execute| ORCH
   GW --> PG
   GW -.-> HITL
@@ -78,10 +82,11 @@ flowchart TB
 
 | Layer | Primary patterns |
 |-------|------------------|
-| **Next.js (`apps/web`)** | [Client-Server](../../Software%20Patterns%20Docs/Architectural%20Patterns/01-client-server.md), [Component-Based Architecture](../../Software%20Patterns%20Docs/Frontend_patterns/06-component-based-architecture.md), [Observer](../../Software%20Patterns%20Docs/Frontend_patterns/08-observer.md), [State Container](../../Software%20Patterns%20Docs/Frontend_patterns/09-state-container.md) (light), progressive disclosure (ERP map + intent rail); **only** talks to NestJS BFF |
+| **Next.js (`apps/web`)** | [Client-Server](../../Software%20Patterns%20Docs/Architectural%20Patterns/01-client-server.md), [Component-Based Architecture](../../Software%20Patterns%20Docs/Frontend_patterns/06-component-based-architecture.md), [Observer](../../Software%20Patterns%20Docs/Frontend_patterns/08-observer.md), [State Container](../../Software%20Patterns%20Docs/Frontend_patterns/09-state-container.md) (light), progressive disclosure (ERP map + intent rail + `/ontology`); **only** talks to NestJS BFF |
 | Agents | [Tool Calling](../../Software%20Patterns%20Docs/AI_Agentic_patterns/03-tool-calling.md) — same gateway as Next.js; NL classifies only ([governed-execution](../governed-execution.md)) |
 | Edge | Optional TLS only — **not** a second [API Gateway](../../Software%20Patterns%20Docs/Distributed_system_patterns/01-api-gateway.md) |
 | NestJS gateway | [API Gateway](../../Software%20Patterns%20Docs/Distributed_system_patterns/01-api-gateway.md), [BFF](../../Software%20Patterns%20Docs/Architectural%20Patterns/21-backend-for-frontend-bff.md) **for Next.js**, [PEP](../../Software%20Patterns%20Docs/Security_patterns/16-policy-enforcement-point.md), [RBAC](../../Software%20Patterns%20Docs/Security_patterns/02-rbac.md), [JWT](../../Software%20Patterns%20Docs/Security_patterns/08-jwt.md), [Rate Limiting](../../Software%20Patterns%20Docs/Distributed_system_patterns/18-rate-limiting.md), [Fail Fast](../../Software%20Patterns%20Docs/Resilience_Pattern/05-fail-fast.md), [Human-in-the-Loop](../../Software%20Patterns%20Docs/AI_Agentic_patterns/09-human-in-the-loop.md) |
+| **Ontology Language** | [Domain Model](../../Software%20Patterns%20Docs/Data_domain_patterns/14-domain-model.md), [Bounded Context](../../Software%20Patterns%20Docs/Org_System_Engineering_patterns/02-bounded-context.md), [Semantic Routing](../../Software%20Patterns%20Docs/AI_Agentic_patterns/12-semantic-routing.md) — actions → skills ([ontology](../ontology.md)) |
 | Orchestrator | [Hexagonal](../../Software%20Patterns%20Docs/Architectural%20Patterns/05-hexagonal-architecture.md), [Facade](../../Software%20Patterns%20Docs/Structural%20Patterns/Facade.md), [Semantic Routing](../../Software%20Patterns%20Docs/AI_Agentic_patterns/12-semantic-routing.md), [Retry with Backoff](../../Software%20Patterns%20Docs/Distributed_system_patterns/04-retry-with-backoff.md), [Circuit Breaker](../../Software%20Patterns%20Docs/Distributed_system_patterns/02-circuit-breaker.md), [Timeout](../../Software%20Patterns%20Docs/Resilience_Pattern/03-timeout.md), [Idempotency](../../Software%20Patterns%20Docs/Distributed_system_patterns/20-idempotency.md) |
 | Ports / connectors | [Anti-Corruption Layer](../../Software%20Patterns%20Docs/Distributed_system_patterns/15-anti-corruption-layer.md), [Adapter](../../Software%20Patterns%20Docs/Structural%20Patterns/Adapter.md), [Bounded Context](../../Software%20Patterns%20Docs/Org_System_Engineering_patterns/02-bounded-context.md), [Bulkhead](../../Software%20Patterns%20Docs/Distributed_system_patterns/05-bulkhead.md), [Health Checks](../../Software%20Patterns%20Docs/DevOps_Delivery_patterns/09-health-checks.md), [Fallback](../../Software%20Patterns%20Docs/Resilience_Pattern/07-fallback.md) (`simulate`) |
 | Data | [Database per Service](../../Software%20Patterns%20Docs/Distributed_system_patterns/32-database-per-service.md), [Multi-Tenant Partitioning](../../Software%20Patterns%20Docs/Data_domain_patterns/21-multi-tenant-partitioning.md), [Repository](../../Software%20Patterns%20Docs/Data_domain_patterns/01-repository.md) |

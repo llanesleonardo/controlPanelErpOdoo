@@ -1,0 +1,28 @@
+# ERP: Purchase
+entity_type: PurchaseOrder
+label: Purchase Order
+description: Procurement of materials or tooling supplies from a vendor.
+properties:
+  - name: id
+    type: integer
+  - name: name
+    type: string
+  - name: partner_id
+    type: integer
+  - name: state
+    type: string
+  - name: amount_total
+    type: number
+  - name: date_order
+    type: string
+links:
+  - name: vendor
+    target: Contact
+    cardinality: many_to_one
+  - name: items
+    target: InventoryItem
+    cardinality: many_to_many
+actions:
+  - id: read
+    label: Read purchase orders
+    skill: purchasing.order.read

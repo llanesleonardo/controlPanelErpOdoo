@@ -8,6 +8,11 @@ import { IntentRail, parseSectionSlug } from './intent-rail';
 const ERP_ODOO_NAV = [
   { href: '/', label: 'ERP Map', match: (p: string) => p === '/' },
   {
+    href: '/ontology',
+    label: 'Ontology',
+    match: (p: string) => p.startsWith('/ontology'),
+  },
+  {
     href: '/console',
     label: 'Console',
     match: (p: string) => p.startsWith('/console'),

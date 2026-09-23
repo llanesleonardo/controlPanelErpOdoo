@@ -1,32 +1,57 @@
 # Pattern map — Control Panel design
 
-Patterns from [Software Patterns Docs](../Software%20Patterns%20Docs/) that **match this control plane**. Prefer these over inventing new structure. Primary diagram: [Epic-06 system-design](./Epic-06/system-design.md).
+Patterns from [Software Patterns Docs](../Software%20Patterns%20Docs/) that **match this control plane**. Prefer these over inventing new structure. Primary diagram: [Epic-06 system-design](./Epic-06/system-design.md). Ontology UI surfaces: [ontology.md](./ontology.md).
 
 ## Core (must use)
 
 | Pattern | Where it shows up | Doc |
 |---------|-------------------|-----|
 | [Client-Server](../Software%20Patterns%20Docs/Architectural%20Patterns/01-client-server.md) | Next.js UI → NestJS gateway | Architectural |
-| [Component-Based Architecture](../Software%20Patterns%20Docs/Frontend_patterns/06-component-based-architecture.md) | Next.js App Router UI (`AppShell`, ERP grid, intent rail) | Frontend |
+| [Component-Based Architecture](../Software%20Patterns%20Docs/Frontend_patterns/06-component-based-architecture.md) | Next.js App Router UI (`AppShell`, ERP grid, intent rail, ontology tabs) | Frontend |
 | [API Gateway](../Software%20Patterns%20Docs/Distributed_system_patterns/01-api-gateway.md) | NestJS `apps/gateway` — sole app entry | Distributed |
-| [Backend-for-Frontend](../Software%20Patterns%20Docs/Architectural%20Patterns/21-backend-for-frontend-bff.md) | NestJS shaped for Next.js (+ future agents) | Architectural |
+| [Backend-for-Frontend](../Software%20Patterns%20Docs/Architectural%20Patterns/21-backend-for-frontend-bff.md) | NestJS shaped for Next.js (+ future agents); `/ontology/objects` | Architectural |
 | [Hexagonal Architecture](../Software%20Patterns%20Docs/Architectural%20Patterns/05-hexagonal-architecture.md) | Orchestrator core ↔ ports ↔ connectors | Architectural |
 | [Anti-Corruption Layer](../Software%20Patterns%20Docs/Distributed_system_patterns/15-anti-corruption-layer.md) | Domain language vs vendor models | Distributed |
 | [Adapter](../Software%20Patterns%20Docs/Structural%20Patterns/Adapter.md) | Per first-party connector | Structural |
 | [Facade](../Software%20Patterns%20Docs/Structural%20Patterns/Facade.md) | Skill execution entry on orchestrator | Structural |
 | [Database per Service](../Software%20Patterns%20Docs/Distributed_system_patterns/32-database-per-service.md) | Control-plane Postgres ≠ SoR DBs | Distributed |
 | [Bounded Context](../Software%20Patterns%20Docs/Org_System_Engineering_patterns/02-bounded-context.md) | Control plane vs each SoR / connector | Org / DDD |
+| [Domain Model](../Software%20Patterns%20Docs/Data_domain_patterns/14-domain-model.md) | Ontology entity types (`Estimate`, …) | Data |
+
+## Ontology Language (`packages/ontology`)
+
+| Pattern | Where it shows up | Doc |
+|---------|-------------------|-----|
+| [Domain Model](../Software%20Patterns%20Docs/Data_domain_patterns/14-domain-model.md) | Entity types, properties, links | Data |
+| [Bounded Context](../Software%20Patterns%20Docs/Org_System_Engineering_patterns/02-bounded-context.md) | Ontology vs connector SoR models | Org / DDD |
+| [Anti-Corruption Layer](../Software%20Patterns%20Docs/Distributed_system_patterns/15-anti-corruption-layer.md) | Bindings stay connector-private | Distributed |
+| [Semantic Routing](../Software%20Patterns%20Docs/AI_Agentic_patterns/12-semantic-routing.md) | Action → skill code | AI |
+| Allowlist | Live Explorer / execute only for certified skills (e.g. `sales.estimate.read`) | Security / Reliability |
+
+See [ontology.md](./ontology.md), [Epic-07](./Epic-07/README.md), [GAPS 04–06](../GAPS/README.md).
+
+## Ontology UI (`/ontology`)
+
+| Pattern | Where it shows up | Doc |
+|---------|-------------------|-----|
+| [Component-Based Architecture](../Software%20Patterns%20Docs/Frontend_patterns/06-component-based-architecture.md) | `OntologyManager`, `OntologyObjectExplorer`, `OntologyVertex`, process flow map | Frontend |
+| [BFF](../Software%20Patterns%20Docs/Architectural%20Patterns/21-backend-for-frontend-bff.md) | Catalog + `GET /ontology/objects` (live Estimate or demo) | Architectural |
+| [Observer](../Software%20Patterns%20Docs/Frontend_patterns/08-observer.md) | Explorer/Vertex react to selection + Search Around | Frontend |
+| [State Container](../Software%20Patterns%20Docs/Frontend_patterns/09-state-container.md) | Tab view, local saved explorations / graph templates | Frontend |
+| Progressive disclosure | Schema vs Explorer vs Vertex vs Process — start small, expand | Frontend UX |
+
+**Non-goals for ontology UI:** auto-layout of every YAML link; customer-authored schema editor; geospatial / Workshop builders ([Gaps 07–08](../GAPS/README.md)).
 
 ## Next.js control panel (`apps/web`)
 
 | Pattern | Where it shows up | Doc |
 |---------|-------------------|-----|
 | [Client-Server](../Software%20Patterns%20Docs/Architectural%20Patterns/01-client-server.md) | Browser/Next.js client; never talks to Odoo/orchestrator directly | Architectural |
-| [Component-Based Architecture](../Software%20Patterns%20Docs/Frontend_patterns/06-component-based-architecture.md) | Section pages, ERP map tiles, intent rail, live output | Frontend |
+| [Component-Based Architecture](../Software%20Patterns%20Docs/Frontend_patterns/06-component-based-architecture.md) | Section pages, ERP map tiles, intent rail, live output, ontology tabs | Frontend |
 | [Observer](../Software%20Patterns%20Docs/Frontend_patterns/08-observer.md) | UI reacts to gateway fetch / task status updates | Frontend |
 | [State Container](../Software%20Patterns%20Docs/Frontend_patterns/09-state-container.md) | Local UI state for rails, filters, live tables (keep light; no Redux required) | Frontend |
 | [BFF](../Software%20Patterns%20Docs/Architectural%20Patterns/21-backend-for-frontend-bff.md) | Next.js consumes NestJS as its backend-for-frontend | Architectural |
-| Progressive disclosure | Main menu + intents rail only on `/sections/*` (Epic-05) | Frontend UX |
+| Progressive disclosure | Main menu + intents rail only on `/sections/*` (Epic-05); ontology tabs (Epic-07) | Frontend UX |
 
 **Non-goals for web:** Micro Frontends, Redux-by-default, embedding Odoo UI.
 
@@ -52,7 +77,7 @@ Patterns from [Software Patterns Docs](../Software%20Patterns%20Docs/) that **ma
 | [Rate Limiting](../Software%20Patterns%20Docs/Distributed_system_patterns/18-rate-limiting.md) | NestJS edge (Epic-03) | Distributed |
 | [Bulkhead](../Software%20Patterns%20Docs/Distributed_system_patterns/05-bulkhead.md) | Isolate connectors / pools | Distributed |
 | [Fail Fast](../Software%20Patterns%20Docs/Resilience_Pattern/05-fail-fast.md) | Contract + allowlist rejection | Resilience |
-| [Fallback](../Software%20Patterns%20Docs/Resilience_Pattern/07-fallback.md) | `simulate` mode when SoR down | Resilience |
+| [Fallback](../Software%20Patterns%20Docs/Resilience_Pattern/07-fallback.md) | `simulate` mode when SoR down; Explorer demo stubs when skill not allowlisted | Resilience |
 | [Graceful Degradation](../Software%20Patterns%20Docs/Resilience_Pattern/06-graceful-degradation.md) | Read-only / simulate when connector open | Resilience |
 
 ## Observability & delivery
@@ -99,10 +124,12 @@ Patterns from [Software Patterns Docs](../Software%20Patterns%20Docs/) that **ma
 | Saga across SoRs | Only when multi-step cross-system commits exist |
 | Customer-built Adapter plugins | First-party connectors only |
 | Micro Frontends / Redux-by-default | Single Next.js app; light local state is enough |
+| Full Ontology Engine / CDC twin | Language + Explorer BFF first ([Gap 01](../GAPS/01-full-graph-engine.md)) |
 
 ## Related
 
 - [architecture-overview](./architecture-overview.md)
+- [ontology](./ontology.md)
 - [platform-concerns](./platform-concerns.md)
 - [connectors](./connectors.md)
 - [Epic-06 system-design](./Epic-06/system-design.md)

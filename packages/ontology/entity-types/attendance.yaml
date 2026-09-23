@@ -1,0 +1,21 @@
+# ERP: Attendances
+entity_type: Attendance
+label: Attendance
+description: Employee attendance / time punch record.
+properties:
+  - name: id
+    type: integer
+  - name: check_in
+    type: string
+  - name: check_out
+    type: string
+  - name: worked_hours
+    type: number
+links:
+  - name: employee
+    target: Employee
+    cardinality: many_to_one
+actions:
+  - id: read
+    label: Read attendances
+    skill: hr.attendance.read

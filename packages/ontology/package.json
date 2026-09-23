@@ -1,0 +1,23 @@
+{
+  "name": "@control-panel-erp/ontology",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Ontology Language — entity types, links, actions bound to taxonomy skills",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "scripts": {
+    "test": "node ./test/smoke.mjs"
+  },
+  "dependencies": {
+    "@control-panel-erp/contracts": "*",
+    "js-yaml": "^4.1.0"
+  },
+  "files": [
+    "src",
+    "entity-types",
+    "bindings"
+  ]
+}

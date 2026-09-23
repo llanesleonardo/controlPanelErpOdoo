@@ -13,6 +13,7 @@ import { IntentsModule } from './intents/intents.module';
 import { TasksModule } from './tasks/tasks.module';
 import { IntegrationsModule } from './integrations/integrations.module';
 import { SkillsModule } from './skills/skills.module';
+import { OntologyModule } from './ontology/ontology.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { SkillsModule } from './skills/skills.module';
     TasksModule,
     IntegrationsModule,
     SkillsModule,
+    OntologyModule,
   ],
   controllers: [HealthController],
   providers: [

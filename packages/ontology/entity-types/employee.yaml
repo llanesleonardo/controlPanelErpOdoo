@@ -1,0 +1,26 @@
+# ERP: Employees
+entity_type: Employee
+label: Employee
+description: Shop or office employee (labor, operators, inspectors).
+properties:
+  - name: id
+    type: integer
+  - name: name
+    type: string
+  - name: job_title
+    type: string
+  - name: department
+    type: string
+  - name: active
+    type: boolean
+links:
+  - name: attendances
+    target: Attendance
+    cardinality: one_to_many
+  - name: shop_floor_jobs
+    target: ShopFloorJob
+    cardinality: one_to_many
+actions:
+  - id: read
+    label: Read employees
+    skill: hr.employee.read

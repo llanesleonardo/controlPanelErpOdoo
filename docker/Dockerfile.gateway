@@ -3,8 +3,9 @@ FROM node:20-alpine AS deps
 WORKDIR /app
 COPY package.json package-lock.json* ./
 COPY packages/contracts/package.json ./packages/contracts/
+COPY packages/ontology/package.json ./packages/ontology/
 COPY apps/gateway/package.json ./apps/gateway/
-RUN npm install --workspace=@control-panel-erp/gateway --workspace=@control-panel-erp/contracts --include-workspace-root=false
+RUN npm install --workspace=@control-panel-erp/gateway --workspace=@control-panel-erp/contracts --workspace=@control-panel-erp/ontology --include-workspace-root=false
 
 FROM node:20-alpine AS build
 WORKDIR /app
@@ -12,6 +13,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/package.json ./package.json
 COPY --from=deps /app/package-lock.json* ./
 COPY packages/contracts ./packages/contracts
+COPY packages/ontology ./packages/ontology
 COPY apps/gateway ./apps/gateway
 WORKDIR /app/apps/gateway
 RUN npx prisma generate && npx nest build
@@ -20,6 +22,7 @@ FROM node:20-alpine
 WORKDIR /app
 ENV NODE_ENV=production
 COPY --from=build /app/packages/contracts ./packages/contracts
+COPY --from=build /app/packages/ontology ./packages/ontology
 COPY --from=build /app/apps/gateway/dist ./dist
 COPY --from=build /app/apps/gateway/package.json ./package.json
 COPY --from=build /app/apps/gateway/prisma ./prisma

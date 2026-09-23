@@ -1,0 +1,37 @@
+# ERP: Manufacturing
+entity_type: ManufacturingOrder
+label: Manufacturing Order
+description: Production order / MO for a tool or carbide component.
+properties:
+  - name: id
+    type: integer
+  - name: name
+    type: string
+  - name: product_id
+    type: integer
+  - name: state
+    type: string
+  - name: qty
+    type: number
+  - name: date_planned
+    type: string
+links:
+  - name: product
+    target: InventoryItem
+    cardinality: many_to_one
+  - name: sales_order
+    target: SalesOrder
+    cardinality: many_to_one
+  - name: shop_floor_jobs
+    target: ShopFloorJob
+    cardinality: one_to_many
+  - name: quality_checks
+    target: QualityCheck
+    cardinality: one_to_many
+  - name: documents
+    target: SctDocument
+    cardinality: many_to_many
+actions:
+  - id: read
+    label: Read manufacturing orders
+    skill: manufacturing.order.read
