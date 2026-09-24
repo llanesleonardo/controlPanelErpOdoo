@@ -1,13 +1,14 @@
 # apps/web — Next.js control panel
 
-**Status:** implemented (Epic-03 ops surfaces)
+**Status:** implemented (ops surfaces + ontology UI)
 
 ## Routes
 
-- `/` — home
-- `/console` — request console (classify + create task)
-- `/tasks`, `/tasks/[id]` — task queue
-- `/logs` — log explorer
+- `/` — ERP Map home  
+- `/ontology` — Schema | Explorer | Vertex | Process map  
+- `/console` — request console  
+- `/tasks`, `/tasks/[id]` — task queue  
+- `/logs` — log explorer  
 
 ## Local run
 
@@ -20,4 +21,7 @@ Requires gateway at `NEXT_PUBLIC_GATEWAY_URL` (default `http://localhost:3001`).
 
 ## Docs
 
-- [Epic-03](../../docs/Development/Epic-03/README.md)
+- [User Guide — Screens](../../docs/User_Guide/Screens/README.md)  
+- [SAC-002](../../docs/System_Design/Subsystem/SAC-002/README.md)  
+- [System Design pack](../../docs/System_Design/README.md)  
+- Legacy: [Epic-03](../../docs/System_Design/_legacy/Epic-03/README.md)  

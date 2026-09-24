@@ -1,10 +1,10 @@
 # apps/gateway — NestJS API gateway
 
-**Status:** implemented (Epic-03 ops surfaces)
+**Status:** implemented (ops + ontology BFF)
 
 ## Role
 
-Auth stub (`X-Actor-Id`), rate limits, correlation ids, structured logging, intent classify, task queue BFF. Talks to **control-plane PostgreSQL** (not Odoo DB).
+Auth stub (`X-Actor-Id`), rate limits, correlation ids, structured logging, intent classify, task queue BFF, ontology catalog/objects. Talks to **control-plane PostgreSQL** (not the ERP DB).
 
 ## Local run
 
@@ -19,5 +19,6 @@ npm run dev:gateway
 
 ## Docs
 
-- [Epic-03](../../docs/Development/Epic-03/README.md)
-- [GatewayDocs](../../docs/Components/GatewayDocs/README.md)
+- [SAC-001 Front door](../../docs/System_Design/Subsystem/SAC-001/README.md)  
+- [User Guide](../../docs/User_Guide/README.md)  
+- Legacy: [Epic-03](../../docs/System_Design/_legacy/Epic-03/README.md)  

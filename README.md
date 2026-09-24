@@ -1,86 +1,129 @@
 # ControlPanelERP
 
-External **OpenClaw → Odoo 18** control panel. This repo is a **scaffold + reference docs** pass — not a full application build.
+Governed control panel for a **small manufacturing shop** (carbide tools, machines, people, QC, drawings, inventory, shipping) whose day-to-day system of record is an **ERP** — **Odoo** is connector #1. Natural-language intents become allowlisted skills; risky writes stay dry-run / approval gated.
 
-## Stack (planned)
+## Stack
 
 | Layer | Choice |
 |-------|--------|
 | Control panel UI | Next.js (`apps/web`) |
-| API gateway | NestJS (`apps/gateway`) |
-| OpenClaw orchestration | FastAPI (`apps/orchestrator`) |
-| Control-plane DB | PostgreSQL (separate from Odoo) |
+| API gateway (BFF) | NestJS (`apps/gateway`) |
+| Orchestrator / skills | FastAPI (`apps/orchestrator`) |
+| Control-plane DB | PostgreSQL (separate from ERP) |
 | Runtime | Docker Compose (local + Linux later) |
+
+## Repository layout
+
+```text
+ControlPanelERP/
+├── README.md
+├── package.json                 # npm workspaces: resources/packages/*, apps/web, apps/gateway
+├── .env.example
+├── apps/
+│   ├── web/                     # Next.js — ERP Map, /console, /tasks, /logs, /ontology
+│   ├── gateway/                 # NestJS BFF — auth stub, allowlist, ontology, tasks
+│   └── orchestrator/            # FastAPI — dry-run / execute skills; Odoo adapters
+├── resources/
+│   ├── packages/
+│   │   ├── contracts/           # Taxonomy + action-contract YAML (sync from SAC-003 Authoring)
+│   │   └── ontology/            # Business map — entity types + connector bindings
+│   ├── scripts/                 # backup-controlplane.sh, etc.
+│   ├── storage/local/           # STORAGE_ROOT default (evidence) — gitignored
+│   └── logs/                    # LOG_DIR default — gitignored
+├── docker/
+│   ├── docker-compose.yml       # Postgres by default; --profile apps → web/gateway/orch
+│   ├── Dockerfile.web
+│   ├── Dockerfile.gateway       # COPY resources/packages/* into image
+│   └── Dockerfile.orchestrator
+├── .github/                     # CI (lint, etc.)
+└── docs/                        # See “Docs” below
+```
+
+Detail: [Monorepo_Layout](docs/System_Design/TSD/Monorepo_Layout.md) · Compose: [SAC-009](docs/System_Design/Subsystem/SAC-009/README.md)
 
 ## Docs
 
-Start here: [docs/Development/README.md](docs/Development/README.md)
+| Path | Role |
+|------|------|
+| **[docs/System_Design](docs/System_Design/)** | V-Model pack — **builders start here** |
+| **[docs/User_Guide](docs/User_Guide/)** | How the shop uses the panel |
+| **[docs/Software Patterns Docs](docs/Software%20Patterns%20Docs/)** | Synced pattern library (by type) |
+| [docs/README.md](docs/README.md) | Docs index |
 
-| Folder | Role |
-|--------|------|
-| [docs/Components](docs/Components/) | Product-surface references |
-| [docs/Deployment](docs/Deployment/) | Docker / hosting |
-| [docs/Development](docs/Development/) | Architecture, Epic → Phase → Task packs |
-| [docs/Software Patterns Docs](docs/Software%20Patterns%20Docs/) | Synced from `@llanesleonardo/software-patterns-docs` |
+### `docs/System_Design/` (V-Model)
 
-## Monorepo layout
-
+```text
+System_Design/
+├── README.md
+├── DOCUMENT_TREE.md
+├── ConOps/                 # How the shop should use the panel
+├── SRD/                    # Numbered SHALLs
+├── TSD/                    # Parent TSD, Pattern_Selection, Monorepo_Layout
+├── Subsystem/
+│   ├── SAC-001 … SAC-010/  # README, SRD, TSD, TRACE, Scenarios/
+│   ├── SAC-003/Authoring/  # ContractsDocs + TaxonomyDocs (canonical YAML)
+│   ├── SAC-009/Guides/     # Compose runbook, secrets, storage
+│   ├── Risks.md            # Gaps (04–06 satisfied slices; others deferred)
+│   └── SCENARIOS.md
+├── TestPlans/              # OPS-001…007, E-01 + Reports/
+├── Templates/
+└── _legacy/                # Read-only Epic → Phase → Task history
 ```
-apps/web            Next.js control panel (Epic-03 ops UI)
-apps/gateway        NestJS API gateway (Epic-03 ops API)
-apps/orchestrator   FastAPI OpenClaw orchestration (stub)
-packages/contracts  @control-panel-erp/contracts (taxonomy + YAML)
-docker/             Compose (Postgres by default; apps via --profile apps)
-docs/               Four-root documentation tree
+
+Agents choosing architecture: start at [TSD/Pattern_Selection.md](docs/System_Design/TSD/Pattern_Selection.md) (impact / risk / Diff), then one pattern file — not the whole patterns tree.
+
+### `docs/User_Guide/`
+
+```text
+User_Guide/
+├── README.md               # Roles + jobs
+├── Screens/                # Map, console, tasks, logs
+├── Business_map/           # Schema / Explorer / Vertex / Process
+└── Connect_ERP/            # Odoo connector for the shop
 ```
 
-## Foundation (Epic-02)
+### `docs/Software Patterns Docs/` (synced)
+
+Category folders (Architectural, Security, …) plus:
+
+- `recognition_examples/` — short risk → pattern → examples  
+- `composition_problems/` — multi-pattern systems (`concerns/`, `exercises/`)  
+
+Sync: `npm run docs:sync-patterns` (may restore upstream names until the package matches).
+
+## Quick start
 
 ```bash
 npm install
 npm run test:contracts
 docker compose -f docker/docker-compose.yml up -d   # Postgres on host port 5433
-```
 
-## Ops surfaces (Epic-03)
-
-```bash
-cp .env.example .env   # set DATABASE_URL to localhost:5433
+cp .env.example .env   # DATABASE_URL → localhost:5433
 npm run prisma:generate
 npm run prisma:push
 npm run dev:gateway    # :3001
-npm run dev:web        # :3000 — /console, /tasks, /logs
+npm run dev:web        # :3000 — /console, /tasks, /logs, /ontology
 ```
 
-## Integrations (Epic-04)
-
-Docs: [docs/Development/Epic-04](docs/Development/Epic-04/).
+Orchestrator (simulate ERP by default):
 
 ```bash
-# Terminal A — orchestrator (simulate ERP by default)
-cd apps/orchestrator && .venv\Scripts\activate   # after: python -m venv .venv && pip install -r requirements.txt
-set STORAGE_ROOT=..\..\storage\local
+cd apps/orchestrator && .venv\Scripts\activate
+set STORAGE_ROOT=..\..\resources\storage\local
 set ERP_MODE=simulate
 uvicorn app.main:app --reload --port 8000
-
-# Terminal B/C — gateway + web (see Epic-03)
-npm run dev:gateway
-npm run dev:web
 ```
 
-Routes: `/integrations/odoo`, dry-run tasks via `/console`. **No live ERP commits** in Epic-04.
+Full stack: `docker compose -f docker/docker-compose.yml --profile apps up --build`.
 
 ## Patterns sync
 
-Requires a GitHub token with `read:packages` and `.npmrc` configured for `@llanesleonardo`.
+Requires a GitHub token with `read:packages` and `.npmrc` for `@llanesleonardo`.
 
 ```bash
-# Set NODE_AUTH_TOKEN to a GitHub PAT with read:packages
 npm install
 npm run docs:sync-patterns
 ```
-
-See [docs/Software Patterns Docs/README.md](docs/Software%20Patterns%20Docs/README.md).
 
 ## Lint
 
@@ -88,8 +131,8 @@ See [docs/Software Patterns Docs/README.md](docs/Software%20Patterns%20Docs/READ
 npm run lint
 ```
 
-Authored markdown under Components / Deployment / Development (not the synced Software Patterns Docs tree). CI: [`.github/workflows/lint.yml`](.github/workflows/lint.yml) — set repo secret `NODE_AUTH_TOKEN` for `npm ci`.
+Authored markdown under `User_Guide` / `System_Design` (not the synced Patterns tree). CI: [`.github/workflows/lint.yml`](.github/workflows/lint.yml) — set secret `NODE_AUTH_TOKEN` for `npm ci`.
 
 ## Implementation approach
 
-Features are delivered one **task** at a time under `docs/Development/Epic-NN/phase-NN/task-NN-<slug>/` using `SRD.md`, `TSD.md`, `diagram.md`, and `conops.md`. Do not build the whole app in one pass.
+Working process is the [System_Design](docs/System_Design/) V-Model (SAC + OPS scenarios). Historical Epic packs live under [`_legacy`](docs/System_Design/_legacy/) only.

@@ -36,6 +36,6 @@ Everyday pictures for the same rows. If the code examples feel abstract, start h
 
 ## Related docs
 
-- [Pattern examples by category](./pattern-examples/INDEX.md) — risk, pattern, and three examples per row for every class
+- [Pattern examples by category](./recognition_examples/INDEX.md) — risk, pattern, and three examples per row for every class
 - [Phase 4 — Commands](../phases/phase-4-commands/architecture-summary.md) — Draft, CommandBus, audit
 - [Phase 5 — Client Facade](../phases/phase-5-client-facade/overview.md) — Facade, approval, IntentMapper

@@ -4,12 +4,12 @@ Docker Compose for local development and the same model on Linux later (install 
 
 | File | Purpose |
 |------|---------|
-| [docker-compose.yml](./docker-compose.yml) | Postgres by default; app stubs via `--profile apps` |
-| [Dockerfile.web](./Dockerfile.web) | Placeholder for Next.js |
-| [Dockerfile.gateway](./Dockerfile.gateway) | Placeholder for NestJS |
-| [Dockerfile.orchestrator](./Dockerfile.orchestrator) | Placeholder for FastAPI |
+| [docker-compose.yml](./docker-compose.yml) | Postgres by default; apps via `--profile apps` |
+| [Dockerfile.web](./Dockerfile.web) | Next.js control panel |
+| [Dockerfile.gateway](./Dockerfile.gateway) | NestJS gateway (COPY `resources/packages/*`) |
+| [Dockerfile.orchestrator](./Dockerfile.orchestrator) | FastAPI orchestrator |
 
-See [docs/Deployment/Docker](../docs/Deployment/Docker/README.md).
+Docs: [SAC-009](../docs/System_Design/Subsystem/SAC-009/README.md) · [Compose runbook](../docs/System_Design/Subsystem/SAC-009/Guides/Compose_and_Runbook.md)
 
 ## Commands
 
@@ -17,8 +17,8 @@ See [docs/Deployment/Docker](../docs/Deployment/Docker/README.md).
 # from repo root — control-plane Postgres only
 docker compose -f docker/docker-compose.yml up -d
 
-# optional stub app containers (placeholders)
-docker compose -f docker/docker-compose.yml --profile apps up -d
+# optional app containers
+docker compose -f docker/docker-compose.yml --profile apps up -d --build
 
 docker compose -f docker/docker-compose.yml down
 ```

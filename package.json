@@ -4,13 +4,13 @@
   "private": true,
   "description": "OpenClaw–Odoo 18 control panel — scaffold and reference docs",
   "workspaces": [
-    "packages/*",
+    "resources/packages/*",
     "apps/gateway",
     "apps/web"
   ],
   "scripts": {
     "docs:sync-patterns": "npx software-patterns-docs-sync --dir .",
-    "lint": "markdownlint \"docs/Components/**/*.md\" \"docs/Deployment/**/*.md\" \"docs/Development/**/*.md\" \"docs/README.md\" \"README.md\" \"apps/**/*.md\" \"packages/**/*.md\" \"docker/**/*.md\" \".github/**/*.md\"",
+    "lint": "markdownlint \"docs/User_Guide/**/*.md\" \"docs/System_Design/**/*.md\" \"docs/README.md\" \"README.md\" \"apps/**/*.md\" \"resources/packages/**/*.md\" \"docker/**/*.md\" \".github/**/*.md\"",
     "test:contracts": "npm test -w @control-panel-erp/contracts",
     "test:ontology": "npm test -w @control-panel-erp/ontology",
     "contracts:sync": "npm run sync-schemas -w @control-panel-erp/contracts",

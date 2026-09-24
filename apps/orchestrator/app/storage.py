@@ -5,7 +5,7 @@ from pathlib import Path
 
 
 def storage_root() -> Path:
-    return Path(os.environ.get("STORAGE_ROOT", "./storage/local")).resolve()
+    return Path(os.environ.get("STORAGE_ROOT", "./resources/storage/local")).resolve()
 
 
 def ensure_storage() -> Path:

@@ -4,7 +4,7 @@ import { join, normalize, resolve, sep } from 'path';
 
 @Injectable()
 export class StorageService implements OnModuleInit {
-  private root = resolve(process.env.STORAGE_ROOT ?? './storage/local');
+  private root = resolve(process.env.STORAGE_ROOT ?? './resources/storage/local');
 
   onModuleInit() {
     this.ensureDir(this.root);

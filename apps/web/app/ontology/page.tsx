@@ -79,17 +79,17 @@ export default function OntologyPage() {
         <summary>How to add, change, or remove entity types</summary>
         <ol>
           <li>
-            Edit YAML under <code className="mono">packages/ontology/entity-types/</code>{' '}
+            Edit YAML under <code className="mono">resources/packages/ontology/entity-types/</code>{' '}
             (add a file, change properties/links/actions, or delete a file).
           </li>
           <li>
             Map vendor fields in{' '}
-            <code className="mono">packages/ontology/bindings/&lt;connector&gt;/</code>{' '}
+            <code className="mono">resources/packages/ontology/bindings/&lt;connector&gt;/</code>{' '}
             when a connector must read/write that object.
           </li>
           <li>
             Register any new action <code className="mono">skill:</code> codes in{' '}
-            <code className="mono">packages/contracts</code> taxonomy, then{' '}
+            <code className="mono">resources/packages/contracts</code> taxonomy, then{' '}
             <code className="mono">npm test -w @control-panel-erp/ontology</code>.
           </li>
           <li>
@@ -98,9 +98,9 @@ export default function OntologyPage() {
           </li>
         </ol>
         <p className="muted">
-          v1 is <strong>product-owned Language</strong> (repo YAML). Visual gaps:{' '}
-          <code className="mono">docs/GAPS/04</code>–
-          <code className="mono">08</code>.
+          v1 is <strong>product-owned Language</strong> (repo YAML). Residual visuals:{' '}
+          <code className="mono">docs/System_Design/Subsystem/Risks.md</code>{' '}
+          (04–06 satisfied slices; 07–08 deferred).
         </p>
       </details>
 

@@ -31,13 +31,15 @@ coverage/
 Thumbs.db
 
 # Logs / local storage
+/resources/logs/
 /logs/
 *.log
+resources/storage/local/
 storage/local/
 data/
 apps/orchestrator/.venv/
 apps/gateway/storage/
-
+apps/gateway/logs/
 
 # Docker
 docker-data/
@@ -49,6 +51,4 @@ pnpm-debug.log*
 
 .cursor/
 
-apps/gateway/storage/
-
-apps/gateway/logs/
+apps/orchestrator/storage/

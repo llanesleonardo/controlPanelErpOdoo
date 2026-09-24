@@ -18,7 +18,8 @@ export interface StructuredLogEntry {
 @Injectable()
 export class LogStoreService {
   private readonly service = process.env.SERVICE_NAME ?? 'gateway';
-  private readonly logDir = process.env.LOG_DIR ?? join(process.cwd(), 'logs');
+  private readonly logDir =
+    process.env.LOG_DIR ?? join(process.cwd(), '..', '..', 'resources', 'logs');
   private readonly ring: StructuredLogEntry[] = [];
   private readonly ringMax = Number(process.env.LOG_RING_MAX ?? 2000);
 
