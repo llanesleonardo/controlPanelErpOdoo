@@ -14,6 +14,7 @@ import { TasksModule } from './tasks/tasks.module';
 import { IntegrationsModule } from './integrations/integrations.module';
 import { SkillsModule } from './skills/skills.module';
 import { OntologyModule } from './ontology/ontology.module';
+import { DeploymentModule } from './config/deployment.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { OntologyModule } from './ontology/ontology.module';
     IntegrationsModule,
     SkillsModule,
     OntologyModule,
+    DeploymentModule,
   ],
   controllers: [HealthController],
   providers: [

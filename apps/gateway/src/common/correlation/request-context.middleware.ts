@@ -3,12 +3,19 @@ import { Request, Response, NextFunction } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import { requestContext } from '../logging/structured-logger.service';
 import { DEFAULT_ACTOR_ID } from '../actor/actor.middleware';
+import {
+  loadDeploymentSettings,
+  resolveTenantId,
+} from '../../config/deployment.settings';
+
+const deploymentSettings = loadDeploymentSettings();
 
 declare global {
   namespace Express {
     interface Request {
       correlationId?: string;
       actorId?: string;
+      tenantId?: string;
     }
   }
 }
@@ -26,10 +33,19 @@ export class RequestContextMiddleware implements NestMiddleware {
         ? actorHeader
         : DEFAULT_ACTOR_ID;
 
+    const tenantId = resolveTenantId(
+      req.header('x-tenant-id') ?? undefined,
+      deploymentSettings,
+    );
+
     req.correlationId = correlationId;
     req.actorId = actorId;
+    req.tenantId = tenantId;
     res.setHeader('X-Correlation-Id', correlationId);
+    if (deploymentSettings.mode === 'multi_tenant') {
+      res.setHeader('X-Tenant-Id', tenantId);
+    }
 
-    requestContext.run({ correlationId, actorId }, () => next());
+    requestContext.run({ correlationId, actorId, tenantId }, () => next());
   }
 }

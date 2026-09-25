@@ -1,6 +1,6 @@
 /**
  * Copy canonical YAML from SAC-003 Authoring ContractsDocs into this package.
- * Run from package or via: npm run contracts:sync -w @control-panel-erp/contracts
+ * Run from package or via: npm run contracts:sync -w @control-panel-ontology/contracts
  */
 import { copyFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';

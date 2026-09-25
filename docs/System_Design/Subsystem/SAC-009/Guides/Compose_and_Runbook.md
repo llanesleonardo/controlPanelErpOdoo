@@ -1,8 +1,17 @@
 # Compose strategy and runbook
 
-One Compose definition for local and Linux. Control-plane only; Odoo (and other systems of record) stay external.
+One Compose definition for local and Linux. Control-plane only; **peer edges** (ERP/Odoo first SoA, plus future SoA/data/logic) stay external via connector URLs.
 
-NestJS `gateway` is the **application** API entry; optional host TLS/WAF sits outside Compose ([parent TSD](../../../TSD/ControlPanelERP_TSD.md), [SAC-001](../../SAC-001/README.md)).
+```mermaid
+flowchart LR
+  Web[web] --> Gw[gateway]
+  Gw --> Orch[orchestrator]
+  Gw --> PG[(postgres)]
+  Orch --> PG
+  Orch --> Edges[external_edge_URLs]
+```
+
+NestJS `gateway` is the **application** API entry; optional host TLS/WAF sits outside Compose ([parent TSD](../../../TSD/ControlPanelOntology_TSD.md), [SAC-001](../../SAC-001/README.md)).
 
 ## Checklist — run the system
 
@@ -34,7 +43,7 @@ Use this order so dependencies are up before callers.
 ### 4. Gateway → orchestrator + postgres
 
 - [ ] Export `DATABASE_URL`, `STORAGE_ROOT`, `ORCHESTRATOR_URL=http://localhost:8000`, `ERP_MODE`
-- [ ] Start: `npm run start:prod -w @control-panel-erp/gateway` or `npm run dev:gateway`
+- [ ] Start: `npm run start:prod -w @control-panel-ontology/gateway` or `npm run dev:gateway`
 - [ ] Check: `GET http://localhost:3001/health`
 - [ ] Optional: `POST http://localhost:3001/integrations/odoo/test` (ERP connector health)
 

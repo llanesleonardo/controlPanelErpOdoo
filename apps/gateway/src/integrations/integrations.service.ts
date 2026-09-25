@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ErpConnectorStatus, ErpProvider, Prisma } from '@prisma/client';
+import { loadConnectorsCatalog } from '@control-panel-ontology/ontology';
 import { PrismaService } from '../prisma/prisma.service';
 import { StructuredLogger } from '../common/logging/structured-logger.service';
 import {
@@ -7,6 +8,28 @@ import {
   ErpConnectionSettings,
   ErpHealthPort,
 } from './ports/erp-health.port';
+
+type CatalogConnector = {
+  connector_id: string;
+  kind: string;
+  label: string;
+  status: string;
+  modes: string[];
+  notes?: string;
+  supported_skills?: string[];
+};
+
+export type ConnectorCatalogHealth = {
+  status: string;
+  mode?: string;
+  simulated: boolean;
+  message?: string | null;
+  checked_at?: string | null;
+};
+
+export type ConnectorCatalogEntry = CatalogConnector & {
+  health: ConnectorCatalogHealth;
+};
 
 export interface UpsertOdooIntegrationDto {
   url?: string;
@@ -23,6 +46,40 @@ export class IntegrationsService {
     private readonly logger: StructuredLogger,
     @Inject(ERP_HEALTH_PORT) private readonly erpHealth: ErpHealthPort,
   ) {}
+
+  async getConnectorCatalog(): Promise<{ connectors: ConnectorCatalogEntry[] }> {
+    const { connectors } = loadConnectorsCatalog();
+    const odoo = await this.getOdooConfig();
+    const list = (connectors as CatalogConnector[]).map((c) => ({
+      ...c,
+      health: this.healthForCatalogEntry(c, odoo),
+    }));
+    return { connectors: list };
+  }
+
+  private healthForCatalogEntry(
+    c: CatalogConnector,
+    odoo: Awaited<ReturnType<IntegrationsService['getOdooConfig']>>,
+  ): ConnectorCatalogHealth {
+    if (c.connector_id === 'odoo') {
+      return {
+        status: String(odoo.status),
+        mode: odoo.mode,
+        simulated: odoo.mode === 'simulate',
+        message: odoo.last_error,
+        checked_at: odoo.last_checked_at
+          ? new Date(odoo.last_checked_at).toISOString()
+          : null,
+      };
+    }
+    return {
+      status: 'stub_simulate',
+      simulated: true,
+      message:
+        c.notes ??
+        'Architecture stub — multi-edge pattern; live peer closes in OPS TR.',
+    };
+  }
 
   async getOdooConfig() {
     const row = await this.ensureRow();

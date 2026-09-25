@@ -1,14 +1,17 @@
 # ConOps Scenario Template
 
-**Document type:** ConOps Scenario (product OPS or engineering E)  
-**Template version:** 1.0  
+**Document type:** ConOps Scenario (external OPS or internal E)  
+**Template version:** 1.1  
 
-One file per scenario. Keep the same fields as the ConOps so SRD, TSD, and test plans can trace here.
+One file per scenario. Owned by a **SAC** (or cross-cutting `Subsystem/Scenarios/` for shared E).
 
 ```text
-ConOps (full story)  →  this scenario file (owned by a SAC)
-                     →  SRD SHALLs / Test plans / SRVM
+ConOps (full story)
+  → this scenario file
+  → SRD SHALLs / TSD / Test plans / SRVM
 ```
+
+**Status rule:** default **Open**. Demo/smoke does **not** close the scenario — only TR evidence + SRVM update.
 
 ---
 
@@ -17,30 +20,28 @@ ConOps (full story)  →  this scenario file (owned by a SAC)
 | Field | Value |
 |-------|--------|
 | **Scenario ID** | OPS-xxx **or** E-xx |
-| **Full ConOps ID** | CONOPS-OPS-xxx **or** Scenario E-xx |
 | **Title** | |
-| **Class** | Product operational (OPS) / Engineering lifecycle (E) |
-| **Primary subsystem** | SAC-xxx |
-| **Also involves** | SAC-… *(optional)* |
-| **Related modes** | MODE-… *(OPS only, if any)* |
-| **Related risks** | RISK-… |
+| **Class** | **External** (OPS / product use) **or** **Internal** (E / engineering lifecycle) |
+| **Primary subsystem** | SAC-xxx *(or Cross-cutting)* |
+| **Also involves** | SAC-… |
+| **Related modes** | MODE-… *(OPS)* |
 | **Related SRD themes** | SRD-… |
-| **Parent ConOps** | link + section |
+| **Related edges** *(if any)* | SoA / data / logic / none — ERP is a peer, not the hub |
+| **Parent ConOps** | link + §9 OPS or §10 E |
 | **Version** | 0.1 |
-| **Updated** | |
-| **Status** | Draft / Baseline |
+| **Status** | **Open** / Closed *(Closed only with TR + SRVM)* |
 
 ### Revision history
 
 | Date | Version | Description | Author(s) |
 |------|---------|-------------|-----------|
-| | 0.1 | Initial extract from ConOps | |
+| | 0.1 | Initial from ConOps | |
 
 ---
 
 ## 1. Purpose
 
-**In one sentence:** what this scenario proves or exercises.
+**One sentence:** what this scenario proves.
 
 
 
@@ -48,7 +49,7 @@ ConOps (full story)  →  this scenario file (owned by a SAC)
 
 ## 2. Flow diagram
 
-ASCII (required) + Mermaid (optional for preview). Show normal, alternate, and failure paths.
+ASCII required; Mermaid optional.
 
 ```text
   Trigger
@@ -73,17 +74,16 @@ flowchart TD
 
 ## 3. Classification
 
-| | **OPS (product use)** | **E (engineering lifecycle)** |
-|--|----------------------|-------------------------------|
-| **Ask** | What happens when a user runs the product? | What happens when we change, prove, or ship the system? |
-| **Actors** | End User, System, System Administrator | Developer, V&V, approver, auditor |
-| **Success** | Correct result + provenance | Evidence-backed closure + approved deploy/release |
+| | **OPS — external (product)** | **E — internal (engineering)** |
+|--|------------------------------|--------------------------------|
+| **Ask** | What happens when someone runs the product? | What happens when we change, prove, or ship? |
+| **Actors** | Estimator, admin, automation, SDK, AI+human | Builder, V&V, approver, auditor |
+| **GitHub** | `type:impl` | `type:process` |
+| **File home** | `SAC-xxx/Scenarios/OPS-*.md` | Owning SAC or `Subsystem/Scenarios/` |
 
 ---
 
 ## 4. Scenario fields
-
-*(Required for OPS. For E scenarios, fill what applies; use N/A where a field is product-only.)*
 
 | Field | Content |
 |-------|---------|
@@ -94,12 +94,12 @@ flowchart TD
 | **Alternate Flow** | |
 | **Failure Flow** | |
 | **System Outputs** | |
-| **Stored Evidence** | |
+| **Stored Evidence** | include `connector_id` when an edge is used |
 | **Success Condition** | |
 
-### Engineering narrative *(E scenarios — optional short prose)*
+### Engineering narrative *(E only)*
 
-Identify need → … → evidence / release decision.
+Identify need → ConOps/SRD impact → design → implement → verify → evidence → SRVM → release decision.
 
 ---
 
@@ -107,8 +107,10 @@ Identify need → … → evidence / release decision.
 
 | Role | SAC | Notes |
 |------|-----|-------|
-| **Primary owner** | SAC-xxx | Owns this scenario file |
-| **Supporting** | SAC-… | Interfaces / data / UI |
+| **Primary owner** | SAC-xxx | Owns this file |
+| **Supporting** | SAC-… | |
+
+Add the ID to that SAC’s `Scenarios/README.md` and `TRACE.md`.
 
 ---
 
@@ -116,13 +118,13 @@ Identify need → … → evidence / release decision.
 
 | Artifact | Link / ID |
 |----------|-----------|
-| ConOps section | |
-| Candidate SRD themes | |
-| Child TSD | `../TSD.md` or path |
-| Pattern selection | [../../TSD/Pattern_Selection.md](../../TSD/Pattern_Selection.md) *(if design-relevant)* |
-| Risks | [../Risks.md](../Risks.md) or [../../Risks.md](../../Risks.md) |
-| Future test plan | TP-… |
-| Future SRVM row | |
+| ConOps section | §9 OPS / §10 E |
+| SRD themes | SRD-… |
+| Child TSD | `../TSD.md` |
+| Pattern selection | [../../TSD/Pattern_Selection.md](../../TSD/Pattern_Selection.md) |
+| Risks | [../../Risks.md](../../Risks.md) |
+| Test plan | TP-OPS-… / TP-E-… (**Open**) |
+| SRVM row | **Open** until TR |
 
 ---
 

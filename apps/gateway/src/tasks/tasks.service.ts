@@ -31,7 +31,7 @@ export class TasksService {
 
   async create(
     dto: CreateTaskDto,
-    meta: { actorId: string; correlationId: string },
+    meta: { actorId: string; correlationId: string; tenantId?: string },
   ) {
     const classified = this.intents.classify({
       intent_code: dto.intent_code,
@@ -90,7 +90,7 @@ export class TasksService {
 
   private async runDryRun(
     id: string,
-    meta: { actorId: string; correlationId: string },
+    meta: { actorId: string; correlationId: string; tenantId?: string },
   ) {
     const current = await this.prisma.task.findUnique({ where: { id } });
     if (!current) throw new NotFoundException(`Task ${id} not found`);
@@ -106,6 +106,7 @@ export class TasksService {
         input: (current.input as Record<string, unknown>) ?? {},
         correlation_id: meta.correlationId,
         actor_id: meta.actorId,
+        tenant_id: meta.tenantId,
       });
 
       if (!result.ok) {

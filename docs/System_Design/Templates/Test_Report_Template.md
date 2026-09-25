@@ -1,9 +1,10 @@
-# Test Report Template — ControlPanelERP
+# Test Report Template — ControlPanelOntology
 
 **Document type:** Test Report  
-**Template version:** 1.0  
+**Template version:** 1.1  
 
-One report per **test case / flow step**. Always name the **scenario under test**.
+One report per **test case / flow step**. Always name the **scenario under test**.  
+Filing a TR is what allows SRVM to move a row off **Open**.
 
 ---
 
@@ -11,17 +12,18 @@ One report per **test case / flow step**. Always name the **scenario under test*
 
 | Field | Value |
 |-------|--------|
-| **Test report ID** | TR-… |
+| **Test report ID** | TR-OPS-xxx-01 / TR-E-xx-01 |
 | **Title** | |
-| **Scenario under test** | e.g. **E-04** — Controlled build, promotion, deployment, and rollback |
-| **Scenario file** | link to `…/Scenarios/E-xx.md` or OPS |
+| **Scenario under test** | e.g. **OPS-013** — Act on ontology object targeting any SoA |
+| **Scenario file** | `Subsystem/SAC-xxx/Scenarios/OPS-….md` or `Subsystem/Scenarios/E-….md` |
 | **Parent test plan** | TP-… |
 | **Test case ID** | TC-… |
-| **Flow step** | Step N of M — short name |
+| **Flow step** | Step N of M |
 | **Subsystem(s)** | SAC-… |
+| **Edges exercised** | SoA peer id(s) / data / logic / none |
 | **Executor** | |
 | **Date executed** | |
-| **Environment** | |
+| **Environment** | Compose / host / simulate / live |
 | **Status** | Not run / Pass / Fail / Blocked / Waived |
 
 ---
@@ -54,7 +56,9 @@ Test / Demonstration / Inspection / Analysis
 
 **Pass criteria:**
 
-- 
+- Scenario Success condition met  
+- No vendor field leak in public responses  
+- Failures honest (no fake “live” success)
 
 **Fail criteria:**
 
@@ -72,9 +76,9 @@ Test / Demonstration / Inspection / Analysis
 
 | Item | Link / location |
 |------|-----------------|
-| Logs | |
+| Logs / correlation id | |
 | Screenshots / artifacts | |
-| Workflow / pipeline run | |
+| connector_id / adapter mode | live \| simulate |
 
 ---
 
@@ -83,6 +87,7 @@ Test / Demonstration / Inspection / Analysis
 | Field | Value |
 |-------|--------|
 | **Disposition** | Pass / Fail / Blocked / Waived |
+| **SRVM update** | Left **Open** / Closed with this TR *(only if Pass and SHALL covered)* |
 | **Defects** | |
 | **Notes** | |
 

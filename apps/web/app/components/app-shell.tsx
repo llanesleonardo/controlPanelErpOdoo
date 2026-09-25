@@ -6,12 +6,18 @@ import { usePathname } from 'next/navigation';
 import { IntentRail, parseSectionSlug } from './intent-rail';
 
 const ERP_ODOO_NAV = [
-  { href: '/', label: 'ERP Map', match: (p: string) => p === '/' },
   {
     href: '/ontology',
-    label: 'Ontology',
+    label: 'Ontology map',
     match: (p: string) => p.startsWith('/ontology'),
   },
+  {
+    href: '/integrations',
+    label: 'Peer edges',
+    match: (p: string) =>
+      p === '/integrations' || p.startsWith('/integrations/'),
+  },
+  { href: '/', label: 'ERP Map', match: (p: string) => p === '/' },
   {
     href: '/console',
     label: 'Console',
@@ -29,8 +35,8 @@ const ERP_ODOO_NAV = [
   },
   {
     href: '/integrations/odoo',
-    label: 'Integrations',
-    match: (p: string) => p.startsWith('/integrations'),
+    label: 'Odoo peer config',
+    match: (p: string) => p.startsWith('/integrations/odoo'),
   },
 ] as const;
 
@@ -130,13 +136,13 @@ export function AppShell({ children }: { children: ReactNode }) {
       <aside className="sidebar" id="main-sidebar" aria-label="Main menu">
         <div className="sidebar-top">
           <Link
-            href="/"
+            href="/ontology"
             className="brand sidebar-brand"
             onClick={() => setMobileOpen(false)}
           >
-            <span className="brand-full">Control Panel ERP</span>
+            <span className="brand-full">Ontology + AI</span>
             <span className="brand-short" aria-hidden>
-              CP
+              O+AI
             </span>
           </Link>
           <button
@@ -187,7 +193,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               aria-expanded={erpOpen}
               aria-controls="nav-erp-odoo"
               id="nav-erp-odoo-trigger"
-              title="ERP Odoo"
+              title="Ontology + AI — map and peer edges"
               onClick={() => {
                 if (collapsed) {
                   setCollapsed(false);
@@ -197,7 +203,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 setErpOpen((v) => !v);
               }}
             >
-              <span className="nav-label">ERP Odoo</span>
+              <span className="nav-label">Ontology + AI</span>
               <span className="nav-accordion-chevron" aria-hidden>
                 {erpOpen ? '▾' : '▸'}
               </span>
@@ -232,7 +238,11 @@ export function AppShell({ children }: { children: ReactNode }) {
           </div>
         </nav>
 
-        <p className="sidebar-foot">Dev actor stub</p>
+        <p className="sidebar-foot">
+          {process.env.NEXT_PUBLIC_DEPLOYMENT_MODE === 'multi_tenant'
+            ? 'Ontology + AI · multi-tenant'
+            : 'Ontology + AI · single-tenant'}
+        </p>
       </aside>
 
       {hasIntentRail && (
@@ -270,8 +280,8 @@ export function AppShell({ children }: { children: ReactNode }) {
               Intents
             </button>
           )}
-          <Link href="/" className="brand topbar-brand">
-            Control Panel ERP
+          <Link href="/ontology" className="brand topbar-brand">
+            Ontology + AI
           </Link>
         </header>
         <main className="shell-main">{children}</main>

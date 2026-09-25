@@ -1,8 +1,8 @@
 ﻿# SAC-007 — Software Requirements (SRD)
 
-Plain ops rules for the carbide-shop control panel: **queue the work, preview before you cut metal (ERP data), leave a trail someone can follow**.
+Plain ops rules for the carbide-shop control panel: **queue the work, preview before you change peer-edge data, leave a trail someone can follow**.
 
-**ERP** = enterprise resource planning system (Odoo today). Parent safety SHALLs: [ControlPanelERP_SRD](../../SRD/ControlPanelERP_SRD.md) (`SRD-SEC-*`, `SRD-OPS-*`).
+**ERP** (Odoo today) is **SoA peer #1** among edges — dry-run / commit rules apply to the target peer, not only ERP. Parent safety SHALLs: [ControlPanelOntology_SRD](../../SRD/ControlPanelOntology_SRD.md) (`SRD-SEC-*`, `SRD-OPS-*`, `SRD-EDGE-005`).
 
 ## Scope
 
@@ -10,12 +10,13 @@ Plain ops rules for the carbide-shop control panel: **queue the work, preview be
 - Dry-run preview for write skills (evidence on the task and optional file)
 - Correlation id across gateway → orchestrator → logs → evidence
 - Structured logs under `LOG_DIR` and a Logs UI search path
+- Automation triggers that reuse the same allowlisted skill path as humans
 
 ## Out of scope
 
-- Live ERP `commit` writes (still gated / deferred beyond dry-run)
+- Live peer `commit` writes (still gated / deferred beyond dry-run)
 - Full SIEM, infinite log retention, or offsite log shipping
-- Hosting the ERP filestore; backups of Odoo itself ([SAC-009](../SAC-009/Guides/Storage_and_Backups.md))
+- Hosting peer filestores; backups of Odoo itself ([SAC-009](../SAC-009/Guides/Storage_and_Backups.md))
 - Real SSO/RBAC (dev actor stub is enough for v1 verification)
 
 ## Requirements
@@ -36,7 +37,7 @@ Authorized actors SHALL approve or reject tasks in `needs_approval`. Approve/rej
 
 #### SRD-TSK-004 — Dry-run before commit
 
-Write-path requests SHALL carry `execution_mode`. When mode is `dry_run`, the system SHALL NOT persist business changes in the ERP. Dry-run SHALL return structured predicted effects and warnings (and adapter provenance `live|simulate` when applicable).
+Write-path requests SHALL carry `execution_mode`. When mode is `dry_run`, the system SHALL NOT persist business changes on the target peer edge. Dry-run SHALL return structured predicted effects and warnings (and adapter provenance `live|simulate` when applicable).
 
 #### SRD-TSK-005 — Evidence persistence
 
@@ -48,7 +49,7 @@ Every skill / dry-run path SHALL carry a `correlation_id` (accept or mint at the
 
 #### SRD-TSK-007 — Allowlisted skills only
 
-Only registered skills for known intent codes MAY run. Unknown intents SHALL fail validation without inventing ERP calls.
+Only registered skills for known intent codes MAY run. Unknown intents SHALL fail validation without inventing peer-edge calls. Automations SHALL use the same allowlisted path (with approval when required). Aligns with parent **SRD-EDGE-005**.
 
 ### Structured logs
 
@@ -74,5 +75,6 @@ Outbound calls between gateway and orchestrator SHALL propagate `correlation_id`
 |----|----------|-----------|
 | SRD-TSK-004 … 007, SRD-LOG-001 … 004 (path) | [OPS-002](./Scenarios/OPS-002.md) | [TP-OPS-002](../../TestPlans/OPS-002/TP-OPS-002.md) |
 | SRD-TSK-001 … 003 | [OPS-003](./Scenarios/OPS-003.md) | [TP-OPS-003](../../TestPlans/OPS-003/TP-OPS-003.md) |
+| SRD-TSK-007 (automation same path) | [OPS-018](./Scenarios/OPS-018.md) | [TP-OPS-018](../../TestPlans/OPS-018/TP-OPS-018.md) |
 
-Parent crosswalk: `SRD-SEC-003` ↔ OPS-002 · `SRD-OPS-001` ↔ OPS-003 · `SRD-OPS-002` ↔ Logs (OPS-002 follow-through).
+Parent crosswalk: `SRD-SEC-003` ↔ OPS-002 · `SRD-OPS-001` ↔ OPS-003 · `SRD-OPS-002` ↔ Logs (OPS-002 follow-through) · `SRD-EDGE-005` ↔ OPS-018.

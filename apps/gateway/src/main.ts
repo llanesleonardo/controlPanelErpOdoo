@@ -17,9 +17,10 @@ async function bootstrap() {
       'Content-Type',
       'Authorization',
       'X-Actor-Id',
+      'X-Tenant-Id',
       'X-Correlation-Id',
     ],
-    exposedHeaders: ['X-Correlation-Id'],
+    exposedHeaders: ['X-Correlation-Id', 'X-Tenant-Id'],
   });
 
   const port = Number(process.env.GATEWAY_PORT ?? 3001);

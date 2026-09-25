@@ -10,6 +10,7 @@
 
 | Category | Examples |
 |----------|----------|
+| Deployment / tenancy | `DEPLOYMENT_MODE`, `TENANT_ID`, `DEPLOYMENT_PROFILE`, `NEXT_PUBLIC_DEPLOYMENT_MODE` — [Deployment_Tenancy_Env.md](./Deployment_Tenancy_Env.md) |
 | Control-plane DB | `CONTROLPLANE_DB_*`, `DATABASE_URL` |
 | Gateway | `GATEWAY_PORT`, `GATEWAY_JWT_SECRET`, rate limits |
 | Orchestrator | `ORCHESTRATOR_PORT`, `ORCHESTRATOR_URL` |

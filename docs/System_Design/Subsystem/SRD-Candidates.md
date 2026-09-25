@@ -1,6 +1,6 @@
 # SRD candidates (future themes)
 
-Ideas not yet promoted to numbered SHALLs in [ControlPanelERP_SRD.md](../SRD/ControlPanelERP_SRD.md).
+Ideas not yet promoted to numbered SHALLs in [ControlPanelOntology_SRD.md](../SRD/ControlPanelOntology_SRD.md).
 
 | Area | Examples |
 |------|----------|
@@ -10,5 +10,6 @@ Ideas not yet promoted to numbered SHALLs in [ControlPanelERP_SRD.md](../SRD/Con
 | SRD-SHIP | Internal ship vs third-party carrier handoff |
 | SRD-INV | Stock adjust with dry-run |
 | SRD-HR | Attendance punches |
-| SRD-TEN | Multi-tenant packaging |
 | SRD-AUTH | Replace `X-Actor-Id` with real login |
+
+**Promoted:** SRD-TEN (SaaS vs dedicated packaging) → parent [ControlPanelOntology_SRD](../SRD/ControlPanelOntology_SRD.md) · [Product_Packaging_Tenancy](../Guides/Product_Packaging_Tenancy.md). Isolation runtime remains [GAP-13](./Risks.md).

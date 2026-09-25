@@ -1,32 +1,50 @@
-# TP-OPS-011 — Find and dismiss estimate issues
+# TP-OPS-011 - Find / dismiss estimate issues
 
-**Scenario:** [OPS-011](../../Subsystem/SAC-008/Scenarios/OPS-011.md)  
-**SHALLs:** SRD-ISS-001 … SRD-ISS-008  
-**Status:** Not run (blocked on [GAP-02](../../Subsystem/Risks.md) until runtime exists)
+| Field | Value |
+|-------|--------|
+| **Test plan ID** | TP-OPS-011 |
+| **Scenario** | [OPS-011](../../Subsystem/SAC-008/Scenarios/OPS-011.md) (**Open**) |
+| **Subsystem** | SAC-008 |
+| **Related SRD** | SRD-ISS-001…007, parent SRD-EST-003 |
+| **Method** | Test / Demo |
+| **Status** | **Open** (runtime often **blocked** on GAP-02) |
 
-## Method
+## Purpose
 
-1. When find/persist/dismiss is implemented, follow OPS-011 on a local or Compose stack.  
-2. Prefer simulate mode for first pass; optional live connector for diagnose.  
-3. Record pass/fail / blocked and correlation ids in Reports/.
+Prove find/persist/dismiss on the **ERP SoA peer** wedge without freestyle peer writes.
 
 ## Setup
 
-- Postgres up; gateway + orchestrator when exercising find  
-- Web at http://localhost:3000  
-- Estimates section available (Epic-05 shell)
+| Item | Value |
+|------|--------|
+| When implemented | Postgres + gateway + orch + web |
+| Mode | Prefer simulate first |
+| Risk | [GAP-02](../../Subsystem/Risks.md) may block runtime |
 
 ## Checks
 
-| Check | Expect |
-|-------|--------|
-| Find issues (simulate) | Deterministic issues persisted; no Odoo call required |
-| Find issues (live) | Issues from connector diagnose; clear failure if connector down |
-| List | Open (and optional dismissed) visible in Estimates UI |
-| Dismiss | Control-plane status only; ERP estimate unchanged |
-| UI language | No raw Odoo model names in operator copy |
-| Correlation | Find run id searchable in Logs when logging is wired |
+| TC | Check | Expect |
+|----|-------|--------|
+| TC-001 | Find (simulate) | Deterministic issues; no Odoo required |
+| TC-002 | Find (live) | Connector diagnose; clear fail if down |
+| TC-003 | List | Open / dismissed in Estimates UI |
+| TC-004 | Dismiss | Control-plane only; ERP rows unchanged |
+| TC-005 | UI language | No raw Odoo model names |
+| TC-006 | Correlation | Find run in Logs when wired |
+
+Record **Blocked** in the TR if GAP-02 still applies.
+
+
+## Pass / fail
+
+Scenario Success met; failure paths honest. **Do not** close SRVM without a TR under `Reports/`.
 
 ## Reports
 
-Placeholder: add `Reports/TR-OPS-011-01.md` on first execution.
+Create or update `Reports/TR-OPS-011-01.md` when executed.
+
+## Revision
+
+| Date | Ver | Change |
+|------|-----|--------|
+| 2026-09-25 | 0.2 | Align to ontology hub + multi-SoA (ERP = SoA peer #1); SAC SRD sync |

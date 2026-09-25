@@ -1,8 +1,9 @@
-﻿# SAC-001 — Technical Design (TSD)
+# SAC-001 - Technical Design (TSD)
 
-How the NestJS gateway sits between shop screens and the rest of the control plane — without putting ERP quirks in the UI.
+How the NestJS gateway sits between shop screens / SDK clients and the rest of the control plane — sole **API face** for humans, apps, and AI tool-calling (**SRD-EDGE-006**, OPS-019).
 
-Parent: [ControlPanelERP_TSD](../../TSD/ControlPanelERP_TSD.md) · Patterns: [Pattern_Selection](../../TSD/Pattern_Selection.md) (API Gateway, BFF, Allowlist / PEP, Rate Limiting, Correlation Id).
+Parent: [ControlPanelOntology_TSD](../../TSD/ControlPanelOntology_TSD.md) · Patterns: [Pattern_Selection](../../TSD/Pattern_Selection.md)  
+**OPS:** 012, 019 (all Open)
 
 ## Model
 
@@ -12,17 +13,19 @@ flowchart LR
   Gw[NestJS_gateway]
   Orch[FastAPI_orchestrator]
   PG[(Control_plane_Postgres)]
-  Odoo[Odoo_connector]
+  Cat[Connector_catalog]
+  Edges[Peer_edges_SoA_data_logic]
   Web -->|HTTP_only| Gw
   Gw --> Orch
   Gw --> PG
-  Orch --> Odoo
+  Orch --> Cat
+  Cat --> Edges
 ```
 
-1. Browser / future agents → **gateway only**.
+1. Browser / agents / SDK → **gateway only**.
 2. Gateway applies actor stub, correlation, rate limit, allowlist/policy.
 3. Allowlisted skills → orchestrator; tasks/logs/ontology → Postgres + ontology packages.
-4. Odoo stays behind the connector (SAC-005).
+4. **Connector catalog** reaches peer edges (ERP SoA first among many) — SAC-005.
 
 ## Stack
 
@@ -30,8 +33,8 @@ flowchart LR
 |-------|--------|
 | Runtime | NestJS in `apps/gateway` |
 | Packages | Ontology + contracts from `resources/packages/` (image copies into `packages/*`) |
-| Downstream | Orchestrator HTTP client; Prisma → control-plane Postgres |
-| Auth today | Header stub — **not** session/JWT yet |
+| Downstream | Orchestrator HTTP client; Prisma ? control-plane Postgres |
+| Auth today | Header stub - **not** session/JWT yet |
 | Auth planned | HTTP-only session cookie preferred for browser BFF; JWT optional for non-browser clients |
 
 ## Middleware and guards (order of concerns)
@@ -59,12 +62,22 @@ Misconfigured zero/negative limits SHOULD fail safe to documented defaults at st
 | Surface | Source today | On reject |
 |---------|--------------|-----------|
 | Live Explorer / object list | `LIVE_READ_SKILLS` in gateway ontology service (e.g. `sales.estimate.read`) | Demo / simulate rows + clear message that skill is not allowlisted |
-| Skill execute path | Gateway forwards intent/skill codes; only certified codes may touch live ERP via orchestrator + connector | Reject or dry-run / non-live path per skill policy |
-| Taxonomy | `@control-panel-erp/contracts` + ontology actions | Unknown codes fail classify / fail closed |
+| Skill execute path | Gateway forwards intent/skill codes; only certified codes may touch live **edges** via orchestrator + catalog | Reject or dry-run / non-live path per skill policy |
+| Taxonomy | `@control-panel-ontology/contracts` + ontology actions | Unknown codes fail classify / fail closed |
+| Connector capability | Do not offer execute when no enabled connector declares the skill (SAC-005) | Honest reject |
 
-Pattern: **Allowlist + Policy Enforcement Point** at the gateway — UI never invents Odoo RPC.
+Pattern: **Allowlist + Policy Enforcement Point** at the gateway — UI/SDK never invent vendor RPC.
 
-## Auth stub → real auth
+## SDK / API face (OPS-019 / SRD-EDGE-006)
+
+| Rule | Design |
+|------|--------|
+| Entry | Same NestJS gateway as the web BFF |
+| Auth | Today `X-Actor-Id` stub; planned session/JWT for non-browser clients |
+| Path | Classify / skills / ontology / tasks only — never proxy raw vendor URLs |
+| Policy | Same PEP + rate limit as browser |
+
+## Auth stub ? real auth
 
 **v1 stub**
 
@@ -79,7 +92,7 @@ Pattern: **Allowlist + Policy Enforcement Point** at the gateway — UI never in
 | Role | `admin` \| `manager` \| `operator` \| `viewer` |
 | UserRole | user_id, role_id |
 
-Planned routes: `POST /auth/login`, `POST /auth/logout`, `GET /auth/me`, admin `GET/POST/PATCH /users`, `GET /roles`. Admin CRUD, disable, role assign. Unauthorized → 401; missing role → 403 + audit when logging exists.
+Planned routes: `POST /auth/login`, `POST /auth/logout`, `GET /auth/me`, admin `GET/POST/PATCH /users`, `GET /roles`. Admin CRUD, disable, role assign. Unauthorized ? 401; missing role ? 403 + audit when logging exists.
 
 ## Key API surface (gateway)
 
@@ -97,8 +110,8 @@ Planned routes: `POST /auth/login`, `POST /auth/logout`, `GET /auth/me`, admin `
 - Replace stub with session auth; drop trusting raw `X-Actor-Id` from the public internet
 - Per-route role guards
 - Optional Redis only if multi-replica shared rate-limit buckets are required
-- Defense in depth with dry-run + approval (SAC-007) — not instead of allowlist
+- Defense in depth with dry-run + approval (SAC-007) - not instead of allowlist
 
-## Legacy sources
+## Related
 
-`_legacy/Epic-01/phase-02/task-01-auth-users-roles` · `_legacy/Epic-01/phase-03/task-04-rate-limiting` · `_legacy/Epic-03/phase-01/task-02-rate-limiting`
+- [SAC-004](../SAC-004/TSD.md) skills · [SAC-007](../SAC-007/TSD.md) logs · [OPS-012](./Scenarios/OPS-012.md) · [OPS-019](./Scenarios/OPS-019.md) · [Component_Map](../../TSD/Component_Map.md)

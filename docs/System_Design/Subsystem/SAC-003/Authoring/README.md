@@ -10,7 +10,7 @@ Canonical **docs** for the shared vocabulary and sample action contracts. Builde
 After editing ContractsDocs YAML:
 
 ```bash
-npm run contracts:sync -w @control-panel-erp/contracts
+npm run contracts:sync -w @control-panel-ontology/contracts
 ```
 
 Parent: [SAC-003](../README.md) · Package: [`resources/packages/contracts`](../../../../../resources/packages/contracts/)

@@ -1,20 +1,47 @@
-﻿# TP-OPS-004 — Browse the business map (Schema)
+# TP-OPS-004 - Browse Schema (business map)
 
-**Scenario:** OPS-004  
-**SHALLs:** SRD-ONT-001, SRD-ONT-002, SRD-ONT-004, SRD-ONT-005, SRD-ONT-007, SRD-ONT-009…011; parent SRD-UI-003  
-**Status:** Partial
+| Field | Value |
+|-------|--------|
+| **Test plan ID** | TP-OPS-004 |
+| **Scenario** | [OPS-004](../../Subsystem/SAC-006/Scenarios/OPS-004.md) (**Open**) |
+| **Subsystem** | SAC-006, SAC-002 shell |
+| **Related SRD** | SRD-ONT-001, 002, 004, 005, 007, 010, 011, parent SRD-ONT-002, SRD-UI-003 |
+| **Method** | Demo / Inspection |
+| **Status** | **Open** |
 
-## Method
+## Purpose
 
-1. Follow the scenario steps in a local or Docker stack.  
-2. Record pass/fail in Reports/.  
-3. Keep correlation ids when skills run.
+Prove Schema search/inspect of product-owned types without browser YAML editing; ontology is the **hub**.
 
 ## Setup
 
-- Postgres up; for live Estimate also gateway + orchestrator + ERP or simulate mode.  
-- Web at http://localhost:3000
+| Item | Value |
+|------|--------|
+| Control plane | Gateway + web; ontology package loaded |
+| Edge | Not required for Schema browse |
+
+## Checks
+
+| TC | Check | Expect |
+|----|-------|--------|
+| TC-001 | Open `/ontology` -> Schema | Types with business labels |
+| TC-002 | Open type (Estimate) | Properties, links, actions visible |
+| TC-003 | Public catalog | No vendor bindings / Odoo model names in UI payload |
+| TC-004 | Authoring | No browser YAML edit (v1) |
+| TC-005 | Role vs Map | Schema = hub surface; Map = intent launcher |
+
+
+
+## Pass / fail
+
+Scenario Success met; failure paths honest. **Do not** close SRVM without a TR under `Reports/`.
 
 ## Reports
 
-Placeholder: [Reports/TR-OPS-004-01.md](./Reports/TR-OPS-004-01.md)
+Create or update `Reports/TR-OPS-004-01.md` when executed.
+
+## Revision
+
+| Date | Ver | Change |
+|------|-----|--------|
+| 2026-09-25 | 0.2 | Align to ontology hub + multi-SoA (ERP = SoA peer #1); SAC SRD sync |

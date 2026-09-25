@@ -1,17 +1,17 @@
 # Technical Specifications Document (TSD) Template
 
-**Document type:** TSD (Technical Design / Technical Specifications)  
-**Template version:** 1.0  
-
-**TSD** = *how* we will build what the SRD requires.  
-It turns SHALLs into architecture, components, interfaces, data, and deployment design — **without** replacing the ConOps (intent) or the SRD (requirements).
+**Document type:** TSD  
+**Template version:** 1.1  
+**Product defaults:** ControlPanelOntology — design the **ontology hub** and **connector catalog**; ERP is SoA peer #1.
 
 ```text
 ConOps  →  what happens in real life
-SRD     →  what the system SHALL do (testable)
+SRD     →  what the system SHALL do
 TSD     →  how we design/build it
-Test plan / SRVM → how we prove the SHALLs
+Test / SRVM → how we prove (scenarios stay Open until evidence)
 ```
+
+**Agent rule:** before changing implementation code, read [../TSD/Pattern_Selection.md](../TSD/Pattern_Selection.md), then one linked pattern file.
 
 ---
 
@@ -19,16 +19,14 @@ Test plan / SRVM → how we prove the SHALLs
 
 | Field | Value |
 |-------|--------|
-| **Document title** | [Product] — Technical Specifications Document (TSD) |
-| **Product** | |
-| **TSD scope** | Parent (system) / Child (SAC-xxx subsystem) |
+| **Document title** | ControlPanelOntology — TSD (parent / SAC-xxx) |
+| **TSD scope** | Parent (system) / Child (SAC-xxx) |
 | **Version** | 0.1 |
-| **Updated** | |
-| **Author(s)** | |
 | **Status** | Draft / In review / Baseline |
-| **Parent ConOps** | link + version |
-| **Parent SRD** | link + version |
-| **Subsystem** *(if child TSD)* | SAC-xxx |
+| **Parent ConOps** | |
+| **Parent SRD** | |
+| **Subsystem** *(child)* | SAC-xxx |
+| **Owns scenarios** | OPS-… / E-… |
 
 ### Revision history
 
@@ -40,279 +38,201 @@ Test plan / SRVM → how we prove the SHALLs
 
 ## 1. Purpose
 
-This TSD describes the **technical design** for [Product / SAC-xxx] so that:
-
-- developers know how to implement SRD requirements  
-- integrators know interfaces and data contracts  
-- testers know what configuration/build is under test  
-- as-built notes can later match this design (or be updated via change control)  
+Technical design so developers implement SRDs, integrators know interfaces, and testers know the build under test.
 
 ---
 
 ## 2. Scope
 
-**In scope:**
-
-- Architecture and major components  
-- Interfaces (internal and external)  
-- Data design (logical; physical as needed)  
-- Security design realization (e.g. JWT/RBAC/middleware placement)  
-- Deployment design (e.g. GitHub → Docker → Azure)  
-- Mapping from SRD IDs → design elements  
-
-**Out of scope:**
-
-- Operational storytelling → **ConOps**  
-- Numbered SHALLs → **SRD**  
-- Step-by-step test procedures → **Test plans**  
-- Requirement closure status → **SRVM**  
+**In:** architecture, components, interfaces, data, security placement, deployment, SRD→design map.  
+**Out:** ConOps storytelling, SHALLs, test steps, SRVM status.
 
 ---
 
-## 3. Design overview (plain language)
+## 3. Design overview
 
-**In one paragraph:** what this design builds and how the pieces fit.
+**One paragraph:** hub + peers + this SAC’s role.
 
-
-
-### Context diagram (ASCII)
+### Context diagram
 
 ```text
-  Clients / UI
-       │
-       ▼
-  [ API / Auth Middleware ]
-       │
-       ├─► Service A
-       ├─► Service B
-       └─► Data store
-       │
-       ▼
-  External systems (DNS, providers, …)
+  Consumers (UI · AI · SDK · automations)
+        │
+        ▼
+  Gateway (PEP / allowlist / BFF)
+        │
+   Ontology hub ──► Skills facade
+        │                │
+        │                ▼
+        │         Connector catalog
+        │          ├─ SoA peers (ERP first)
+        │          ├─ Data peers
+        │          └─ Logic peers
+        ▼
+  Control-plane Postgres (not an edge twin)
 ```
+
+Parent annotated map: [../TSD/Component_Map.md](../TSD/Component_Map.md).
 
 ---
 
 ## 4. Architecture
 
-### 4.1 Architectural style
+### 4.1 Style
 
-e.g. modular monolith / services / job workers — and why (short).
+e.g. BFF gateway + hexagonal orchestrator + first-party adapters — why.
 
+### 4.2 Patterns
 
+Only patterns that address a real risk. Start at [Pattern_Selection](../TSD/Pattern_Selection.md).
 
-### 4.2 Selected design patterns
+| Pattern | Risk addressed | Library link | Realization |
+|---------|----------------|--------------|-------------|
+| | | | |
 
-List only patterns that address a real risk for this TSD. Link into `docs/Software Patterns Docs/` (do not paste full pattern essays). System-level selection for ControlPanelERP: [../TSD/Pattern_Selection.md](../TSD/Pattern_Selection.md).
-
-| Pattern | Risk / need addressed (RISK-xxx) | Library link | How realized (component / module) |
-|---------|----------------------------------|--------------|-----------------------------------|
-| | e.g. RISK-015 | e.g. `../../Software Patterns Docs/...` | e.g. C-xxx |
-
-**Deferred patterns (explicit non-choices):** list any common patterns intentionally *not* used in v1.  
-**Rule:** do not select a pattern unless it mitigates a catalog RISK (or a locked ConOps constraint). See [../TSD/Pattern_Selection.md](../TSD/Pattern_Selection.md).
-
-
+**Deferred patterns:** explicit non-choices for v1.
 
 ### 4.3 Major components
 
-| Component ID | Name | Responsibility | Hosts / runs as |
-|--------------|------|----------------|-----------------|
-| C-001 | | | e.g. container |
-| C-002 | | | |
+| Component ID | Name | Responsibility | Hosts |
+|--------------|------|----------------|-------|
+| C-001 | | | |
 
-### 4.4 Subsystem allocation *(parent TSD)*
+### 4.4 Subsystem allocation *(parent)*
 
-| SAC | Components | Primary SRD areas |
-|-----|------------|-------------------|
-| SAC-001 | | SRD-SEC |
-| SAC-00x | | |
+| SAC | Role | Primary SRD | Owns scenarios |
+|-----|------|-------------|----------------|
+| SAC-001 | Gateway / API face | SRD-SEC / EDGE-006 | OPS-012, 019 |
+| SAC-005 | Connector catalog | SRD-CONN | OPS-001, 014, 015 |
+| SAC-006 | Ontology hub | SRD-ONT | OPS-004…006, 021, 022 |
+| … | | | |
 
-### 4.5 Technology choices *(locked or decided)*
+### 4.5 Technology choices
 
-| Concern | Choice | Notes / OPEN |
-|---------|--------|--------------|
-| Auth | e.g. JWT + RBAC + Auth Middleware | |
-| CI/CD | e.g. GitHub Workflows | |
-| Packaging | e.g. Docker images/containers | |
-| Cloud | e.g. Microsoft Azure | |
-| Language / framework | | OPEN or decided |
-| Data store | | OPEN or decided |
+| Concern | Choice | Notes |
+|---------|--------|-------|
+| UI | Next.js | talks to Nest only |
+| Gateway | NestJS BFF | sole app entry |
+| Skills | FastAPI orchestrator | internal |
+| Ontology / contracts | `resources/packages/*` | product-owned YAML |
+| CP data | Postgres | ≠ edge DBs |
+| Runtime | Compose | edges external via env URLs |
 
 ---
 
-## 5. Detailed design by component / subsystem
+## 5. Action → skill → connector *(when this TSD owns execute path)*
 
-Copy per component or per SAC child TSD.
+| Step | Design |
+|------|--------|
+| Resolve | Ontology action or known intent → skill code |
+| Enforce | Gateway PEP + orchestrator allowlist |
+| Own | Binding / capability → `connector_id` (not hard-coded sole SoA) |
+| Run | Port → peer adapter; evidence includes `connector_id` |
+| Public API | Business DTOs only (ACL) |
 
-### 5.x [Component / SAC name]
+---
 
-**Purpose:**
+## 6. Connector catalog SPI *(SAC-005 / parent)*
 
+| Field | Design |
+|-------|--------|
+| `connector_id` | Stable id |
+| `kind` | `soa` \| `data` \| `logic` |
+| Capabilities | Declared skill codes |
+| Health | `ok` \| `degraded` \| `down` |
+| Bindings | `bindings/<connector_id>/` ACL-only |
+| Shipping | First-party only |
 
+---
 
-**Implements SRD IDs:**
+## 7. Detailed design by component / SAC
 
-- SRD-…
+**Purpose / Implements SRD IDs / Behavior / Errors / Observability**
 
-**Internal behavior (how):**
+---
 
+## 8. Interfaces
 
+### External (edges)
 
-**Sequence (happy path):**
+| IF ID | Edge | Kind | Protocol | Auth | SRD |
+|-------|------|------|----------|------|-----|
+| IF-001 | Odoo | SoA | JSON-RPC | | |
+
+### Internal
+
+| IF ID | From → To | Contract | SRD |
+|-------|-----------|----------|-----|
+| | Web → Gateway | HTTPS | |
+
+Clients must **not** hold edge credentials or call vendor APIs directly.
+
+---
+
+## 9. Data design
+
+| Entity | Description | Owner | Notes |
+|--------|-------------|-------|-------|
+| Ontology entity type | Product YAML | SAC-006 | Hub |
+| Task / evidence | Control plane | SAC-007 | |
+| Connector config | CP Postgres | SAC-005 | Mask secrets |
+
+**Do not** twin edge databases in the control plane (unless a deferred GAP says otherwise).
+
+---
+
+## 10. Security design
+
+| Topic | Approach | SRD |
+|-------|----------|-----|
+| Allowlist / PEP | Gateway | SRD-SEC |
+| ACL | Adapters + bindings | SRD-SEC-005 |
+| Secrets | Env → vault later | |
+| Dry-run / approval | SAC-007 | SRD-SEC-003 |
+
+---
+
+## 11. Deployment design
 
 ```text
-1.
-2.
-3.
+Control-plane Compose (postgres, gateway, orch, web)
+    → Edges via ODOO_* / future peer env URLs (not in Compose)
 ```
 
-**Error / degraded behavior:**
+**Rollback:** defined for CP only; does not migrate SoA data.
 
-
-
-**Observability:** logs, metrics, traces to retain
-
-
+Related E scenarios: E-04 (deploy), E-05/E-06 (release gates).
 
 ---
 
-## 6. Interfaces
+## 12. Requirements → design traceability
 
-### 6.1 External interfaces
-
-| IF ID | External system | Direction | Protocol / style | Auth | SRD refs |
-|-------|-----------------|-----------|------------------|------|----------|
-| IF-001 | | In/Out | e.g. HTTPS API | | |
-
-### 6.2 Internal interfaces
-
-| IF ID | From → To | Contract summary | SRD refs |
-|-------|-----------|------------------|----------|
-| IF-010 | | | |
-
-### 6.3 Interface contract sketch *(example)*
-
-Keep brief; full OpenAPI/schemas can live in repo.
-
-| Field / message | Type | Required | Notes |
-|-----------------|------|----------|-------|
-| | | | |
+| SRD ID | Design element | Primary scenario (Open) |
+|--------|----------------|-------------------------|
+| | | OPS-… / E-… |
 
 ---
 
-## 7. Data design
+## 13. As-built / open technical decisions
 
-### 7.1 Logical entities
-
-| Entity | Description | Key fields | Owned by SAC |
-|--------|-------------|------------|--------------|
-| Prospect | | | SAC-003 |
-| Company | | | SAC-004 |
-
-### 7.2 Provenance / audit fields *(if applicable)*
-
-| Field | Meaning |
-|-------|---------|
-| provenance_class | USER_SUPPLIED / PUBLICLY_OBSERVED / … |
-| source_url | |
-| discovered_at | |
-| verified_at | |
-
-### 7.3 Physical design notes
-
-DB engine, indexes, retention — only as decided. Mark OPEN DECISIONS clearly.
-
----
-
-## 8. Security design
-
-| Topic | Design approach | SRD refs |
-|-------|-----------------|----------|
-| Authentication | JWT | |
-| Authorization | RBAC via Auth Middleware | |
-| Secrets | | |
-| SSRF / safe URL fetch | | |
-| Tenant isolation | | |
-| Encryption in transit | | |
-
----
-
-## 9. Deployment design
-
-```text
-Developer change
-    → GitHub Workflows (CI)
-    → Docker image
-    → GitHub Workflows (CD)
-    → Azure runtime
-```
-
-| Environment | Purpose | Promote rule |
-|-------------|---------|--------------|
-| Dev | | |
-| Test | | |
-| Staging | | |
-| Production | | |
-
-**Rollback approach:**
-
-
-
----
-
-## 10. Performance and capacity design *(characteristics → later numbers)*
-
-| Characteristic | Design approach | Target *(if known)* | OPEN? |
-|----------------|-----------------|---------------------|-------|
-| Throughput | | | |
-| Latency | | | |
-| Cache reuse | | | |
-| Job resume | | | |
-
-Do not invent SLAs here unless decided in SRD.
-
----
-
-## 11. Requirements → design traceability
-
-| SRD ID | Design element (component / IF / data) | Notes |
-|--------|----------------------------------------|-------|
-| SRD-… | C-… / IF-… | |
-
----
-
-## 12. As-built / deviations *(update after implementation)*
-
-| Topic | Designed | As-built | Disposition |
-|-------|----------|----------|-------------|
-| | | | Match / ECR update / waiver |
-
----
-
-## 13. Open technical decisions
-
-| ID | Topic | Options | Owner | Due |
-|----|-------|---------|-------|-----|
-| TD-001 | | | | |
+| ID | Topic | Options | Owner |
+|----|-------|---------|-------|
+| TD-001 | | | |
 
 ---
 
 ## 14. Summary
 
-- Architecture style:  
-- Major components:  
-- Locked tech baselines:  
+- Architecture:  
+- Peers in catalog:  
 - Ready for implementation: Yes / No  
 
----
-
-## Appendix — Parent vs child TSD
+## Appendix — Parent vs child
 
 | Type | Contains |
 |------|----------|
-| **Parent TSD** | System context, shared principles, SAC index, cross-cutting interfaces, deployment |
-| **Child TSD (SAC-xxx)** | Deep design for one subsystem only; links back to parent + SRD IDs |
+| **Parent TSD** | Hub principles, SPI, edge family allocation, SAC index |
+| **Child TSD** | Deep design for one SAC; links SRD + owned scenarios |
 
 ---
 

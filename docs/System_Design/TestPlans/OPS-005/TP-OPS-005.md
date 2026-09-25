@@ -1,20 +1,46 @@
-﻿# TP-OPS-005 — Search estimates in Explorer
+# TP-OPS-005 - Search objects in Explorer
 
-**Scenario:** OPS-005  
-**SHALLs:** SRD-ONT-008; parent SRD-EST-002, SRD-ONT-001  
-**Status:** Partial
+| Field | Value |
+|-------|--------|
+| **Test plan ID** | TP-OPS-005 |
+| **Scenario** | [OPS-005](../../Subsystem/SAC-006/Scenarios/OPS-005.md) (**Open**) |
+| **Subsystem** | SAC-006, SAC-005 |
+| **Related SRD** | SRD-ONT-008, parent SRD-EST-002 |
+| **Method** | Test / Demo |
+| **Status** | **Open** |
 
-## Method
+## Purpose
 
-1. Follow the scenario steps in a local or Docker stack.  
-2. Record pass/fail in Reports/.  
-3. Keep correlation ids when skills run.
+Prove Explorer lists objects; Estimate uses ERP SoA peer skill when live, else clear failure or labeled demo.
 
 ## Setup
 
-- Postgres up; for live Estimate also gateway + orchestrator + ERP or simulate mode.  
-- Web at http://localhost:3000
+| Item | Value |
+|------|--------|
+| Control plane | Gateway + orch + web |
+| Edge | `ODOO_MODE=simulate` or live |
+
+## Checks
+
+| TC | Check | Expect |
+|----|-------|--------|
+| TC-001 | Explorer -> Estimate | Live rows or clear fail / labeled demo |
+| TC-002 | Type without live skill | Labeled **demo** (not fake live) |
+| TC-003 | Columns | Shop vocabulary only |
+| TC-004 | Peer down (live) | Honest error class/message |
+
+
+
+## Pass / fail
+
+Scenario Success met; failure paths honest. **Do not** close SRVM without a TR under `Reports/`.
 
 ## Reports
 
-Placeholder: [Reports/TR-OPS-005-01.md](./Reports/TR-OPS-005-01.md)
+Create or update `Reports/TR-OPS-005-01.md` when executed.
+
+## Revision
+
+| Date | Ver | Change |
+|------|-----|--------|
+| 2026-09-25 | 0.2 | Align to ontology hub + multi-SoA (ERP = SoA peer #1); SAC SRD sync |

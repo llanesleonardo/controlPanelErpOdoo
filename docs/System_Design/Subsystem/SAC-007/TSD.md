@@ -1,31 +1,34 @@
-﻿# SAC-007 — Technical Design (TSD)
+# SAC-007 — Technical Design (TSD)
 
-How we keep shop work visible: a **task row** for every job, a **dry-run** that does not change the ERP, and **logs + evidence files** you can pull by one correlation id.
+How we keep shop work visible: a **task row** for every job, a **dry-run** that does not mutate peer edges, **automations** that reuse the same skill path (OPS-018), and **logs + evidence**.
 
-Parent: [ControlPanelERP_TSD](../../TSD/ControlPanelERP_TSD.md) · Patterns: [Pattern_Selection](../../TSD/Pattern_Selection.md) · Layout: [Monorepo_Layout](../../TSD/Monorepo_Layout.md).
+Parent: [ControlPanelOntology_TSD](../../TSD/ControlPanelOntology_TSD.md) · Patterns: [Pattern_Selection](../../TSD/Pattern_Selection.md)  
+**OPS:** 002, 003, 018 (all Open)
 
 ## Model
 
 1. **Browser** talks only to the NestJS **gateway** (tasks, logs, console).
 2. **Gateway** owns Prisma `Task` rows on control-plane Postgres; mints/accepts correlation; writes/reads logs under `LOG_DIR`.
-3. **Orchestrator** (FastAPI) runs allowlisted dry-run skills; may write evidence under `STORAGE_ROOT/evidence/…`.
-4. **ERP / Odoo** stays behind the connector; dry-run uses live reads or `simulate` — never a business commit on this path.
+3. **Orchestrator** (FastAPI) runs allowlisted dry-run skills; may write evidence under `STORAGE_ROOT/evidence/{correlation_id}/…`.
+4. **Peer edges** stay behind the connector catalog; dry-run uses live reads or `simulate` — never a business commit on this path.
 
 ```mermaid
 flowchart LR
-  Web[web_/tasks_/logs]
+  Web[web_tasks_logs]
   Gw[gateway]
   Orch[orchestrator]
   PG[(postgres_tasks)]
   Logs[LOG_DIR]
   Ev[STORAGE_ROOT/evidence]
-  ERP[external_ERP]
+  Cat[connector_catalog]
+  Edge[peer_edges]
   Web --> Gw
   Gw --> PG
   Gw --> Logs
   Gw --> Orch
   Orch --> Ev
-  Orch --> ERP
+  Orch --> Cat
+  Cat --> Edge
 ```
 
 ## Task entity (control-plane)
@@ -46,8 +49,8 @@ flowchart LR
 | GET | `/tasks?state=` | List / filter |
 | GET | `/tasks/:id` | Detail |
 | POST | `/tasks` | Create; auto-run dry-run when `execution_mode=dry_run` |
-| POST | `/tasks/:id/approve` | From `needs_approval` → completed (commit still deferred) |
-| POST | `/tasks/:id/reject` | From `needs_approval` → rejected |
+| POST | `/tasks/:id/approve` | From `needs_approval` to completed (commit still deferred) |
+| POST | `/tasks/:id/reject` | From `needs_approval` to rejected |
 | GET | `/logs?correlation_id=` | Log explorer backing store |
 
 Orchestrator: `POST /skills/dry-run` with `{ intent_code, input, correlation_id, actor_id }`.
@@ -60,8 +63,17 @@ Orchestrator: `POST /skills/dry-run` with `{ intent_code, input, correlation_id,
 | Evidence file | Optional under `STORAGE_ROOT/evidence/{correlation_id}/…` |
 | Default root | `STORAGE_ROOT=./resources/storage/local` (see `.env.example`) |
 | Path safety | Shared helper rejects traversal outside root |
-| MVP skills (examples) | `inventory.stock.adjust`, `accounting.invoice.post` simulate — read/predict only |
+| MVP skills (examples) | `inventory.stock.adjust`, `accounting.invoice.post` simulate … read/predict only |
 | Commit lock | `execution_mode=commit` may land in `needs_approval`; do **not** call orchestrator commit until product unlocks it |
+
+## Automations (OPS-018 / SRD-EDGE-005)
+
+| Rule | Design |
+|------|--------|
+| Trigger | Task / job references known skill or ontology action |
+| Path | Same gateway -> orchestrator allowlist as humans |
+| Approval | Write skills still honor dry-run + `needs_approval` when policy requires |
+| Forbidden | Automation cannot invent vendor RPC or bypass PEP |
 
 ## Logging
 
@@ -84,10 +96,10 @@ Orchestrator: `POST /skills/dry-run` with `{ intent_code, input, correlation_id,
 
 ## Patterns (applied)
 
-- API Gateway — browser never talks to Odoo or orchestrator directly  
-- Correlation Identifier — one id across hops  
-- Observability — structured logs + durable evidence beside them  
-- Facade / Hexagonal / ACL — dry-run skills and ERP mapping live in orchestrator + connector (see SAC-004 / SAC-005)
+- API Gateway … browser never talks to Odoo or orchestrator directly  
+- Correlation Identifier … one id across hops  
+- Observability … structured logs + durable evidence beside them  
+- Facade / Hexagonal / ACL … dry-run skills and ERP mapping live in orchestrator + connector (see SAC-004 / SAC-005)
 
 ## Env defaults (resources/)
 
@@ -100,8 +112,7 @@ ORCHESTRATOR_URL=http://localhost:8000
 
 Compose bind-mounts for Linux later: [SAC-009 Guides](../SAC-009/Guides/Storage_and_Backups.md).
 
-## Legacy sources
+## Related
 
-`_legacy/Epic-01` phase-03 task-queue + logging · phase-04 dry-run + storage  
-`_legacy/Epic-03` structured-logging + task-queue  
-`_legacy/Epic-04` dry-run-path + storage evidence layout
+- [OPS-002](./Scenarios/OPS-002.md) · [OPS-003](./Scenarios/OPS-003.md) · [OPS-018](./Scenarios/OPS-018.md)  
+- [SAC-001](../SAC-001/TSD.md) · [SAC-004](../SAC-004/TSD.md) · [SAC-009 Storage](../SAC-009/Guides/Storage_and_Backups.md)

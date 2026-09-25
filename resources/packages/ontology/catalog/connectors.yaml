@@ -1,0 +1,40 @@
+# First-party connector catalog (product-owned).
+# Used for architecture / docs / future Integrations UI — not customer-uploaded adapters.
+# See docs/System_Design/TSD/Capability_Model.md (multi-edge proof ladder).
+
+connectors:
+  - connector_id: odoo
+    kind: system_of_action
+    label: Odoo ERP
+    status: production_wedge
+    modes: [live, simulate]
+    supported_skills:
+      - sales.estimate.read
+      - sales.estimate.find_issues
+      - inventory.stock.adjust
+      - accounting.invoice.post
+    notes: SoA peer #1 for reference carbide shop.
+
+  - connector_id: mes_peer_simulate
+    kind: system_of_action
+    label: MES (simulate stub)
+    status: architecture_stub
+    modes: [simulate]
+    supported_skills: []
+    notes: Placeholder for OPS-014 / GAP-09 — proves catalog pattern before live MES.
+
+  - connector_id: file_reference_data
+    kind: data_source
+    label: File / reference data (stub)
+    status: architecture_stub
+    modes: [simulate]
+    supported_skills: []
+    notes: Placeholder for OPS-015 / GAP-10 — property bindings without public raw payload.
+
+  - connector_id: rules_logic_simulate
+    kind: logic_source
+    label: Rules / logic service (simulate stub)
+    status: architecture_stub
+    modes: [simulate]
+    supported_skills: []
+    notes: Placeholder for OPS-016 / GAP-11 — ontology action → skill → logic connector.

@@ -3,7 +3,7 @@ FROM node:20-alpine AS deps
 WORKDIR /app
 COPY package.json package-lock.json* ./
 COPY apps/web/package.json ./apps/web/
-RUN npm install --workspace=@control-panel-erp/web --include-workspace-root=false
+RUN npm install --workspace=@control-panel-ontology/web --include-workspace-root=false
 
 FROM node:20-alpine AS build
 WORKDIR /app
@@ -13,9 +13,11 @@ COPY --from=deps /app/package-lock.json* ./
 COPY --from=deps /app/apps/web/package.json ./apps/web/package.json
 COPY apps/web ./apps/web
 ARG NEXT_PUBLIC_GATEWAY_URL=http://localhost:3001
+ARG NEXT_PUBLIC_DEPLOYMENT_MODE=single_tenant
 ENV NEXT_PUBLIC_GATEWAY_URL=$NEXT_PUBLIC_GATEWAY_URL
+ENV NEXT_PUBLIC_DEPLOYMENT_MODE=$NEXT_PUBLIC_DEPLOYMENT_MODE
 ENV NEXT_TELEMETRY_DISABLED=1
-RUN npm run build -w @control-panel-erp/web
+RUN npm run build -w @control-panel-ontology/web
 
 FROM node:20-alpine
 WORKDIR /app

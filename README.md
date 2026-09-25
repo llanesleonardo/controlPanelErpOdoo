@@ -1,6 +1,8 @@
-# ControlPanelERP
+# ControlPanelOntology
 
-Governed control panel for a **small manufacturing shop** (carbide tools, machines, people, QC, drawings, inventory, shipping) whose day-to-day system of record is an **ERP** — **Odoo** is connector #1. Natural-language intents become allowlisted skills; risky writes stay dry-run / approval gated.
+**Ontology + AI** for **full manufacturing operations** — a **Foundry-shaped** governed hub (end-to-end shop map: make, QC, inventory, ship, documents, …; Schema / Explorer / Vertex / Process; **multi-peer** connectors for SoA, data, and logic; allowlisted skills). Reference deployment: **carbide-tool** shop. Same *class* of pattern as Palantir Foundry (ontology center, systems at the edge); **not** an estimate-only tool, ERP addon, clone, or enterprise-scale stack. **Odoo** is the **first live SoA peer** on that reference shop. **AI** and operators share one path: ontology action → skill → owning connector → evidence; risky writes stay dry-run / approval gated.
+
+Messaging: [Ontology + AI](docs/System_Design/Guides/Messaging_Ontology_and_AI.md) · [RISK-01](docs/System_Design/Subsystem/Risks.md#risk-01--what-to-do-crowded-ai--erp).
 
 ## Stack
 
@@ -15,7 +17,7 @@ Governed control panel for a **small manufacturing shop** (carbide tools, machin
 ## Repository layout
 
 ```text
-ControlPanelERP/
+ControlPanelOntology/
 ├── README.md
 ├── package.json                 # npm workspaces: resources/packages/*, apps/web, apps/gateway
 ├── .env.example
@@ -58,16 +60,15 @@ System_Design/
 ├── DOCUMENT_TREE.md
 ├── ConOps/                 # How the shop should use the panel
 ├── SRD/                    # Numbered SHALLs
-├── TSD/                    # Parent TSD, Pattern_Selection, Monorepo_Layout
+├── TSD/                    # Parent TSD, Pattern_Selection, Component_Map, Monorepo_Layout
 ├── Subsystem/
 │   ├── SAC-001 … SAC-010/  # README, SRD, TSD, TRACE, Scenarios/
 │   ├── SAC-003/Authoring/  # ContractsDocs + TaxonomyDocs (canonical YAML)
 │   ├── SAC-009/Guides/     # Compose runbook, secrets, storage
 │   ├── Risks.md            # Gaps (04–06 satisfied slices; others deferred)
 │   └── SCENARIOS.md
-├── TestPlans/              # OPS-001…007, E-01 + Reports/
+├── TestPlans/              # OPS-001…012, E-01 + Reports/
 ├── Templates/
-└── _legacy/                # Read-only Epic → Phase → Task history
 ```
 
 Agents choosing architecture: start at [TSD/Pattern_Selection.md](docs/System_Design/TSD/Pattern_Selection.md) (impact / risk / Diff), then one pattern file — not the whole patterns tree.
@@ -135,4 +136,4 @@ Authored markdown under `User_Guide` / `System_Design` (not the synced Patterns 
 
 ## Implementation approach
 
-Working process is the [System_Design](docs/System_Design/) V-Model (SAC + OPS scenarios). Historical Epic packs live under [`_legacy`](docs/System_Design/_legacy/) only.
+Working process is the [System_Design](docs/System_Design/) V-Model (SAC + OPS scenarios). Component map: [TSD/Component_Map.md](docs/System_Design/TSD/Component_Map.md).

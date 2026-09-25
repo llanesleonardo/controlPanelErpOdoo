@@ -1,31 +1,48 @@
-# TP-OPS-009 — Pick an intent from ERP Map and open console
+# TP-OPS-009 - Pick intent from Map / section -> console
 
-**Scenario:** OPS-009  
-**SHALLs:** SRD-SCR-001 … SRD-SCR-005, SRD-SCR-011 (parent SRD-UI-001, SRD-UI-002)  
-**Status:** Not run
+| Field | Value |
+|-------|--------|
+| **Test plan ID** | TP-OPS-009 |
+| **Scenario** | [OPS-009](../../Subsystem/SAC-002/Scenarios/OPS-009.md) (**Open**) |
+| **Subsystem** | SAC-002 |
+| **Related SRD** | SRD-SCR-001…005, 011, parent SRD-UI-001, SRD-UI-002 |
+| **Method** | Demo |
+| **Status** | **Open** |
 
-## Method
+## Purpose
 
-1. Follow [OPS-009](../../Subsystem/SAC-002/Scenarios/OPS-009.md).  
-2. Web + gateway running (npm or Compose profile `apps`).  
-3. Record pass/fail in Reports/.
+Prove Map (launcher) -> section -> intent -> console. Map is not a claim that ERP owns every property.
 
 ## Setup
 
-- `npm run dev:web` and gateway reachable per `.env`  
-- Dev actor stub acceptable (`X-Actor-Id`)
+| Item | Value |
+|------|--------|
+| Services | Web + gateway |
+| Actor | Dev stub OK |
 
 ## Checks
 
-| Check | Expect |
-|-------|--------|
-| `/` module tile | Navigates to `/sections/<slug>` |
-| Intents rail | Section-scoped list; search filters |
-| Intent detail | Profile / call path visible; no Odoo credential fields |
-| Console deep link | `/console?intent_code=…` (and domain) |
-| Classify (optional) | Gateway responds with taxonomy `intent_code` |
-| Theme toggle (smoke) | Light/dark switches and survives refresh |
+| TC | Check | Expect |
+|----|-------|--------|
+| TC-001 | `/` module tile | -> `/sections/<slug>` |
+| TC-002 | Intents rail | Section-scoped; search filters |
+| TC-003 | Intent detail | Profile / call path; no peer credentials |
+| TC-004 | Console link | `/console?intent_code=…` (+ domain) |
+| TC-005 | Classify optional | Gateway taxonomy `intent_code` |
+| TC-006 | Theme smoke | Light/dark survives refresh |
+
+
+
+## Pass / fail
+
+Scenario Success met; failure paths honest. **Do not** close SRVM without a TR under `Reports/`.
 
 ## Reports
 
-Placeholder: add `Reports/TR-OPS-009-01.md` when first run is recorded.
+Create or update `Reports/TR-OPS-009-01.md` when executed.
+
+## Revision
+
+| Date | Ver | Change |
+|------|-----|--------|
+| 2026-09-25 | 0.2 | Align to ontology hub + multi-SoA (ERP = SoA peer #1); SAC SRD sync |

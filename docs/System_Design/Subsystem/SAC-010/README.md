@@ -1,6 +1,6 @@
-# SAC-010 — CI, lint, release evidence
+# SAC-010 - CI, lint, release evidence
 
-How we keep **docs and packages honest** before merge — and what we still **plan** for release proof. No inventing pipelines that are not in the repo.
+How we keep **docs and packages honest** before merge - and what we still **plan** for release proof. No inventing pipelines that are not in the repo.
 
 Today the shop (and GitHub) mainly runs **markdown lint** on every push/PR. Package smoke tests exist as **root npm scripts** and are expected locally / before release; they are **not** yet wired as separate CI jobs.
 
@@ -20,6 +20,6 @@ Today the shop (and GitHub) mainly runs **markdown lint** on every push/PR. Pack
 |------|-----------------|
 | [SRD.md](./SRD.md) | What SHALL be true for CI / lint / release evidence |
 | [TSD.md](./TSD.md) | What exists in repo vs what is planned |
-| [TRACE.md](./TRACE.md) | Requirement ? scenario ? test (cross-cutting E-01 + inspection) |
+| [TRACE.md](./TRACE.md) | Requirement â†’ scenario â†’ test |
+| [Scenarios/](./Scenarios/) | [E-05](./Scenarios/E-05.md), [E-06](./Scenarios/E-06.md) (**Open**) |
 
-**Legacy:** Epic-01 monorepo-docs (`npm run lint` before commit) · Epic-02 workspaces + package smoke · workflow [`.github/workflows/lint.yml`](../../../../.github/workflows/lint.yml).

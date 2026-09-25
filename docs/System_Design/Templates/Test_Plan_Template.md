@@ -1,10 +1,11 @@
-# Test Plan Template — ControlPanelERP
+# Test Plan Template — ControlPanelOntology
 
 **Document type:** Test Plan  
-**Template version:** 1.0  
-**Related:** ConOps · SRD · TSD · SRVM  
+**Template version:** 1.1  
+**Related:** ConOps · SRD · TSD · SRVM · [SCENARIOS](../Subsystem/SCENARIOS.md)
 
-Fill one plan per feature, subsystem (SAC-xxx), or release slice. Keep language clear. Link every test case to an SRD SHALL when requirements exist.
+One plan per scenario is preferred (`TP-OPS-xxx` / `TP-E-xx`).  
+**A green smoke does not close the scenario** — create a TR under `Reports/` and update SRVM.
 
 ---
 
@@ -12,21 +13,22 @@ Fill one plan per feature, subsystem (SAC-xxx), or release slice. Keep language 
 
 | Field | Value |
 |-------|--------|
-| **Test plan ID** | TP-XXX-000 |
+| **Test plan ID** | TP-OPS-xxx / TP-E-xx |
 | **Title** | |
-| **Product / version under test** | ControlPanelERP / |
-| **Subsystem(s)** | e.g. SAC-008 |
-| **Related SRD IDs** | e.g. SRD-VER-… |
-| **Related ConOps scenarios** | e.g. OPS-007, OPS-008 |
+| **Product / version under test** | ControlPanelOntology / |
+| **Subsystem(s)** | SAC-… |
+| **Related SRD IDs** | SRD-… |
+| **Related ConOps scenario** | OPS-… / E-… (**Open**) |
+| **Scenario file** | link under `SAC-*/Scenarios/` or `Subsystem/Scenarios/` |
 | **Author** | |
 | **Date** | |
-| **Status** | Draft / Ready / In use / Complete |
+| **Status** | **Open** / Ready / In use *(Complete only after TR + SRVM)* |
 
 ---
 
 ## 2. Purpose
 
-**In one sentence:** What this plan proves.
+**In one sentence:** What this plan proves for the named scenario.
 
 **Scope (in):**
 
@@ -34,37 +36,31 @@ Fill one plan per feature, subsystem (SAC-xxx), or release slice. Keep language 
 
 **Scope (out):**
 
-- 
+- Closing other scenarios; inventing free-form edge calls
 
 ---
 
 ## 3. What tests to run
 
-List the test cases covered by this plan.
-
 | Test case ID | Title | Priority | Related SRD / OPS | Notes |
 |--------------|-------|----------|-------------------|-------|
 | TC-001 | | High / Med / Low | | |
-| TC-002 | | | | |
-| TC-003 | | | | |
+| TC-002 | | | | Failure / degraded path |
 
 ---
 
 ## 4. Verification method
 
-For each test case, choose **one primary method** (IEEE-style):
-
 | Method | When to use |
 |--------|-------------|
-| **Test** | Run the system or a component with inputs and check outputs |
-| **Demonstration** | Show the capability working (often UI / end-to-end) |
-| **Inspection** | Review docs, configs, code, logs, or records |
-| **Analysis** | Calculate, model, or reason from evidence (no live run required) |
+| **Test** | Run system/component with inputs → outputs |
+| **Demonstration** | Show capability (often UI / e2e) |
+| **Inspection** | Review docs, configs, code, logs |
+| **Analysis** | Calculate / reason without live run |
 
-| Test case ID | Method | Why this method |
-|--------------|--------|-----------------|
-| TC-001 | Test / Demo / Inspection / Analysis | |
-| TC-002 | | |
+| Test case ID | Method | Why |
+|--------------|--------|-----|
+| TC-001 | | |
 
 ---
 
@@ -74,49 +70,45 @@ For each test case, choose **one primary method** (IEEE-style):
 
 | Item | Value |
 |------|--------|
-| **Environment** | Dev / Test / Staging / Production-like |
-| **Build / image** | e.g. Docker tag |
-| **Azure target** *(if applicable)* | |
-| **Config notes** | feature flags, providers enabled/disabled, crawl policy |
+| **Environment** | Local Compose / host apps / … |
+| **Build** | commit / image tag |
+| **Control plane** | Postgres + gateway + orch + web (as needed) |
+| **Edges** | External URLs — **not** in Compose; use `simulate` when safe |
+| **Config notes** | `ODOO_MODE` / peer env; allowlist; actor header |
 
 ### 5.2 Accounts and roles
 
-| Role | Account / identity | Needed for |
-|------|--------------------|------------|
-| System Administrator | | |
-| Developer | | |
-| End User | | |
+| Role | Identity | Needed for |
+|------|----------|------------|
+| Operator | e.g. `X-Actor-Id` | |
+| Admin | | connector config |
+| SDK client | | OPS-019 style |
 
 ### 5.3 Test data
 
-| Data set ID | Description | Location / how to load |
-|-------------|-------------|------------------------|
+| Data set ID | Description | How to load |
+|-------------|-------------|-------------|
 | TD-001 | | |
-| TD-002 | | |
 
-**Preconditions before starting:**
+**Preconditions:**
 
-1. 
-2. 
-3. 
+1. Scenario preconditions met  
+2. No browser-direct vendor credentials in the test client  
 
 ---
 
 ## 6. Steps (per test case)
-
-Copy this block for each TC-xxx.
 
 ### TC-xxx — [Title]
 
 | Field | Content |
 |-------|---------|
 | **Objective** | |
-| **Method** | Test / Demonstration / Inspection / Analysis |
+| **Method** | Test / Demo / Inspection / Analysis |
 | **Related SRD** | |
 | **Related scenario** | OPS-… / E-… |
 | **Setup / data** | TD-… |
-| **Who runs it** | Role + name if assigned |
-| **When** | e.g. every PR / nightly / before release / after deploy |
+| **Who / when** | |
 
 **Steps:**
 
@@ -126,91 +118,53 @@ Copy this block for each TC-xxx.
 
 **Expected results:**
 
-- 
-- 
+- Honest failure messaging when edges are down  
+- Business vocabulary in UI/API (no raw vendor leaks)  
 
-**Pass criteria:**
+**Pass / fail criteria:**
 
-- 
 
-**Fail criteria / notes:**
 
-- 
-
-**Actual result:** *(fill during execution)*  
-
-**Evidence link:** *(log, screenshot, report path)*  
-
-**Disposition:** Pass / Fail / Blocked / Waived  
+**Actual result / evidence / disposition:** *(during execution)*
 
 ---
 
 ## 7. Who runs it and when
 
-### 7.1 Responsibilities
-
-| Activity | Role | Notes |
-|----------|------|-------|
-| Prepare data & environment | | |
-| Execute test cases | | |
-| Record evidence | | |
-| Review failures | | |
-| Update SRVM status | | |
-| Approve completion | | |
-
-### 7.2 Schedule / triggers
-
 | Trigger | What runs | Owner |
-|---------|-----------|--------|
-| Pull request / CI | | Developer / GitHub Workflow |
-| Nightly build | | |
-| Before environment promote | | |
-| Before release | | |
-| After production-like deploy | | |
-| On-demand / regression | | |
+|---------|-----------|-------|
+| Local smoke | | |
+| Before release | Required TPs for claimed SHALLs | E-05 / E-06 |
+| On-demand | | |
 
 ---
 
-## 8. Expected results (summary)
+## 8. Evidence and SRVM hand-off
 
-High-level outcomes this plan must demonstrate:
-
-1. 
-2. 
-3. 
-
-**Degraded / negative paths included?** Yes / No — list:
-
-- 
-
----
-
-## 9. Evidence and SRVM hand-off
-
-| Item | Location / ID |
-|------|----------------|
-| Test report | |
-| Evidence package | |
-| SRVM rows updated | |
+| Item | Location |
+|------|----------|
+| Test report | `TestPlans/<ID>/Reports/TR-<ID>-nn.md` |
+| SRVM rows | stay **Open** until TR attached |
 | Open defects | |
 
-**Remember:** A test plan says *how* to check. The **SRVM** records whether each **requirement** is verified and closed.
+**Remember:** Plan = *how* to check. **SRVM** = whether the **requirement** is closed.
 
 ---
 
-## 10. Revision history
+## 9. Revision history
 
 | Date | Version | Change | Author |
 |------|---------|--------|--------|
-| | 0.1 | Initial plan from template | |
+| | 0.1 | Initial from template | |
+
+## Quick checklist before Ready
+
+- [ ] Named scenario + file link  
+- [ ] At least one failure / degraded path  
+- [ ] Edges treated as peers (simulate/live explicit)  
+- [ ] Status remains Open until TR exists  
+- [ ] No ScaleCC-only assumptions (prospects, crawl, catch-all)  
 
 ---
 
-## Quick checklist before marking Ready
-
-- [ ] Every TC has a method (Test / Demo / Inspection / Analysis)  
-- [ ] Setup and data are defined  
-- [ ] Expected results and pass/fail criteria are clear  
-- [ ] Owner and timing are assigned  
-- [ ] SRD / ConOps traces are filled (when SRD exists)  
-- [ ] Negative / degraded cases included where honesty matters (e.g. catch-all, mailbox unavailable)
+*End of test plan template*

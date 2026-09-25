@@ -1,5 +1,5 @@
 {
-  "name": "@control-panel-erp/ontology",
+  "name": "@control-panel-ontology/ontology",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -12,12 +12,13 @@
     "test": "node ./test/smoke.mjs"
   },
   "dependencies": {
-    "@control-panel-erp/contracts": "*",
+    "@control-panel-ontology/contracts": "*",
     "js-yaml": "^4.1.0"
   },
   "files": [
     "src",
     "entity-types",
-    "bindings"
+    "bindings",
+    "catalog"
   ]
 }

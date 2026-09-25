@@ -17,7 +17,10 @@ function tileInitial(title: string) {
 
 export function ErpAppsGrid() {
   return (
-    <section className="odoo-apps" aria-label="ERP modules">
+    <section
+      className="odoo-apps"
+      aria-label="ERP section launcher on the ontology hub"
+    >
       <div className="odoo-apps-grid">
         {ERP_SECTIONS.map((section) => (
           <Link

@@ -1,10 +1,11 @@
 # System Requirements Document (SRD) Template
 
 **Document type:** SRD  
-**Template version:** 1.0  
+**Template version:** 1.1  
+**Product defaults:** ControlPanelOntology — ontology hub; multi–system-of-action peers; ERP = SoA peer #1.
 
-**SRD** = the list of **testable “the system shall…”** requirements.  
-Derived from the ConOps. Design detail stays in the TSD. Verification status lives in the SRVM.
+**SRD** = testable “the system shall…” requirements derived from ConOps.  
+Design → TSD. Closure → SRVM (**Open** until evidence).
 
 ---
 
@@ -12,14 +13,15 @@ Derived from the ConOps. Design detail stays in the TSD. Verification status liv
 
 | Field | Value |
 |-------|--------|
-| **Document title** | [Product] — System Requirements Document (SRD) |
-| **Product** | |
+| **Document title** | ControlPanelOntology — System Requirements Document (SRD) |
+| **Product** | ControlPanelOntology |
 | **Version** | 0.1 |
 | **Updated** | |
 | **Author(s)** | |
 | **Status** | Draft / In review / Baseline |
 | **Parent ConOps** | link / version |
-| **Related TSD** | link / version *(future)* |
+| **Related TSD** | link / version |
+| **Architecture baseline** | Ontology hub; SoA/data/logic = peer edges via first-party connectors |
 
 ### Revision history
 
@@ -31,86 +33,65 @@ Derived from the ConOps. Design detail stays in the TSD. Verification status liv
 
 ## 1. Purpose
 
-This SRD states the **required behavior** of [Product] so that:
-
-- developers know what to build  
-- testers know what to prove  
-- SRVM can close each requirement with evidence  
+State required behavior so developers build, testers prove, and SRVM can close each SHALL with evidence.  
+**Do not** mark requirements closed because a demo exists — scenarios stay Open until TR + SRVM.
 
 ---
 
 ## 2. Scope
 
-**In scope:**
-
-- Functional requirements  
-- Interface requirements  
-- Security / privacy requirements *(as applicable)*  
-- Performance / reliability *characteristics as measurable requirements* *(when decided)*  
-
-**Out of scope:**
-
-- How to implement (languages, schemas, class design) → **TSD**  
-- Step-by-step test procedures → **Test plans**  
-- Operational storytelling → **ConOps**  
+**In scope:** functional, interface, security, measurable reliability SHALLs.  
+**Out of scope:** how to implement (TSD), test steps (Test plans), storytelling (ConOps).
 
 ---
 
-## 3. Definitions and acronyms
+## 3. Definitions
 
 | Term | Meaning |
 |------|---------|
-| **SHALL** | Mandatory requirement |
-| **SHOULD** | Recommended *(use sparingly)* |
+| **SHALL** | Mandatory |
+| **SHOULD** | Recommended (use sparingly) |
 | **MAY** | Optional |
-| | |
+| **SoA** | System of action edge |
+| **Open** | Not closed in SRVM — progress ≠ complete |
 
 ---
 
-## 4. Requirement rules (write SHALLs this way)
+## 4. Requirement rules
 
-Each requirement must be:
-
-1. **Atomic** — one idea  
-2. **Unambiguous** — no “fast,” “easy,” “user-friendly” without a measure  
-3. **Testable** — clear pass/fail  
-4. **Traced** — to ConOps section / OPS / MODE / SAC  
-5. **Identified** — unique ID  
-
-### Requirement record format
+Each requirement must be: atomic, unambiguous, testable, traced (ConOps / OPS / E / MODE / SAC), uniquely identified.
 
 | Field | Content |
 |-------|---------|
-| **ID** | e.g. SRD-VER-012 |
+| **ID** | e.g. SRD-ONT-005 |
 | **Statement** | The system shall … |
 | **Priority** | Must / Should |
-| **ConOps trace** | §… / MODE-… / OPS-… |
+| **ConOps trace** | §… / MODE-… / OPS-… / E-… |
 | **Subsystem** | SAC-… |
 | **Verification method** | Test / Demonstration / Inspection / Analysis |
-| **Suggested V&V level** | L1 / L2 / L3 / L4 |
 | **Notes / OPEN** | |
 
 ---
 
-## 5. Requirement areas *(catalog)*
-
-Mirror your product. Example areas (replace as needed):
+## 5. Requirement areas *(ControlPanelOntology catalog)*
 
 | Area ID | Name | Description |
 |---------|------|-------------|
-| SRD-PRO | | |
-| SRD-SEC | | |
-| SRD-VER | | |
-| SRD-UI | | |
-| SRD-INT | | |
-| SRD-PER | | |
-| SRD-REL | | |
+| SRD-SEC | Safety & governance | Allowlist, dry-run, evidence, ACL |
+| SRD-UI | Control panel & consumption | Map, console, ontology UI, analytics via gateway |
+| SRD-TAX | Taxonomy / contracts | Intent codes, YAML sync |
+| SRD-EST | Estimates wedge | ERP SoA peer estimate skills |
+| SRD-ONT | Ontology hub | Types, links, actions, Process, ownership |
+| SRD-CONN | Connectors | Catalog SPI, peers, capability matrix |
+| SRD-EDGE | Edge families | Multi-SoA, data, logic, automation, SDK, AI+human |
+| SRD-OPS | Operations | Tasks, logs, Compose |
+| SRD-CI | Quality gates | Lint, smokes, release honesty |
 
 ---
 
 ## 6. Requirements by area
 
-Copy the block below for each area.
+Copy per area / ID.
 
 ### 6.x [Area ID] — [Name]
 
@@ -123,38 +104,22 @@ Copy the block below for each area.
 | **ConOps trace** | |
 | **Subsystem** | SAC-… |
 | **Verification method** | Test / Demo / Inspection / Analysis |
-| **V&V level** | L1–L4 |
-| **Notes** | |
-
-#### SRD-XXX-002
-
-| Field | Content |
-|-------|---------|
-| **Statement** | The system shall … |
-| **Priority** | Must |
-| **ConOps trace** | |
-| **Subsystem** | |
-| **Verification method** | |
-| **V&V level** | |
+| **Primary scenario** | OPS-… / E-… (**Open** until SRVM) |
 | **Notes** | |
 
 ---
 
-## 7. Cross-cutting requirements
+## 7. Cross-cutting
 
-### 7.1 Security
-
-
-
-### 7.2 Audit / provenance
+### 7.1 Security / allowlist / anti-corruption
 
 
 
-### 7.3 Performance *(only with measurable criteria)*
+### 7.2 Audit / provenance / connector_id on evidence
 
 
 
-### 7.4 Reliability / degraded modes
+### 7.3 Degraded modes (edge down, simulate)
 
 
 
@@ -162,23 +127,15 @@ Copy the block below for each area.
 
 ## 8. External interfaces
 
-| Interface | Direction | Requirement IDs |
-|-----------|-----------|-----------------|
-| | In / Out / Both | |
+| Interface | Direction | Edge kind | Requirement IDs |
+|-----------|-----------|-----------|-----------------|
+| | In / Out | SoA / data / logic / none | |
+
+Prefer: clients → **gateway only**; edges → **connector catalog**.
 
 ---
 
-## 9. Assumptions and constraints
-
-### Assumptions
-
-1. 
-
-### Constraints
-
-1. 
-
-### Open decisions still deferred
+## 9. Assumptions, constraints, open decisions
 
 | OD ID | Topic | Impact on SRD |
 |-------|-------|---------------|
@@ -188,19 +145,21 @@ Copy the block below for each area.
 
 ## 10. Traceability summary
 
-| ConOps / OPS / MODE | SRD IDs | Primary SAC |
-|---------------------|---------|-------------|
+| ConOps / OPS / E / MODE | SRD IDs | Primary SAC |
+|-------------------------|---------|-------------|
 | | | |
+
+Scenario index: [../Subsystem/SCENARIOS.md](../Subsystem/SCENARIOS.md)
 
 ---
 
-## 11. Verification planning hand-off
+## 11. Verification hand-off
 
-| SRD ID | Method | Test plan / TC *(when exists)* | SRVM row |
-|--------|--------|--------------------------------|----------|
-| | | | |
+| SRD ID | Method | Scenario | Test plan | SRVM status |
+|--------|--------|----------|-----------|-------------|
+| | | OPS-/E- | TP- | **Open** |
 
-**Note:** Detailed steps belong in the **Test Plan**. Closure status belongs in the **SRVM**.
+Detailed steps → **Test Plan**. Closure → **SRVM** only with TR evidence.
 
 ---
 
@@ -210,22 +169,14 @@ Copy the block below for each area.
 - Areas covered:  
 - Ready for TSD allocation: Yes / No  
 
----
-
-## Appendix — Requirement ID conventions
-
-Suggested pattern:
+## Appendix — ID conventions
 
 ```text
 SRD-<AREA>-<nnn>
-
-Examples:
-SRD-SEC-001
-SRD-VER-012
-SRD-BUL-003
+Examples: SRD-SEC-001, SRD-ONT-005, SRD-CONN-003, SRD-EDGE-001
 ```
 
-Local subsystem seeds may use temporary IDs in `SAC-xxx/SRD.md` until promoted here.
+Local seeds in `SAC-xxx/SRD.md` until promoted to parent SRD.
 
 ---
 

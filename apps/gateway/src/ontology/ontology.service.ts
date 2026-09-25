@@ -7,7 +7,7 @@ import { randomUUID } from 'crypto';
 import {
   getEntityTypeCatalogDetail,
   listEntityTypesCatalog,
-} from '@control-panel-erp/ontology';
+} from '@control-panel-ontology/ontology';
 import { OrchestratorClient } from '../tasks/orchestrator.client';
 
 /** Skills currently allowlisted for live execute (Epic-05). Pattern: Allowlist. */

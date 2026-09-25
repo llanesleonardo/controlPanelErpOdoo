@@ -21,4 +21,3 @@ npm run dev:gateway
 
 - [SAC-001 Front door](../../docs/System_Design/Subsystem/SAC-001/README.md)  
 - [User Guide](../../docs/User_Guide/README.md)  
-- Legacy: [Epic-03](../../docs/System_Design/_legacy/Epic-03/README.md)  

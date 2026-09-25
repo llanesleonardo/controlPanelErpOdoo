@@ -1,30 +1,49 @@
-# TP-OPS-007 — Bring up the control-plane stack (Compose)
+# TP-OPS-007 - Bring up control-plane stack (Compose)
 
-**Scenario:** OPS-007  
-**SHALLs:** SRD-DEP-001 … SRD-DEP-009  
-**Status:** Partial
+| Field | Value |
+|-------|--------|
+| **Test plan ID** | TP-OPS-007 |
+| **Scenario** | [OPS-007](../../Subsystem/SAC-009/Scenarios/OPS-007.md) (**Open**) |
+| **Subsystem** | SAC-009 |
+| **Related SRD** | SRD-DEP-001…009, parent SRD-OPS-003 |
+| **Method** | Demo / Test |
+| **Status** | **Open** |
 
-## Method
+## Purpose
 
-1. Follow [OPS-007](../../Subsystem/SAC-009/Scenarios/OPS-007.md) and the [Compose runbook](../../Subsystem/SAC-009/Guides/Compose_and_Runbook.md).  
-2. Prefer Postgres via Compose; apps either npm or `--profile apps`.  
-3. Record pass/fail in Reports/.  
+Prove Compose brings up the **control plane** only; peer edges (ERP SoA #1 and others) stay external.
 
 ## Setup
 
-- Docker Engine available  
-- `.env` from `.env.example`  
-- Optional: `ERP_MODE=simulate` so no live Odoo is required  
+| Item | Value |
+|------|--------|
+| Docker | Engine + `.env` from `.env.example` |
+| Apps | Optional `--profile apps` or host npm |
+| Edge | Prefer simulate; peers **not** in Compose |
+| Runbook | [Compose_and_Runbook](../../Subsystem/SAC-009/Guides/Compose_and_Runbook.md) |
 
 ## Checks
 
-| Check | Expect |
-|-------|--------|
-| `docker compose -f docker/docker-compose.yml ps` | Postgres healthy |
-| `GET http://localhost:3001/health` (when gateway up) | OK |
-| `http://localhost:3000` | UI loads |
-| Compose services list | No Odoo container |
+| TC | Check | Expect |
+|----|-------|--------|
+| TC-001 | Compose Postgres | Healthy |
+| TC-002 | Gateway health | `GET :3001/health` OK when up |
+| TC-003 | Web | `http://localhost:3000` loads when up |
+| TC-004 | Services list | **No** Odoo / peer containers |
+| TC-005 | Orchestrator | Not a public internet endpoint |
+
+
+
+## Pass / fail
+
+Scenario Success met; failure paths honest. **Do not** close SRVM without a TR under `Reports/`.
 
 ## Reports
 
-Placeholder: [Reports/TR-OPS-007-01.md](./Reports/TR-OPS-007-01.md)
+Create or update `Reports/TR-OPS-007-01.md` when executed.
+
+## Revision
+
+| Date | Ver | Change |
+|------|-----|--------|
+| 2026-09-25 | 0.2 | Align to ontology hub + multi-SoA (ERP = SoA peer #1); SAC SRD sync |

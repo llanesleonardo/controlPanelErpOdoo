@@ -6,6 +6,7 @@ export interface DryRunRequest {
   input: Record<string, unknown>;
   correlation_id: string;
   actor_id: string;
+  tenant_id?: string;
 }
 
 export interface DryRunResponse {
@@ -53,13 +54,18 @@ export class OrchestratorClient {
       'OrchestratorClient',
     );
 
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+      'X-Correlation-Id': req.correlation_id,
+      'X-Actor-Id': req.actor_id,
+    };
+    if (req.tenant_id) {
+      headers['X-Tenant-Id'] = req.tenant_id;
+    }
+
     const res = await fetch(url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Correlation-Id': req.correlation_id,
-        'X-Actor-Id': req.actor_id,
-      },
+      headers,
       body: JSON.stringify({
         intent_code: req.intent_code,
         input: req.input,

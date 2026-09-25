@@ -1,31 +1,47 @@
-﻿# TP-OPS-003 — Approve or reject a queued task
+# TP-OPS-003 - Approve or reject a queued task
 
-**Scenario:** [OPS-003](../../Subsystem/SAC-007/Scenarios/OPS-003.md)  
-**SHALLs:** SRD-TSK-001 … SRD-TSK-003 · parent SRD-OPS-001  
-**Status:** Not run
+| Field | Value |
+|-------|--------|
+| **Test plan ID** | TP-OPS-003 |
+| **Scenario** | [OPS-003](../../Subsystem/SAC-007/Scenarios/OPS-003.md) (**Open**) |
+| **Subsystem** | SAC-007 |
+| **Related SRD** | SRD-TSK-001…003, parent SRD-OPS-001 |
+| **Method** | Test / Demo |
+| **Status** | **Open** |
 
-## Method
+## Purpose
 
-1. Follow OPS-003 on a local or Compose stack.  
-2. Start from a task in `needs_approval`.  
-3. Record pass/fail and actor / correlation ids in Reports/.
+Prove approve/reject of `needs_approval` tasks with actor audit; no silent peer commit.
 
 ## Setup
 
-- Postgres up; gateway running (orchestrator optional for approve/reject alone)  
-- Web at http://localhost:3000 · gateway http://localhost:3001  
-- Dev actor via `X-Actor-Id` or UI default is acceptable  
+| Item | Value |
+|------|--------|
+| Control plane | Postgres + gateway (+ web); orch optional for approve alone |
+| Actor | `X-Actor-Id` stub acceptable |
 
 ## Checks
 
-| Check | Expect |
-|-------|--------|
-| List / filter tasks | `needs_approval` task visible |
-| Task detail | Intent, state, payloads / evidence visible |
-| Approve | State → completed (or documented post-approve state); actor + timestamp set; no live ERP commit in current product |
-| Reject | State → rejected; ERP untouched |
-| Approve/reject when not `needs_approval` | Refused with clear error |
+| TC | Check | Expect |
+|----|-------|--------|
+| TC-001 | List / filter | `needs_approval` visible |
+| TC-002 | Task detail | Intent, state, payloads / evidence |
+| TC-003 | Approve | Documented state; actor + time; no live peer commit unless product supports it |
+| TC-004 | Reject | State -> rejected; peer untouched |
+| TC-005 | Wrong state | Clear refuse when not `needs_approval` |
+
+
+
+## Pass / fail
+
+Scenario Success met; failure paths honest. **Do not** close SRVM without a TR under `Reports/`.
 
 ## Reports
 
-Placeholder: [Reports/TR-OPS-003-01.md](./Reports/TR-OPS-003-01.md)
+Create or update `Reports/TR-OPS-003-01.md` when executed.
+
+## Revision
+
+| Date | Ver | Change |
+|------|-----|--------|
+| 2026-09-25 | 0.2 | Align to ontology hub + multi-SoA (ERP = SoA peer #1); SAC SRD sync |

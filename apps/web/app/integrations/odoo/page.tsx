@@ -1,6 +1,7 @@
 'use client';
 
 import { FormEvent, useEffect, useState } from 'react';
+import Link from 'next/link';
 import { gatewayFetch } from '@/lib/api';
 
 type Config = {
@@ -95,10 +96,11 @@ export default function OdooIntegrationPage() {
 
   return (
     <>
-      <h1>ERP connector — Odoo</h1>
+      <h1>Ontology + AI · Odoo peer (SoA #1)</h1>
       <p className="lede">
-        Configure the external ERP endpoint. Skills use domain ports; Odoo
-        JSON-RPC stays behind an adapter. Mode:{' '}
+        One connector in the hub catalog. Skills use domain ports; Odoo JSON-RPC
+        stays behind an adapter.{' '}
+        <Link href="/integrations">← All peer connectors</Link>. Mode:{' '}
         <span className="mono">{config?.mode ?? '…'}</span>
       </p>
 

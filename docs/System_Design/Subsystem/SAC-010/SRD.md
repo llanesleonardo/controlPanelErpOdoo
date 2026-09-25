@@ -10,9 +10,9 @@ Rules for keeping the carbide-shop docs and packages from drifting — **say wha
 
 ## Out of scope
 
-- Hosting or releasing the ERP itself
+- Hosting or releasing any peer edge (including the ERP itself)
 - Claiming app build/test/deploy workflows that are not in `.github/workflows`
-- Replacing human review for risky ERP features
+- Replacing human review for risky peer-edge features
 
 ## Requirements
 

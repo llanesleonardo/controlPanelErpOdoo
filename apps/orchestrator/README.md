@@ -25,4 +25,3 @@ Or from repo root: `npm run dev:orchestrator` (after venv exists).
 ## Docs
 
 - [SAC-004 Orchestrator](../../docs/System_Design/Subsystem/SAC-004/README.md)  
-- Legacy: [Epic-04](../../docs/System_Design/_legacy/Epic-04/README.md)  

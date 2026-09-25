@@ -3,8 +3,9 @@ import { AppShell } from './components/app-shell';
 import './globals.css';
 
 export const metadata = {
-  title: 'Control Panel ERP',
-  description: 'Ops surfaces for OpenClaw → Odoo control plane',
+  title: 'Ontology + AI · Control Panel',
+  description:
+    'Foundry-shaped Ontology + AI — full manufacturing map, multi-peer edges, governed skills',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

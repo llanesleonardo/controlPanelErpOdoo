@@ -1,18 +1,19 @@
 # Subsystem Explanation Template
 
 **Document type:** Subsystem guide (plain language)  
-**Template version:** 1.0  
-
-Use one folder per subsystem:
+**Template version:** 1.1  
 
 ```text
 docs/System_Design/Subsystem/SAC-xxx/
-  README.md   ← fill this template
-  SRD.md      ← candidate requirements (see SRD section below or separate file)
+  README.md      ← this template
+  SRD.md
+  TSD.md
+  TRACE.md
+  Scenarios/     ← owned OPS / E (README lists all; status Open)
+  Issues/        ← optional GH design packs
 ```
 
-**Subsystem** = one clear responsibility of the product (e.g. access, verification, bulk jobs).  
-Candidate IDs (SAC-*) are for allocation and traceability — not a claim that code already exists.
+**Subsystem** = one clear responsibility. Frame against the **ontology hub**: this SAC either serves the hub, the connector catalog, consumption UI, or delivery — ERP is a **peer edge**, not the center.
 
 ---
 
@@ -24,12 +25,13 @@ Candidate IDs (SAC-*) are for allocation and traceability — not a claim that c
 
 ## Plain explanation
 
-What this piece does, in everyday language:
+What this piece does:
 
 
 
-**Important rules / locked baselines** *(if any):*
+**Important rules / locked baselines:**
 
+- Talk to edges only via ontology actions → allowlisted skills → connectors  
 - 
 - 
 
@@ -41,10 +43,10 @@ What this piece does, in everyday language:
 
 | Role | Why |
 |------|-----|
-| End User | |
-| System Administrator | |
-| Developer | |
-| Other | |
+| Estimator / operator | |
+| Admin / IT | |
+| Developer / SDK | |
+| Builder / V&V | |
 
 ## Inputs and outputs
 
@@ -52,85 +54,71 @@ What this piece does, in everyday language:
 |--------|---------|
 | | |
 
-## Talks to (other subsystems / externals)
+## Talks to (other SACs / edges)
 
 | From / To | What is exchanged |
 |-----------|-------------------|
-| | |
+| SAC-… | |
+| Edge peer (SoA/data/logic) | via connector catalog — not browser-direct |
 
 ## Related requirement areas
 
 - **SRD-…** —  
-- **SRD-…** —  
 
-See [SRD.md](SRD.md) in this folder for candidate requirement themes.
+See [SRD.md](SRD.md).
 
 ## Related risks
 
-- **RISK-…** —  
-- **RISK-…** —  
+- **GAP-… / RISK-…** —  
 
-Full catalog: [../Risks.md](../Risks.md)
+Catalog: [../Risks.md](../Risks.md)
 
 ## Related ConOps
 
-Modes:  
-Scenarios (OPS / E):  
-ConOps sections:  
+| Modes | Scenarios owned (all **Open**) | ConOps §§ |
+|-------|-------------------------------|-----------|
+| MODE-… | OPS-… / E-… | §9 / §10 |
 
 ## Folder contents
 
 | File | Purpose |
 |------|---------|
-| [README.md](README.md) | This subsystem explanation |
-| [SRD.md](SRD.md) | Candidate SRD themes for this subsystem |
-| [TSD.md](TSD.md) | Technical design for this subsystem |
-| [Scenarios/](Scenarios/) | Owned ConOps OPS / E scenario files *(when this SAC is primary owner)* |
+| [README.md](README.md) | This explanation |
+| [SRD.md](SRD.md) | Child SHALLs |
+| [TSD.md](TSD.md) | Child design |
+| [TRACE.md](TRACE.md) | SRD → Scenario → TP (status Open until TR) |
+| [Scenarios/](Scenarios/) | Owned OPS/E + README index |
+| [Issues/](Issues/) | Optional GH diagram packs |
 
 ---
 
-# Optional: same-folder Candidate SRD (or use `SRD.md`)
+# Optional: candidate SRD themes (or use `SRD.md`)
 
-## Purpose
-
-Candidate requirement themes for **SAC-xxx**.  
-Not final numbered SHALLs until promoted into the parent SRD.
-
-## Mapped SRD areas
-
-- **SRD-…**
-
-## Candidate requirement themes
-
-| Candidate ID *(local)* | Requirement theme (plain language — future SHALL seed) |
-|------------------------|------------------------------------------------------|
-| **XXX-001** | The system shall … *(write as a clear, testable idea)* |
+| Candidate ID | Theme (future SHALL seed) |
+|--------------|---------------------------|
+| **XXX-001** | The system shall … |
 | **XXX-002** | |
-| **XXX-003** | |
 
 ## Traceability aids
 
 | Trace | Value |
 |-------|-------|
 | Modes | |
-| Scenarios | |
+| Scenarios | OPS-… / E-… (**Open**) |
 | Related risks | |
 
 ## Verification hint
 
-| Theme | Suggested method | V&V level |
-|-------|------------------|-----------|
+| Theme | Method | V&V level |
+|-------|--------|-----------|
 | XXX-001 | Test / Demo / Inspection / Analysis | L1–L4 |
 
 ## Next step
 
-Promote selected themes into the parent `ControlPanelERP_SRD.md` (or product SRD) with:
-
-1. unique `SRD-<AREA>-nnn` ID  
-2. testable SHALL statement  
-3. ConOps / OPS / E trace  
-4. verification method  
-5. later: test plan TC + SRVM row  
+1. Unique `SRD-<AREA>-nnn` in parent SRD  
+2. Testable SHALL + ConOps / OPS / E trace  
+3. Child TSD allocation  
+4. TP + TR → SRVM close only with evidence  
 
 ---
 

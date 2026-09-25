@@ -1,6 +1,6 @@
 # User Guide — Control panel for the shop
 
-How people in a **carbide-tool shop** use the control panel day to day. Day-to-day records still live in your **ERP** (Odoo today). This panel helps you run **safe, approved** actions against that ERP.
+How people in a **carbide-tool shop** use the control panel day to day — the **ontology** (business map) plus **AI** and operators on the same governed skill path. Day-to-day records still live in your **ERP** (Odoo today). This panel helps you explore the map and run **safe, approved** actions to peers.
 
 ## Who this is for
 
@@ -25,4 +25,4 @@ How people in a **carbide-tool shop** use the control panel day to day. Day-to-d
 2. Risky writes start as **dry-run** or need **approval**.  
 3. The ERP stays the system of record; we do not invent a second one.
 
-Full story: [ConOps](../System_Design/ConOps/ControlPanelERP_ConOps.md). Engineering V-Model: [System Design](../System_Design/README.md).
+Full story: [ConOps](../System_Design/ConOps/ControlPanelOntology_ConOps.md). Engineering V-Model: [System Design](../System_Design/README.md).

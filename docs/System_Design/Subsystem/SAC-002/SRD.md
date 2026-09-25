@@ -1,29 +1,30 @@
 ﻿# SAC-002 — Software Requirements (SRD)
 
-Plain screen rules for the carbide-shop control panel. Operators pick **intents** (named actions like “read estimates”) from an **ERP Map** instead of typing mystery codes. The browser calls only the **gateway** (SAC-001).
+Plain screen rules for the carbide-shop control panel. Operators pick **intents** (named actions like “read estimates”) from the home **Map** (UI label may still say “ERP Map”) instead of typing mystery codes. The **ontology** is the hub for the business map; **ERP** is **SoA peer #1** among edges — the Map is a launcher, not a claim that ERP owns every property. The browser calls only the **gateway** (SAC-001).
 
-Parent UI SHALLs: [SRD-UI-001…003](../../SRD/ControlPanelERP_SRD.md).
+Parent UI SHALLs: [SRD-UI-001…004](../../SRD/ControlPanelOntology_SRD.md).
 
 ## Scope
 
-- Next.js control panel shell: ERP Map, section workspaces, intent catalog UX
+- Next.js control panel shell: Map / section workspaces, intent catalog UX
 - Request console (classify → task)
 - Tasks and Logs navigation (behavior owned with SAC-007)
 - Ontology route shell with four tabs (tab content owned with SAC-006)
 - Theme toggle; profile page (planned with real auth)
+- Analytics / workflow consumption via gateway (not browser-direct vendor APIs)
 
 ## Out of scope
 
-- Talking to Odoo from the browser
+- Talking to Odoo or other peer edges from the browser
 - Inventing new intent codes in the UI (extend product catalogs deliberately)
 - Full auth login UI until SAC-001 auth ships (dev-actor stub is enough for ops screens)
 - Implementing every diagnostic / NL-compose skill (catalog may show them as planned)
 
 ## Requirements
 
-### SRD-SCR-001 — ERP Map
+### SRD-SCR-001 — Map (shop modules)
 
-The system SHALL provide a home ERP Map (`/`) that presents mapped shop modules as equal tiles linking to section workspaces (`/sections/:slug`), so operators pick areas (Estimates, Inventory, Shipping, …) without guessing codes. Aligns with parent **SRD-UI-001**.
+The system SHALL provide a home Map (`/`) that presents mapped shop modules as equal tiles linking to section workspaces (`/sections/:slug`), so operators pick areas (Estimates, Inventory, Shipping, …) without guessing codes. Aligns with parent **SRD-UI-001**.
 
 ### SRD-SCR-002 — Section workspace + intents rail
 
@@ -31,7 +32,7 @@ Each section slug SHALL open a workspace with breadcrumb back to the map. On sec
 
 ### SRD-SCR-003 — Per-section intent catalog
 
-Each section slug SHALL map to its own intent list (not one global undifferentiated list). Intent detail SHALL show objective/description, execution **profile** (difficulty class), and a call-path sketch that ends at gateway skills — not raw operator-authored Odoo RPC. Dummy/simulate output tables SHALL be labeled until a skill is live.
+Each section slug SHALL map to its own intent list (not one global undifferentiated list). Intent detail SHALL show objective/description, execution **profile** (difficulty class), and a call-path sketch that ends at gateway skills — not raw operator-authored vendor RPC. Dummy/simulate output tables SHALL be labeled until a skill is live.
 
 ### SRD-SCR-004 — Deterministic profiles
 
@@ -63,14 +64,15 @@ Authenticated users SHALL view and update their own profile (display name, role 
 
 ### SRD-SCR-011 — Gateway-only client
 
-All control-plane API calls from the UI SHALL go to the NestJS gateway (actor + correlation headers). The UI SHALL NOT embed ERP credentials or call connector URLs.
+All control-plane API calls from the UI (including analytics / workflow surfaces) SHALL go to the NestJS gateway (actor + correlation headers). The UI SHALL NOT embed peer credentials or call connector / vendor URLs. Aligns with parent **SRD-UI-004**, **SRD-EDGE-006**.
 
 ## Trace
 
 | ID | Scenario | Test plan |
 |----|----------|-----------|
 | SRD-SCR-001 … 005, 011 | [OPS-009](./Scenarios/OPS-009.md) | [TP-OPS-009](../../TestPlans/OPS-009/TP-OPS-009.md) |
+| SRD-SCR-011 (analytics / workflow via gateway) | [OPS-017](./Scenarios/OPS-017.md) | [TP-OPS-017](../../TestPlans/OPS-017/TP-OPS-017.md) |
 | SRD-SCR-006, 007 | [OPS-003](../SAC-007/Scenarios/OPS-003.md) (supporting) | [TP-OPS-003](../../TestPlans/OPS-003/TP-OPS-003.md) |
 | SRD-SCR-008 | [OPS-004](../SAC-006/Scenarios/OPS-004.md) (supporting) | [TP-OPS-004](../../TestPlans/OPS-004/TP-OPS-004.md) |
 
-Parent UI crosswalk: SCR-001/002→UI-001 · SCR-006/007→UI-002 · SCR-008→UI-003.
+Parent UI crosswalk: SCR-001/002→UI-001 · SCR-006/007→UI-002 · SCR-008→UI-003 · SCR-011→UI-004 / EDGE-006.

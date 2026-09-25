@@ -27,4 +27,3 @@ Default Compose starts **Postgres only**. Add the apps with `--profile apps`, or
 
 Runtime files live in repo [`docker/`](../../../../docker/). Layout notes: [Monorepo_Layout](../../TSD/Monorepo_Layout.md).
 
-**Legacy:** Epic-01 docker / Epic-02 postgres / Epic-04 storage under [`_legacy/`](../../_legacy/).

@@ -1,16 +1,16 @@
 ﻿# SAC-009 — Software Requirements (SRD)
 
-Plain deploy rules for the carbide-shop control panel. **ERP** = enterprise resource planning system (Odoo today).
+Plain deploy rules for the carbide-shop control panel. The Compose stack is the **control plane** only. Peer edges — including **ERP** (Odoo) as **SoA peer #1** — stay external and are reached via connectors.
 
 ## Scope
 
 - Docker Compose as the unit of deploy (local and Linux later)
-- Control-plane services only; ERP / other systems of record stay external
+- Control-plane services only; SoA / data / logic peers stay external
 - Secrets, volumes, and a documented bring-up path
 
 ## Out of scope
 
-- Hosting Odoo inside this Compose file
+- Hosting Odoo or other peers inside this Compose file
 - A second application API gateway in front of NestJS (optional host TLS/WAF only)
 - Full production backup automation (sketched only)
 
@@ -22,7 +22,7 @@ The product SHALL use a single Compose definition for local development and for 
 
 ### SRD-DEP-002 — Control-plane only
 
-Compose SHALL start control-plane services (Postgres, and optionally web / gateway / orchestrator). External systems of record (including Odoo) SHALL remain outside this Compose file and be reached via connector URLs.
+Compose SHALL start control-plane services (Postgres, and optionally web / gateway / orchestrator). Peer edges (including Odoo SoA peer #1 and later SoA / data / logic connectors) SHALL remain outside this Compose file and be reached via connector URLs.
 
 ### SRD-DEP-003 — Postgres by default
 
@@ -52,8 +52,23 @@ Operators SHALL have a documented checklist to start Postgres → schema → orc
 
 NestJS gateway SHALL remain the application API entry. Optional TLS / WAF on the host SHALL sit outside Compose and SHALL NOT add a second Nest-style gateway.
 
+### SRD-DEP-010 — Dedicated single-tenant mode
+
+The stack SHALL support `DEPLOYMENT_MODE=single_tenant` (Offer B): one customer per deployment; multi-tenant SaaS features SHALL NOT be entitled. See [Product_Packaging_Tenancy](../../Guides/Product_Packaging_Tenancy.md) · parent [SRD-TEN-001](../../SRD/ControlPanelOntology_SRD.md).
+
+### SRD-DEP-011 — SaaS multi-tenant mode
+
+The stack SHALL support `DEPLOYMENT_MODE=multi_tenant` (Offer A): shared platform; multi-tenant features entitled when implemented and verified. Parent [SRD-TEN-002](../../SRD/ControlPanelOntology_SRD.md). Data partitioning / admin UI remain Open until TR (GAP-13).
+
+### SRD-DEP-012 — Mode via env / CI / cloud variables
+
+Tenancy mode and default tenant SHALL be configurable via the same variable names in `.env`, Compose, GitHub Actions variables, and Azure App Settings (`DEPLOYMENT_MODE`, `TENANT_ID`, `DEPLOYMENT_PROFILE`). Guide: [Deployment_Tenancy_Env](./Guides/Deployment_Tenancy_Env.md).
+
 ## Trace
 
 | ID | Scenario | Test plan |
 |----|----------|-----------|
 | SRD-DEP-001 … 009 | [OPS-007](./Scenarios/OPS-007.md) | [TP-OPS-007](../../TestPlans/OPS-007/TP-OPS-007.md) |
+| SRD-DEP-010 / SRD-TEN-001 / 003 | [OPS-023](./Scenarios/OPS-023.md) | [TP-OPS-023](../../TestPlans/OPS-023/TP-OPS-023.md) |
+| SRD-DEP-011 / SRD-TEN-002 / 004 | [OPS-024](./Scenarios/OPS-024.md) | [TP-OPS-024](../../TestPlans/OPS-024/TP-OPS-024.md) |
+| SRD-DEP-012 | OPS-023 · OPS-024 · [Deployment_Tenancy_Env](./Guides/Deployment_Tenancy_Env.md) | Inspection |

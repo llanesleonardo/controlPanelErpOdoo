@@ -31,8 +31,10 @@ actions:
   - id: read
     label: Read estimates
     skill: sales.estimate.read
-    description: Search/read estimate rows via allowlisted skill
+    owning_connector_id: odoo
+    description: Search/read estimate rows via allowlisted skill on ERP SoA peer
   - id: find_issues
     label: Find estimate issues
     skill: sales.estimate.find_issues
+    owning_connector_id: odoo
     description: Diagnose estimate data issues (Epic-06)

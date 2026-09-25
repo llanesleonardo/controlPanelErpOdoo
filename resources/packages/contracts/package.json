@@ -1,9 +1,9 @@
 {
-  "name": "@control-panel-erp/contracts",
+  "name": "@control-panel-ontology/contracts",
   "version": "0.0.1",
   "private": true,
   "type": "module",
-  "description": "Taxonomy constants and OpenClaw/Odoo action contract YAML for ControlPanelERP",
+  "description": "Taxonomy constants and OpenClaw/Odoo action contract YAML for ControlPanelOntology",
   "main": "./src/index.js",
   "exports": {
     ".": "./src/index.js"

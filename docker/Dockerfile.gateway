@@ -5,7 +5,7 @@ COPY package.json package-lock.json* ./
 COPY resources/packages/contracts/package.json ./packages/contracts/
 COPY resources/packages/ontology/package.json ./packages/ontology/
 COPY apps/gateway/package.json ./apps/gateway/
-RUN npm install --workspace=@control-panel-erp/gateway --workspace=@control-panel-erp/contracts --workspace=@control-panel-erp/ontology --include-workspace-root=false
+RUN npm install --workspace=@control-panel-ontology/gateway --workspace=@control-panel-ontology/contracts --workspace=@control-panel-ontology/ontology --include-workspace-root=false
 
 FROM node:20-alpine AS build
 WORKDIR /app

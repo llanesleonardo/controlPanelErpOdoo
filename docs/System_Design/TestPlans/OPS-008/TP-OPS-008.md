@@ -1,32 +1,49 @@
-# TP-OPS-008 — Run an allowlisted skill through the skills engine
+# TP-OPS-008 - Run allowlisted skill through skills engine
 
-**Scenario:** OPS-008  
-**SHALLs:** SRD-SKL-001 … 012  
-**Status:** Not run
+| Field | Value |
+|-------|--------|
+| **Test plan ID** | TP-OPS-008 |
+| **Scenario** | [OPS-008](../../Subsystem/SAC-004/Scenarios/OPS-008.md) (**Open**) |
+| **Subsystem** | SAC-004 |
+| **Related SRD** | SRD-SKL-001…012, parent SRD-SEC-001, SRD-CONN-004 |
+| **Method** | Test |
+| **Status** | **Open** |
 
-## Method
+## Purpose
 
-1. Follow [OPS-008](../../Subsystem/SAC-004/Scenarios/OPS-008.md).  
-2. Prefer `ERP_MODE=simulate` first; use live only with valid Odoo env.  
-3. Record pass/fail in Reports/.  
-4. Keep correlation ids when skills run.
+Prove orchestrator executes only allowlisted skills against capable connectors (ERP SoA peer #1 for MVP read).
 
 ## Setup
 
-- Orchestrator on port 8000 (npm or Compose profile `apps`)  
-- Gateway + web for UI path, or curl orchestrator on host for engine-only smoke  
-- `STORAGE_ROOT` writable  
+| Item | Value |
+|------|--------|
+| Services | Orchestrator (:8000) + gateway + web as needed |
+| Edge | Prefer `ERP_MODE=simulate` |
+| Storage | `STORAGE_ROOT` writable |
 
 ## Checks
 
-| Check | Expect |
-|-------|--------|
-| `GET /health` | ok or degraded with clear storage check |
-| `POST /skills/execute` `sales.estimate.read` | ok rows or clear failure |
-| Unknown intent_code | 400 / validation_error; no ERP call |
-| Evidence under `STORAGE_ROOT/evidence/` | file present when write succeeds |
-| Browser network | no direct calls to orchestrator/Odoo |
+| TC | Check | Expect |
+|----|-------|--------|
+| TC-001 | `GET /health` | ok or degraded with storage check |
+| TC-002 | Execute `sales.estimate.read` | Structured rows or clear failure |
+| TC-003 | Unknown intent | 400 / validation; no peer call |
+| TC-004 | Evidence | Under `STORAGE_ROOT/evidence/` when written |
+| TC-005 | Browser network | No direct orch / Odoo calls |
+| TC-006 | Capability gate | Skill not executable without capable connector or simulate path |
+
+
+
+## Pass / fail
+
+Scenario Success met; failure paths honest. **Do not** close SRVM without a TR under `Reports/`.
 
 ## Reports
 
-Placeholder: [Reports/TR-OPS-008-01.md](./Reports/TR-OPS-008-01.md)
+Create or update `Reports/TR-OPS-008-01.md` when executed.
+
+## Revision
+
+| Date | Ver | Change |
+|------|-----|--------|
+| 2026-09-25 | 0.2 | Align to ontology hub + multi-SoA (ERP = SoA peer #1); SAC SRD sync |

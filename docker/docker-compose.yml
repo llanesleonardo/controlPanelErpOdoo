@@ -41,6 +41,9 @@ services:
       ODOO_USERNAME: ${ODOO_USERNAME:-}
       ODOO_PASSWORD: ${ODOO_PASSWORD:-}
       ODOO_API_KEY: ${ODOO_API_KEY:-}
+      DEPLOYMENT_MODE: ${DEPLOYMENT_MODE:-single_tenant}
+      TENANT_ID: ${TENANT_ID:-default}
+      DEPLOYMENT_PROFILE: ${DEPLOYMENT_PROFILE:-reference_carbide}
     volumes:
       - gateway_logs:/app/logs
       - controlplane_storage:/app/storage
@@ -65,6 +68,9 @@ services:
       ODOO_USERNAME: ${ODOO_USERNAME:-}
       ODOO_PASSWORD: ${ODOO_PASSWORD:-}
       ODOO_API_KEY: ${ODOO_API_KEY:-}
+      DEPLOYMENT_MODE: ${DEPLOYMENT_MODE:-single_tenant}
+      TENANT_ID: ${TENANT_ID:-default}
+      DEPLOYMENT_PROFILE: ${DEPLOYMENT_PROFILE:-reference_carbide}
     volumes:
       - controlplane_storage:/app/storage
     ports:
@@ -82,8 +88,10 @@ services:
       dockerfile: docker/Dockerfile.web
       args:
         NEXT_PUBLIC_GATEWAY_URL: ${NEXT_PUBLIC_GATEWAY_URL:-http://localhost:3001}
+        NEXT_PUBLIC_DEPLOYMENT_MODE: ${NEXT_PUBLIC_DEPLOYMENT_MODE:-single_tenant}
     environment:
       NEXT_PUBLIC_GATEWAY_URL: ${NEXT_PUBLIC_GATEWAY_URL:-http://localhost:3001}
+      NEXT_PUBLIC_DEPLOYMENT_MODE: ${NEXT_PUBLIC_DEPLOYMENT_MODE:-single_tenant}
     ports:
       - "${WEB_PORT:-3000}:3000"
     depends_on:

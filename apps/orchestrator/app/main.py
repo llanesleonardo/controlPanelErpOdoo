@@ -5,11 +5,13 @@ from typing import Any
 from fastapi import FastAPI, Header, HTTPException
 from pydantic import BaseModel, Field
 
+from app.deployment import deployment_settings_for_api, load_deployment_settings
 from app.facade import SkillExecutionFacade
 from app.storage import ensure_storage, storage_writable
 
-app = FastAPI(title="ControlPanelERP Orchestrator", version="0.0.1")
+app = FastAPI(title="ControlPanelOntology Orchestrator", version="0.0.1")
 facade = SkillExecutionFacade()
+_deployment = load_deployment_settings()
 
 
 class DryRunRequest(BaseModel):
@@ -31,6 +33,15 @@ def health() -> dict[str, Any]:
         "status": "ok" if ok else "degraded",
         "service": "orchestrator",
         "checks": {"storage": ok},
+        "deployment": deployment_settings_for_api(_deployment),
+    }
+
+
+@app.get("/config/deployment")
+def config_deployment() -> dict[str, Any]:
+    return {
+        "service": "orchestrator",
+        "deployment": deployment_settings_for_api(_deployment),
     }
 
 

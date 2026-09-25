@@ -1,9 +1,9 @@
 ﻿# SAC-008 — Technical Design (TSD)
 
-How the estimate-issues wedge sits on the existing Estimates section and Odoo connector — **diagnose in, dismiss local, never free-write the ERP**.
+How the estimate-issues wedge sits on the Estimates section and **ERP SoA peer** — diagnose in, dismiss local, never free-write the edge.
 
-Parent: [ControlPanelERP_TSD](../../TSD/ControlPanelERP_TSD.md) · Patterns: [Pattern_Selection](../../TSD/Pattern_Selection.md).  
-Status: **docs locked; runtime not started** ([GAP-02](../Risks.md)).
+Parent: [ControlPanelOntology_TSD](../../TSD/ControlPanelOntology_TSD.md) · Patterns: [Pattern_Selection](../../TSD/Pattern_Selection.md)  
+Status: **docs locked; runtime not started** ([GAP-02](../Risks.md)) · **OPS-011** Open
 
 ## Model
 
@@ -18,8 +18,8 @@ flowchart LR
   Gw[gateway]
   Orch[orchestrator]
   PG[(postgres_EstimateIssue)]
-  Adapter[Odoo_estimate_ACL]
-  ERP[external_ERP]
+  Adapter[Odoo_SoA_peer_ACL]
+  ERP[ERP_peer]
   UI --> Gw
   Gw --> PG
   Gw --> Orch
@@ -62,8 +62,9 @@ Exact paths may align with task/skill patterns already used for dry-run; lock du
 - Facade — skill entry for diagnose  
 - API Gateway — browser → gateway only  
 - Correlation Identifier + Observability — same as SAC-007  
-- Progressive disclosure — issues live inside Estimates, not a separate product
+- Progressive disclosure — issues live inside Estimates, not a separate product  
+- End-to-end path diagram: [Component_Map — Estimate issues](../../TSD/Component_Map.md#estimate-issues-path--patterns)
 
-## Legacy sources
+## Related
 
-`_legacy/Epic-06` phase-01 task-02-estimate-issues-find-persist · task-03-estimate-issues-ui-dismiss
+- [SAC-005](../SAC-005/README.md) live estimate read · [SAC-007](../SAC-007/README.md) tasks/logs · [OPS-011](./Scenarios/OPS-011.md)  

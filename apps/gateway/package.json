@@ -1,8 +1,8 @@
 {
-  "name": "@control-panel-erp/gateway",
+  "name": "@control-panel-ontology/gateway",
   "version": "0.0.1",
   "private": true,
-  "description": "NestJS API gateway for ControlPanelERP ops surfaces",
+  "description": "NestJS API gateway for ControlPanelOntology ops surfaces",
   "scripts": {
     "build": "nest build",
     "start": "nest start",
@@ -12,8 +12,8 @@
     "prisma:push": "prisma db push"
   },
   "dependencies": {
-    "@control-panel-erp/contracts": "*",
-    "@control-panel-erp/ontology": "*",
+    "@control-panel-ontology/contracts": "*",
+    "@control-panel-ontology/ontology": "*",
     "@nestjs/common": "^10.4.15",
     "@nestjs/core": "^10.4.15",
     "@nestjs/platform-express": "^10.4.15",

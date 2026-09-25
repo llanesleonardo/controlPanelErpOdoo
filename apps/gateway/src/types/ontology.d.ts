@@ -1,4 +1,4 @@
-declare module '@control-panel-erp/ontology' {
+declare module '@control-panel-ontology/ontology' {
   export type OntologyActionSummary = {
     id: string;
     label: string;
@@ -27,4 +27,7 @@ declare module '@control-panel-erp/ontology' {
     entityType: string,
   ): Record<string, unknown>;
   export function validateOntology(): { entityTypes: string[] };
+  export function loadConnectorsCatalog(): {
+    connectors: Record<string, unknown>[];
+  };
 }

@@ -1,6 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 
-type ContractsModule = typeof import('@control-panel-erp/contracts');
+type ContractsModule = typeof import('@control-panel-ontology/contracts');
 
 export interface ClassifyInput {
   domain?: string;
@@ -23,7 +23,7 @@ export class IntentsService implements OnModuleInit {
   private contracts!: ContractsModule;
 
   async onModuleInit() {
-    this.contracts = await import('@control-panel-erp/contracts');
+    this.contracts = await import('@control-panel-ontology/contracts');
   }
 
   classify(input: ClassifyInput): ClassifyResult {

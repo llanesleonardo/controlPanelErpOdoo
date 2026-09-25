@@ -2,12 +2,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import yaml from 'js-yaml';
-import { isKnownIntentCode } from '@control-panel-erp/contracts';
+import { isKnownIntentCode } from '@control-panel-ontology/contracts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PKG_ROOT = path.resolve(__dirname, '..');
 const ENTITY_DIR = path.join(PKG_ROOT, 'entity-types');
 const BINDINGS_DIR = path.join(PKG_ROOT, 'bindings');
+const CONNECTORS_CATALOG = path.join(PKG_ROOT, 'catalog', 'connectors.yaml');
 
 /**
  * @param {string} filePath
@@ -124,6 +125,19 @@ export function getEntityTypeCatalogDetail(id) {
       description: a.description || '',
     })),
   };
+}
+
+/**
+ * Product-owned peer catalog (SoA / data / logic).
+ * @returns {{ connectors: Record<string, unknown>[] }}
+ */
+export function loadConnectorsCatalog() {
+  if (!fs.existsSync(CONNECTORS_CATALOG)) {
+    return { connectors: [] };
+  }
+  const doc = loadYamlFile(CONNECTORS_CATALOG);
+  const connectors = Array.isArray(doc?.connectors) ? doc.connectors : [];
+  return { connectors };
 }
 
 /**

@@ -24,4 +24,3 @@ Requires gateway at `NEXT_PUBLIC_GATEWAY_URL` (default `http://localhost:3001`).
 - [User Guide — Screens](../../docs/User_Guide/Screens/README.md)  
 - [SAC-002](../../docs/System_Design/Subsystem/SAC-002/README.md)  
 - [System Design pack](../../docs/System_Design/README.md)  
-- Legacy: [Epic-03](../../docs/System_Design/_legacy/Epic-03/README.md)  

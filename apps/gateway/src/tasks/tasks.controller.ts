@@ -19,6 +19,7 @@ export class TasksController {
     return this.tasks.create(body ?? {}, {
       actorId: req.actorId ?? 'dev-operator',
       correlationId: req.correlationId ?? 'unknown',
+      tenantId: req.tenantId,
     });
   }
 

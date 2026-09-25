@@ -5,6 +5,7 @@ import { LogStoreService } from './log-store.service';
 export interface RequestContext {
   correlationId?: string;
   actorId?: string;
+  tenantId?: string;
 }
 
 export const requestContext = new AsyncLocalStorage<RequestContext>();

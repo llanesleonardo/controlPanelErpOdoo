@@ -1,8 +1,8 @@
 {
-  "name": "control-panel-erp",
+  "name": "control-panel-ontology",
   "version": "0.0.1",
   "private": true,
-  "description": "OpenClaw–Odoo 18 control panel — scaffold and reference docs",
+  "description": "ControlPanelOntology — governed control panel for ERP (Odoo #1) via ontology + allowlisted skills",
   "workspaces": [
     "resources/packages/*",
     "apps/gateway",
@@ -11,14 +11,14 @@
   "scripts": {
     "docs:sync-patterns": "npx software-patterns-docs-sync --dir .",
     "lint": "markdownlint \"docs/User_Guide/**/*.md\" \"docs/System_Design/**/*.md\" \"docs/README.md\" \"README.md\" \"apps/**/*.md\" \"resources/packages/**/*.md\" \"docker/**/*.md\" \".github/**/*.md\"",
-    "test:contracts": "npm test -w @control-panel-erp/contracts",
-    "test:ontology": "npm test -w @control-panel-erp/ontology",
-    "contracts:sync": "npm run sync-schemas -w @control-panel-erp/contracts",
-    "dev:gateway": "npm run start:dev -w @control-panel-erp/gateway",
-    "dev:web": "npm run dev -w @control-panel-erp/web",
+    "test:contracts": "npm test -w @control-panel-ontology/contracts",
+    "test:ontology": "npm test -w @control-panel-ontology/ontology",
+    "contracts:sync": "npm run sync-schemas -w @control-panel-ontology/contracts",
+    "dev:gateway": "npm run start:dev -w @control-panel-ontology/gateway",
+    "dev:web": "npm run dev -w @control-panel-ontology/web",
     "dev:orchestrator": "cd apps/orchestrator && python -m uvicorn app.main:app --reload --port 8000",
-    "prisma:push": "npm run prisma:push -w @control-panel-erp/gateway",
-    "prisma:generate": "npm run prisma:generate -w @control-panel-erp/gateway"
+    "prisma:push": "npm run prisma:push -w @control-panel-ontology/gateway",
+    "prisma:generate": "npm run prisma:generate -w @control-panel-ontology/gateway"
   },
   "dependencies": {
     "@llanesleonardo/software-patterns-docs": "0.1.1"

@@ -1,6 +1,6 @@
 ﻿# SAC-003 — Software Requirements (SRD)
 
-Plain vocabulary rules for the carbide-shop control panel. **ERP** = enterprise resource planning system (Odoo today). Every executable shop action must map to a known intent code — not free-form RPC.
+Plain vocabulary rules for the carbide-shop control panel. The **ontology hub** uses this taxonomy for intents and skills across peer edges. **ERP** (Odoo today) is **SoA peer #1** — every executable shop action must map to a known intent code, not free-form RPC against any peer.
 
 ## Scope
 
@@ -13,10 +13,10 @@ Plain vocabulary rules for the carbide-shop control panel. **ERP** = enterprise 
 ## Out of scope
 
 - Runtime natural-language / ML classifier that invents new codes
-- Full Odoo field-level mapping (belongs in connectors — SAC-005)
+- Full peer field-level mapping (belongs in connectors — SAC-005)
 - NestJS / FastAPI schema-validation middleware as this SAC’s deliverable
 - Expanding beyond published sample contracts without updating Authoring first
-- Hosting or replacing the ERP
+- Hosting or replacing any peer edge (including ERP)
 
 ## Requirements
 
@@ -66,7 +66,7 @@ Each sample contract SHALL document (or reference) idempotency, timeout, retry, 
 
 #### SRD-CTR-003 — Execution mode
 
-Write contracts SHALL support `execution_mode` of `dry_run` and `commit` so operators can preview before changing ERP data.
+Write contracts SHALL support `execution_mode` of `dry_run` and `commit` so operators can preview before changing peer-edge data (including ERP SoA peer #1).
 
 #### SRD-CTR-004 — Observability
 
@@ -84,9 +84,14 @@ Authoring ContractsDocs SHALL remain the canonical YAML source. The package SHAL
 
 The package SHALL export a documented function that loads a contract document by name (`sales`, `inventory`, `accounting`, `common`) or by known intent code.
 
+#### SRD-TAX-009 — AI suggests known intents only
+
+AI helpers MAY suggest known intent codes from the published list; they SHALL NOT invent tools, connectors, or payloads. Execution remains allowlisted skills only. Aligns with parent **SRD-EDGE-007**, **SRD-SEC-002**.
+
 ## Trace
 
 | ID | Scenario | Test plan |
 |----|----------|-----------|
-| SRD-TAX-001 … 008 · SRD-CTR-001 … 007 | [OPS-010](./Scenarios/OPS-010.md) | [TP-OPS-010](../../TestPlans/OPS-010/TP-OPS-010.md) |
+| SRD-TAX-001 … 009 · SRD-CTR-001 … 007 | [OPS-010](./Scenarios/OPS-010.md) | [TP-OPS-010](../../TestPlans/OPS-010/TP-OPS-010.md) |
+| SRD-TAX-009 | [OPS-020](./Scenarios/OPS-020.md) | [TP-OPS-020](../../TestPlans/OPS-020/TP-OPS-020.md) |
 | Pack / docs alignment (supporting) | [E-01](../Scenarios/E-01.md) | [TP-E-01](../../TestPlans/E-01/TP-E-01.md) |

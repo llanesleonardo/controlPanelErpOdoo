@@ -26,9 +26,9 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const section = getErpSection(slug);
-  if (!section) return { title: 'Section · Control Panel ERP' };
+  if (!section) return { title: 'Section · Control Panel Ontology' };
   return {
-    title: `${section.title} · Control Panel ERP`,
+    title: `${section.title} · Control Panel Ontology`,
     description: section.summary,
   };
 }

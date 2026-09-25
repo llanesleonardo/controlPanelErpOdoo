@@ -1,4 +1,4 @@
-declare module '@control-panel-erp/contracts' {
+declare module '@control-panel-ontology/contracts' {
   export const DOMAINS: readonly string[];
   export const ENTITIES: readonly string[];
   export const VERBS: readonly string[];

@@ -7,7 +7,7 @@ import {
   loadBinding,
   validateOntology,
 } from '../src/index.js';
-import { isKnownIntentCode } from '@control-panel-erp/contracts';
+import { isKnownIntentCode } from '@control-panel-ontology/contracts';
 
 assert.ok(listEntityTypeIds().length >= 12);
 

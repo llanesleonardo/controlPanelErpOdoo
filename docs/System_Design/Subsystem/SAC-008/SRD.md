@@ -1,12 +1,12 @@
 ﻿# SAC-008 — Software Requirements (SRD)
 
-Plain rules for the estimate-issues wedge: **find the mess, write it down here, dismiss when it is handled — do not freestyle the ERP**.
+Plain rules for the estimate-issues wedge on the **ERP SoA peer**: **find the mess, write it down here, dismiss when it is handled — do not freestyle the peer**.
 
-Parent estimate read: [ControlPanelERP_SRD](../../SRD/ControlPanelERP_SRD.md) `SRD-EST-*`. Risk: [GAP-02](../Risks.md) (runtime deferred).
+Parent estimate read: [ControlPanelOntology_SRD](../../SRD/ControlPanelOntology_SRD.md) `SRD-EST-*`. Risk: [GAP-02](../Risks.md) (runtime deferred).
 
 ## Scope
 
-- Find estimate issues through gateway → orchestrator → Odoo estimate adapter
+- Find estimate issues through gateway → orchestrator → Odoo estimate adapter (SoA peer #1)
 - Persist issues in control-plane Postgres
 - List and dismiss in the Estimates section UI
 - Simulate vs live connector modes
@@ -14,16 +14,16 @@ Parent estimate read: [ControlPanelERP_SRD](../../SRD/ControlPanelERP_SRD.md) `S
 
 ## Out of scope
 
-- Auto-fix or mutate estimates in the ERP
+- Auto-fix or mutate estimates on the ERP peer
 - Bulk ML classification
-- Non-Odoo issue sources
+- Non-Odoo issue sources (later peers — not this wedge)
 - Replacing the live estimate read skill (`sales.estimate.read` — SAC-005)
 
 ## Requirements
 
 ### SRD-ISS-001 — Find issues
 
-An authenticated operator (dev-actor stub acceptable in lab) SHALL be able to trigger **find estimate issues** through the gateway. The path SHALL use an allowlisted skill / facade — not free-form ERP calls.
+An authenticated operator (dev-actor stub acceptable in lab) SHALL be able to trigger **find estimate issues** through the gateway. The path SHALL use an allowlisted skill / facade — not free-form peer-edge calls.
 
 ### SRD-ISS-002 — Persist
 
@@ -35,7 +35,7 @@ Persistence and UI/API DTOs SHALL NOT require raw Odoo model names. Product / ta
 
 ### SRD-ISS-004 — Simulate and live
 
-`simulate` SHALL return deterministic dummy issues without calling Odoo. `live` SHALL use the Odoo connector diagnose/search path. Mode SHALL be visible on the run (task output, logs, or find status).
+`simulate` SHALL return deterministic dummy issues without calling Odoo. `live` SHALL use the Odoo SoA connector diagnose/search path. Mode SHALL be visible on the run (task output, logs, or find status).
 
 ### SRD-ISS-005 — List
 
@@ -43,7 +43,7 @@ Operators SHALL see open (and optionally dismissed) estimate issues from control
 
 ### SRD-ISS-006 — Dismiss
 
-Operators SHALL dismiss an issue as a **control-plane status update only**. Dismiss SHALL NOT call Odoo or change ERP estimate rows.
+Operators SHALL dismiss an issue as a **control-plane status update only**. Dismiss SHALL NOT call Odoo or change ERP estimate rows on the peer.
 
 ### SRD-ISS-007 — Find from UI
 

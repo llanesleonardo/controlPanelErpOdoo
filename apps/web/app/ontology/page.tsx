@@ -68,11 +68,14 @@ export default function OntologyPage() {
 
   return (
     <div>
-      <h1>Ontology</h1>
+      <h1>Ontology + AI · business map</h1>
       <p className="lede">
-        Language browser: Schema Manager, Object Explorer, Vertex Search Around,
-        and a curated process map. Actions run only as certified skills.{' '}
-        <Link href="/">ERP Map</Link>
+        Foundry-shaped surfaces: Schema, Object Explorer, Vertex, and process
+        map — the <strong>ontology</strong> center. Actions run as allowlisted
+        skills; <strong>AI</strong> uses the same path as operators. Peers:{' '}
+        <Link href="/integrations">peer edges</Link>
+        {' · '}
+        <Link href="/">ERP sections</Link>
       </p>
 
       <details className="panel onto-edit-help">
@@ -90,7 +93,7 @@ export default function OntologyPage() {
           <li>
             Register any new action <code className="mono">skill:</code> codes in{' '}
             <code className="mono">resources/packages/contracts</code> taxonomy, then{' '}
-            <code className="mono">npm test -w @control-panel-erp/ontology</code>.
+            <code className="mono">npm test -w @control-panel-ontology/ontology</code>.
           </li>
           <li>
             Restart / reload the gateway so <code className="mono">GET /ontology</code>{' '}

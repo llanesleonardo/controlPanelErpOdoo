@@ -1,7 +1,7 @@
 # Shared contract primitives
 openapi: 3.1.0
 info:
-  title: ControlPanelERP Common Schemas
+  title: ControlPanelOntology Common Schemas
   version: 0.0.1
 
 components:
